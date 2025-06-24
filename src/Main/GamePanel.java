@@ -50,7 +50,7 @@ public class GamePanel extends JPanel {
             animations = new BufferedImage[spritesList.length][26]; // TODO: Make 2nd variable dynamic to accomidate for animation directories with more files
 
             for (int j=0; j<animations.length; j++) {
-                String tempFilePath = String.format("/Resources/Sprites/%s/%d.png", spritesList[j].getName(), i+1);
+                String tempFilePath = String.format("/Resources/Sprites/%s/%d.png", spritesList[j].getName()); // TODO: fix this and below
                 for (int i=0; i<animations[0].length; i++) {
                     String idlePNGPath = String.format("/Resources/Sprites/1-Player-Bomb Guy/1-Idle/%d.png", i+1);
                     BufferedImage frame = loadCharFrames(idlePNGPath);
@@ -128,6 +128,6 @@ public class GamePanel extends JPanel {
 
         updateAnimationTick();
         // g.drawImage(idleAni[1], (int)xDelta, (int)yDelta, 40,40, null);
-        g.drawImage(animations[aniIndex][], (int)xDelta, (int)yDelta, null);
+        g.drawImage(animations[aniIndex][1], (int)xDelta, (int)yDelta, null); //TODO: Fix animations[][]
     }
 }
