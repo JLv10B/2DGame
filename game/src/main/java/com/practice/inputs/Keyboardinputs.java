@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.practice.GamePanel;
+import com.practice.entities.*;
 import static com.practice.utilz.Constants.Directions.*;
 
 public class Keyboardinputs implements KeyListener {
@@ -25,17 +26,20 @@ public class Keyboardinputs implements KeyListener {
                 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
-                gamePanel.removeDirection(UP);
+                gamePanel.getGame().getPlayer().removeDirection(UP);
                 break;
             case KeyEvent.VK_A:;
-                gamePanel.removeDirection(LEFT);
+                gamePanel.getGame().getPlayer().removeDirection(LEFT);
                 break;
             case KeyEvent.VK_S:
-                gamePanel.removeDirection(DOWN);
+                gamePanel.getGame().getPlayer().removeDirection(DOWN);
                 break;
             case KeyEvent.VK_D:
-                gamePanel.removeDirection(RIGHT);
+                gamePanel.getGame().getPlayer().removeDirection(RIGHT);
                 break;
+            // case KeyEvent.VK_SPACE:
+            //     gamePanel.getGame().getPlayer().removeDirection(JUMP);
+            //     break;
         }
     }
     
@@ -44,17 +48,20 @@ public class Keyboardinputs implements KeyListener {
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
-                gamePanel.addDirection(UP);
+                gamePanel.getGame().getPlayer().addDirection(UP);
                 break;
             case KeyEvent.VK_A:
-                gamePanel.addDirection(LEFT);
+                gamePanel.getGame().getPlayer().addDirection(LEFT);
                 break;
             case KeyEvent.VK_S:
-                gamePanel.addDirection(DOWN);
+                gamePanel.getGame().getPlayer().addDirection(DOWN);
                 break;
             case KeyEvent.VK_D:
-                gamePanel.addDirection(RIGHT);
+                gamePanel.getGame().getPlayer().addDirection(RIGHT);
                 break;
+            // case KeyEvent.VK_SPACE:
+            //     gamePanel.getGame().getPlayer().addDirection(JUMP);
+            //     break;
         }        
     }
 }
