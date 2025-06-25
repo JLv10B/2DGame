@@ -11,16 +11,19 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.practice.inputs.Keyboardinputs;
 import com.practice.inputs.Mouseinputs;
-
+import static com.practice.utilz.Constants.Directions.*;
+import static com.practice.utilz.Constants.PlayerConstants.*;
 public class GamePanel extends JPanel {
 
     private Mouseinputs mouseInputs;
@@ -29,7 +32,12 @@ public class GamePanel extends JPanel {
     private long lastCheck = 0;
     private BufferedImage img;
     private Map<String, Map<String, List<BufferedImage>>> animationDict;
-    private int aniTick, aniIndex, aniSpeed = 8;
+    private int aniTick, aniIndex, aniSpeed = 7;
+    private String playerAction = HIT;
+    private int playerDirection = -1;
+    private boolean moving = false;
+
+    private HashSet<Integer> tmpMoving = new HashSet<Integer>(); // TODO: testing
 
     public GamePanel() {
 
@@ -49,7 +57,7 @@ public class GamePanel extends JPanel {
         List<BufferedImage> aniFrames;
         File[] spritesList;
 
-        File spritesDir = new File("/Sprites");
+        File spritesDir = new File("game\\src\\main\\resources\\Sprites");
         if (!spritesDir.exists() && !spritesDir.isDirectory()) {
             System.err.println("Sprite directory not found");
         } else {
@@ -58,14 +66,14 @@ public class GamePanel extends JPanel {
                 File[] tmpDir = spritesList[i].listFiles(file -> file.isDirectory());
                 String charIdName = spritesList[i].getName();
                 charState = new HashMap<String, List<BufferedImage>>();
-
-                for (int j=0; j< tmpDir.length; j++) { // iterate though charater files
+                // iterate though charater files
+                for (int j=0; j< tmpDir.length; j++) { 
                     aniFrames = new ArrayList<BufferedImage>();
                     String aniState = tmpDir[j].getName();
                     File[] tmpFiles = tmpDir[j].listFiles(file -> file.isFile());
-
-                    for (int k=0; k< tmpFiles.length; k++) { // iterate through charater states (eg. idle) to get the BufferedImage of each animation frame
-                        String tempPath = tmpFiles[k].getAbsolutePath();
+                    // iterate through charater states (eg. idle) to get the BufferedImage of each animation frame
+                    for (int k=0; k< tmpFiles.length; k++) { 
+                        String tempPath = String.format("/Sprites/%s/%s/%s", charIdName, aniState, tmpFiles[k].getName());
                         BufferedImage frame = loadCharFrames(tempPath);
                         aniFrames.add(frame);
                     }
@@ -73,15 +81,6 @@ public class GamePanel extends JPanel {
                 }
                 animationDict.put(charIdName, charState);
             }
-
-            // animations = new BufferedImage[spritesList.length][26]; // TODO: Make 2nd variable dynamic to accomidate for animation directories with more files
-
-            // for (int j=0; j<animations.length; j++) {
-            //     String tempFilePath = String.format("/Resources/Sprites/%s/%d.png", spritesList[j].getName()); // TODO: fix this and below
-            //     for (int i=0; i<animations[0].length; i++) {
-            //         String idlePNGPath = String.format("/Resources/Sprites/1-Player-Bomb Guy/1-Idle/%d.png", i+1);
-            //         BufferedImage frame = loadCharFrames(idlePNGPath);
-            //         animations[j][i] = frame;
             
         }
 
@@ -93,6 +92,7 @@ public class GamePanel extends JPanel {
             img = ImageIO.read(is);
         } catch (Exception e) {
             e.printStackTrace();
+            System.err.println("Error path: " + path);
         } finally {
             try {
                 is.close();
@@ -124,27 +124,64 @@ public class GamePanel extends JPanel {
         setPreferredSize(size);
     }
 
-    public void changeXDelta(int value) {
-        this.xDelta += value;
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
-
-    public void changeYDelta(int value) {
-        this.yDelta += value;
-    }
-
-    public void setRectPos(int x, int y) {
-        this.xDelta = x;
-        this.yDelta = y;
-    }
-
     
+    
+    private void setAnimation() {
+        if (moving) {
+            playerAction = RUN;
+        } else {
+            playerAction = IDLE;
+        }
+   }
+
     private void updateAnimationTick() {
         aniTick ++;
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex ++;
-            if (aniIndex >= 26) { // TODO: fix this to be dynamic
+            if (aniIndex >= GetSpriteAmount(playerAction)) { 
                 aniIndex = 0;
+            }
+        }
+    }
+    
+    public void addDirection(int direction) {
+        if (tmpMoving.isEmpty()) { // aniIndex is set to 0 at the intiation of any movement animation in order to loop from the intial movement frame
+            aniIndex = 0;
+        }
+        if (!moving) {
+            setMoving(true);
+        }
+        tmpMoving.add(direction);
+    }
+
+    public void removeDirection(int direction) {
+        tmpMoving.remove(direction);
+        if (tmpMoving.isEmpty()) {
+            moving = false;
+        }
+    }
+
+    private void updatePos() {
+        if (!tmpMoving.isEmpty()) {
+            for (int direction : tmpMoving) {
+                switch (direction) {
+                    case LEFT:
+                        xDelta -= 3;
+                        break;
+                    case UP:
+                        yDelta -= 3;
+                        break;
+                    case RIGHT:
+                        xDelta += 3;
+                        break;
+                    case DOWN:
+                        yDelta += 3;
+                        break;
+                }
             }
         }
     }
@@ -153,7 +190,11 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         updateAnimationTick();
-        // g.drawImage(idleAni[1], (int)xDelta, (int)yDelta, 40,40, null);
-        g.drawImage(animationDict.get("1-Player-Bomb Guy").get("1-Idle").get(aniIndex), (int)xDelta, (int)yDelta, null); //TODO: Fix animations[][]
+        setAnimation();
+        updatePos();
+
+        g.drawImage(animationDict.get("1-Player-Bomb Guy").get(playerAction).get(aniIndex), (int)xDelta, (int)yDelta, null); 
+        //TODO: Animations need to chance with the character model state change
     }
+
 }

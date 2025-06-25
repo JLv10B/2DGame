@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.practice.GamePanel;
+import static com.practice.utilz.Constants.Directions.*;
 
 public class Keyboardinputs implements KeyListener {
 
@@ -21,7 +22,21 @@ public class Keyboardinputs implements KeyListener {
     
     @Override
     public void keyReleased(KeyEvent e) {
-        // throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
+                
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                gamePanel.removeDirection(UP);
+                break;
+            case KeyEvent.VK_A:;
+                gamePanel.removeDirection(LEFT);
+                break;
+            case KeyEvent.VK_S:
+                gamePanel.removeDirection(DOWN);
+                break;
+            case KeyEvent.VK_D:
+                gamePanel.removeDirection(RIGHT);
+                break;
+        }
     }
     
     @Override
@@ -29,19 +44,17 @@ public class Keyboardinputs implements KeyListener {
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
-                gamePanel.changeYDelta(-5);
+                gamePanel.addDirection(UP);
                 break;
             case KeyEvent.VK_A:
-                gamePanel.changeXDelta(-5);
+                gamePanel.addDirection(LEFT);
                 break;
             case KeyEvent.VK_S:
-                gamePanel.changeYDelta(5);
+                gamePanel.addDirection(DOWN);
                 break;
             case KeyEvent.VK_D:
-                gamePanel.changeXDelta(5);
+                gamePanel.addDirection(RIGHT);
                 break;
-        }
-
-        
+        }        
     }
 }
