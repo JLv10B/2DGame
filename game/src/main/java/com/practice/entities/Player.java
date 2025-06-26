@@ -1,7 +1,6 @@
 package com.practice.entities;
 
 import static com.practice.utilz.Constants.Directions.*;
-import static com.practice.utilz.Constants.Directions.JUMP;
 import static com.practice.utilz.Constants.PlayerConstants.*;
 
 import java.awt.image.BufferedImage;
@@ -9,21 +8,24 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.awt.Graphics;
 import javax.imageio.ImageIO;
 
 public class Player extends Entity {
-    private String playerChar = "1-Player-Bomb Guy";
+    private String playerChar = "1-Player-Dark Oracle";
     private Map<String, List<BufferedImage>> animationDict;
     private int aniTick, aniIndex, aniSpeed = 15;
     private String playerAction = IDLE;
     private boolean moving = false;
-    private HashSet<Integer> playerDirection = new HashSet<Integer>();
     private double playerSpeed = 1.5;
-    private String animationState = IDLE;
+    // private String animationState = IDLE;
+    private boolean left, right, up, down;
+    public boolean movementLock = false;
+    // private boolean skillLock = false;
+    private boolean newAction = false;
+
 
     public Player(float x, float y) {
         super(x, y);
@@ -37,24 +39,16 @@ public class Player extends Entity {
     }
 
     public void render(Graphics g) {
-        g.drawImage(animationDict.get(playerAction).get(aniIndex), (int)x, (int)y, null); 
-    }
-
-    public void resetMovementDir() {
-        playerDirection.clear();
+        g.drawImage(animationDict.get(playerAction).get(aniIndex), (int)x, (int)y, 100,100,null); 
     }
 
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
     
-    
     private void setAnimation() {
-        if (playerDirection.isEmpty()) {
-            moving = false;
-        }
         if (moving) {
-            playerAction = RUN;
+            playerAction = RUNNNING;
         } else {
             playerAction = IDLE;
         }
@@ -65,47 +59,40 @@ public class Player extends Entity {
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex ++;
-            if (aniIndex >= GetSpriteAmount(playerAction)) { 
+            if (aniIndex >= GetSpriteAmount(playerAction) || newAction == true) { 
                 aniIndex = 0;
+                newAction = false;
+                System.out.println("aniIndex: " + aniIndex + " updateAnimationTick newAction: " + newAction);
             }
         }
-    }
-    
-    public void addDirection(int direction) {
-        if (playerDirection.isEmpty()) { // aniIndex is set to 0 at the intiation of any movement animation in order to loop from the intial movement frame
-            aniIndex = 0;
-        }
-        if (!moving) {
-            setMoving(true);
-        }
-        playerDirection.add(direction);
-    }
-
-    public void removeDirection(int direction) {
-        playerDirection.remove(direction);
     }
 
     private void updatePos() {
-        if (!playerDirection.isEmpty()) {
-            for (int direction : playerDirection) {
-                switch (direction) {
-                    case LEFT:
-                        x -= playerSpeed;
-                        break;
-                    case UP:
-                        y -= playerSpeed;
-                        break;
-                    case RIGHT:
-                        x += playerSpeed;
-                        break;
-                    case DOWN:
-                        y += playerSpeed;
-                        break;
-                    // case JUMP:
-                    //     y -= playerSpeed;
-                    //     break;
-                }
+        boolean starting = moving;
+
+        if (left == false && right == false && up == false && down == false || movementLock == true) {
+            moving = false;
+        } else {
+            if (left && !right) {
+                x -= playerSpeed;
+                moving = true;
+            } else if (right && !left) {
+                x += playerSpeed;
+                moving = true;
             }
+            if (up && !down) {
+                y -= playerSpeed;
+                moving = true;
+            } else if (down && !up) {
+                y+= playerSpeed;
+                moving = true;
+            }
+        }
+
+        if (starting != moving) {
+            newAction = true;
+            System.out.println("starting: " + starting + " moving: " + moving);
+            System.out.println("newAction: " + newAction);
         }
     }
     
@@ -147,10 +134,49 @@ public class Player extends Entity {
                 is.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                // System.out.println(animationDict);
+                System.out.println(animationDict);
             }
         }
         return img;
+    }
+
+    public void resetDirBooleans() {
+        left = false;
+        right = false;
+        up = false;
+        down = false;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
     }
 
 
