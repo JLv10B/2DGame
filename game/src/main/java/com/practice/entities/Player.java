@@ -23,6 +23,7 @@ public class Player extends Entity {
     private boolean moving = false;
     private HashSet<Integer> playerDirection = new HashSet<Integer>();
     private double playerSpeed = 1.5;
+    private String animationState = IDLE;
 
     public Player(float x, float y) {
         super(x, y);
@@ -37,6 +38,10 @@ public class Player extends Entity {
 
     public void render(Graphics g) {
         g.drawImage(animationDict.get(playerAction).get(aniIndex), (int)x, (int)y, null); 
+    }
+
+    public void resetMovementDir() {
+        playerDirection.clear();
     }
 
     public void setMoving(boolean moving) {
@@ -147,4 +152,6 @@ public class Player extends Entity {
         }
         return img;
     }
+
+
 }

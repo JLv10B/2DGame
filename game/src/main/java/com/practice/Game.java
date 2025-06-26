@@ -80,6 +80,11 @@ public class Game implements Runnable{
         }
     }
 
+    
+    public void windowFocusLost() {
+        player.resetMovementDir();
+    }
+    
     public Player getPlayer() {
         return player;
     }
