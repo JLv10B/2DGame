@@ -13,7 +13,7 @@ public class Constants {
         public static final String RUNNNING = "Running";
         public static final String IDLE = "Idle";
         public static final String SLASHING = "Slashing";
-        public static final String WALKING = "Walking";
+        public static final String RUNSLASHING = "Run Slashing";
         
         //TODO: this needs to be dynamic to adapt to how many frames are in different character animation states
         // Set to 7-Player-Dark Oracle
@@ -25,9 +25,10 @@ public class Constants {
                     return 18;
                 case SLASHING:
                     return 12;
-                case WALKING:
-                    return 24;
+                case RUNSLASHING:
+                    return 12;
                 default:
+                    System.out.println("No sprite count stored for this action");
                     return 1;
             }
         }

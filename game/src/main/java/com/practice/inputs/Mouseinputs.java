@@ -28,13 +28,11 @@ public class Mouseinputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'mousePressed'");
+        gamePanel.getGame().getPlayer().skillActivation();
     }
 
     @Override

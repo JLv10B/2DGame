@@ -2,29 +2,32 @@ package com.practice.entities;
 
 import static com.practice.utilz.Constants.Directions.*;
 import static com.practice.utilz.Constants.PlayerConstants.*;
+import com.practice.actions.*;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.awt.Graphics;
 import javax.imageio.ImageIO;
 
+
 public class Player extends Entity {
     private String playerChar = "1-Player-Dark Oracle";
     private Map<String, List<BufferedImage>> animationDict;
+    public Skill[] playerSkillBar = new Skill[3]; // TODO: playerSkillBar should be a fixed length array
     private int aniTick, aniIndex, aniSpeed = 15;
     private String playerAction = IDLE;
-    private boolean moving = false;
-    private double playerSpeed = 1.5;
-    // private String animationState = IDLE;
+    public boolean moving = false;
+    private double playerSpeed = 1;
     private boolean left, right, up, down;
     public boolean movementLock = false;
-    // private boolean skillLock = false;
-    private boolean newAction = false;
+    private boolean skillLock = false;
+    private String skillAction;
 
 
     public Player(float x, float y) {
@@ -39,7 +42,7 @@ public class Player extends Entity {
     }
 
     public void render(Graphics g) {
-        g.drawImage(animationDict.get(playerAction).get(aniIndex), (int)x, (int)y, 100,100,null); 
+        g.drawImage(animationDict.get(playerAction).get(aniIndex), (int)x, (int)y, 100,100,null);
     }
 
     public void setMoving(boolean moving) {
@@ -47,28 +50,43 @@ public class Player extends Entity {
     }
     
     private void setAnimation() {
-        if (moving) {
+        String starting = playerAction;
+
+        if (skillLock) {
+            playerAction = skillAction;
+        } else if (moving) {
             playerAction = RUNNNING;
         } else {
             playerAction = IDLE;
         }
+   
+        if (starting != playerAction) {
+            System.out.println("Action change");
+            resetAnimationTick();
+        }
    }
 
+    private void resetAnimationTick() {
+        aniTick = 0;
+        aniIndex = 0;
+    }
+
     private void updateAnimationTick() {
-        aniTick ++;
+          aniTick ++;
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex ++;
-            if (aniIndex >= GetSpriteAmount(playerAction) || newAction == true) { 
+            if (aniIndex >= GetSpriteAmount(playerAction)) { 
+                // System.out.println("aniIndex before reset: " + aniIndex + " for playerAction: " + playerAction);
                 aniIndex = 0;
-                newAction = false;
-                System.out.println("aniIndex: " + aniIndex + " updateAnimationTick newAction: " + newAction);
+                skillLock = false;
+                // System.out.println("skillLock reset: " + skillLock);
             }
         }
+
     }
 
     private void updatePos() {
-        boolean starting = moving;
 
         if (left == false && right == false && up == false && down == false || movementLock == true) {
             moving = false;
@@ -89,13 +107,16 @@ public class Player extends Entity {
             }
         }
 
-        if (starting != moving) {
-            newAction = true;
-            System.out.println("starting: " + starting + " moving: " + moving);
-            System.out.println("newAction: " + newAction);
-        }
     }
     
+    //TODO: Currently skillActivation only activates the first skill in playerSkillBar for testing.
+    public void skillActivation() {
+        playerSkillBar[0] = new Slash();
+        skillAction = playerSkillBar[0].animation(this);
+        skillLock = true;
+        // System.out.println("Slash used, playerAction: " + skillAction + " skillLock: " + skillLock);
+    }
+
     private void loadAnimations() {
         animationDict = new HashMap<>();
         List<BufferedImage> aniFrames;
@@ -103,7 +124,6 @@ public class Player extends Entity {
 
         File spritesDir = new File(String.format("game\\src\\main\\resources\\Sprites\\%s", playerChar));
         if (!spritesDir.exists() && !spritesDir.isDirectory()) {
-            System.err.println("Sprite directory not found");
         } else {
             spritesList = spritesDir.listFiles(file -> file.isDirectory());
             for (int i=0; i<spritesList.length; i++) {
@@ -128,7 +148,6 @@ public class Player extends Entity {
             img = ImageIO.read(is);
         } catch (Exception e) {
             e.printStackTrace();
-            // System.err.println("Error path: " + path);
         } finally {
             try {
                 is.close();
