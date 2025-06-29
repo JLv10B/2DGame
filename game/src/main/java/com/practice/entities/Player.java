@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
 public class Player extends Entity {
     private String playerChar = "1-Player-Dark Oracle";
     private Map<String, List<BufferedImage>> animationDict;
-    public Skill[] playerSkillBar = new Skill[3]; // TODO: playerSkillBar should be a fixed length array
+    public Skill[] playerSkillBar = new Skill[3];
     private int aniTick, aniIndex, aniSpeed = 15;
     private String playerAction = IDLE;
     public boolean moving = false;
