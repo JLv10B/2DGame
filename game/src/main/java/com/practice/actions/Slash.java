@@ -11,7 +11,7 @@ public class Slash extends Skill {
     @Override
     public String activate(Player player) {
         if (currentCooldown == 0) {
-            if (player.moving == true) {
+            if (player.moving() == true) {
                 skillAnimation = "Run Slashing";
             } else {
                 skillAnimation = "Slashing";
@@ -20,14 +20,14 @@ public class Slash extends Skill {
             return skillAnimation;
         } else {
             System.out.println("Slash on cooldown");
-            return "Run";
+            return "Run"; //TODO: should this still return run as a string?
         }
     }
 
     //TODO: The animation method only tells the player object to produce an animation. Just used for testing.
     public String animation(Player player) {
         if (currentCooldown == 0) {
-            if (player.moving == true) {
+            if (player.moving() == true) {
                 skillAnimation = "Run Slashing";
             } else {
                 skillAnimation = "Slashing";
@@ -36,7 +36,7 @@ public class Slash extends Skill {
             return skillAnimation;
         } else {
             System.out.println("Slash on cooldown");
-            return "Run";
+            return "Run"; //TODO: should this still return run as a string?
         }
     }
     

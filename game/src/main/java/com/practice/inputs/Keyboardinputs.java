@@ -5,9 +5,10 @@ import java.awt.event.KeyListener;
 
 import com.practice.GamePanel;
 import com.practice.entities.*;
-import static com.practice.utilz.Constants.Directions.*;
+import static com.practice.utilz.Constants.KeyTiming;
 
 public class Keyboardinputs implements KeyListener {
+    
 
     private GamePanel gamePanel;
 
@@ -23,39 +24,12 @@ public class Keyboardinputs implements KeyListener {
     
     @Override
     public void keyReleased(KeyEvent e) {
-                
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                gamePanel.getGame().getPlayer().setUp(false);
-                break;
-            case KeyEvent.VK_A:;
-                gamePanel.getGame().getPlayer().setLeft(false);
-                break;
-            case KeyEvent.VK_S:
-                gamePanel.getGame().getPlayer().setDown(false);
-                break;
-            case KeyEvent.VK_D:
-                gamePanel.getGame().getPlayer().setRight(false);
-                break;
-        }
+        gamePanel.getGame().getPlayer().inputProcessor(e, KeyTiming.RELEASED);
     }
     
     @Override
     public void keyPressed(KeyEvent e) {
-
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                gamePanel.getGame().getPlayer().setUp(true);
-                break;
-            case KeyEvent.VK_A:
-                gamePanel.getGame().getPlayer().setLeft(true);
-                break;
-            case KeyEvent.VK_S:
-                gamePanel.getGame().getPlayer().setDown(true);
-                break;
-            case KeyEvent.VK_D:
-                gamePanel.getGame().getPlayer().setRight(true);
-                break;
-        }        
+        gamePanel.getGame().getPlayer().inputProcessor(e, KeyTiming.PRESSED);
+              
     }
 }

@@ -1,8 +1,10 @@
 package com.practice.entities;
 
-import static com.practice.utilz.Constants.Directions.*;
+import static com.practice.utilz.Constants.KeyTiming;
+import static com.practice.utilz.Constants.Action;
 import static com.practice.utilz.Constants.PlayerConstants.*;
 import com.practice.actions.*;
+import com.practice.utilz.Constants.KeyTiming;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,6 +17,8 @@ import java.util.Map;
 import java.awt.Graphics;
 import javax.imageio.ImageIO;
 
+import java.awt.event.KeyEvent;
+
 
 public class Player extends Entity {
     private String playerChar = "1-Player-Dark Oracle";
@@ -22,17 +26,13 @@ public class Player extends Entity {
     public Skill[] playerSkillBar = new Skill[3];
     private int aniTick, aniIndex, aniSpeed = 15;
     private String playerAction = IDLE;
-    public boolean moving = false;
-    private double playerSpeed = 1;
-    private boolean left, right, up, down;
-    public boolean movementLock = false;
-    private boolean skillLock = false;
     private String skillAction;
-
+    protected HashMap<Integer, Action> keybinds = new HashMap<>();
 
     public Player(float x, float y) {
         super(x, y);
         loadAnimations();
+        defaultKeybinds();
     }
 
     public void update() {
@@ -45,16 +45,13 @@ public class Player extends Entity {
         g.drawImage(animationDict.get(playerAction).get(aniIndex), (int)x, (int)y, 100,100,null);
     }
 
-    public void setMoving(boolean moving) {
-        this.moving = moving;
-    }
     
     private void setAnimation() {
         String starting = playerAction;
 
         if (skillLock) {
             playerAction = skillAction;
-        } else if (moving) {
+        } else if (moving()) {
             playerAction = RUNNNING;
         } else {
             playerAction = IDLE;
@@ -86,27 +83,36 @@ public class Player extends Entity {
 
     }
 
-    private void updatePos() {
+    protected void defaultKeybinds() {
+        keybinds.put(KeyEvent.VK_W, Action.UP);
+        keybinds.put(KeyEvent.VK_S, Action.DOWN);
+        keybinds.put(KeyEvent.VK_A, Action.LEFT);
+        keybinds.put(KeyEvent.VK_D, Action.RIGHT);
+    }
+    
+    //TODO: Update changeKeybinds() to allow players to customize keybinds
+    protected void changeKeybinds() {
+        keybinds.put(KeyEvent.VK_Y, Action.UP);
+        keybinds.put(KeyEvent.VK_H, Action.DOWN);
+        keybinds.put(KeyEvent.VK_G, Action.LEFT);
+        keybinds.put(KeyEvent.VK_J, Action.RIGHT);
+        keybinds.remove(KeyEvent.VK_W, Action.UP);
+        keybinds.remove(KeyEvent.VK_S, Action.DOWN);
+        keybinds.remove(KeyEvent.VK_A, Action.LEFT);
+        keybinds.remove(KeyEvent.VK_D, Action.RIGHT);
+    }
 
-        if (left == false && right == false && up == false && down == false || movementLock == true) {
-            moving = false;
-        } else {
-            if (left && !right) {
-                x -= playerSpeed;
-                moving = true;
-            } else if (right && !left) {
-                x += playerSpeed;
-                moving = true;
+    public void inputProcessor(KeyEvent key, KeyTiming timing) {
+        try {
+            Action input = keybinds.get(key.getKeyCode());
+            if (timing == KeyTiming.PRESSED){
+                keybindOutput(input);     
+            } else if (timing == KeyTiming.RELEASED){
+                movementKeyRelease(input);
             }
-            if (up && !down) {
-                y -= playerSpeed;
-                moving = true;
-            } else if (down && !up) {
-                y+= playerSpeed;
-                moving = true;
-            }
+        } catch (Exception e) {
+            // TODO: handle exception
         }
-
     }
     
     //TODO: Currently skillActivation only activates the first skill in playerSkillBar for testing.
@@ -159,44 +165,6 @@ public class Player extends Entity {
         return img;
     }
 
-    public void resetDirBooleans() {
-        left = false;
-        right = false;
-        up = false;
-        down = false;
-    }
-
-    public boolean isLeft() {
-        return left;
-    }
-
-    public boolean isRight() {
-        return right;
-    }
-
-    public boolean isUp() {
-        return up;
-    }
-
-    public boolean isDown() {
-        return down;
-    }
-
-    public void setLeft(boolean left) {
-        this.left = left;
-    }
-
-    public void setRight(boolean right) {
-        this.right = right;
-    }
-
-    public void setUp(boolean up) {
-        this.up = up;
-    }
-
-    public void setDown(boolean down) {
-        this.down = down;
-    }
 
 
 }

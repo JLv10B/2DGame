@@ -22,7 +22,6 @@ import javax.swing.JPanel;
 
 import com.practice.inputs.Keyboardinputs;
 import com.practice.inputs.Mouseinputs;
-import static com.practice.utilz.Constants.Directions.*;
 import static com.practice.utilz.Constants.PlayerConstants.*;
 public class GamePanel extends JPanel {
 

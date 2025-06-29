@@ -13,7 +13,6 @@ public class Game implements Runnable{
     private final int USP_SET = 200;
 
     private Player player;
-    private EnemySkeleton1 enemy;
 
     public Game() {
         initClasses();
@@ -25,7 +24,6 @@ public class Game implements Runnable{
 
     private void initClasses() {
         player = new Player(200, 200);
-        enemy = new EnemySkeleton1(100, 100);
 
     }
 
@@ -36,12 +34,10 @@ public class Game implements Runnable{
 
     public void update() {
         player.update();
-        enemy.update();
     }
 
     public void render(Graphics g) {
         player.render(g);
-        enemy.render(g);
     }
 
     @Override
