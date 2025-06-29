@@ -4,8 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.practice.GamePanel;
-import com.practice.entities.*;
-import static com.practice.utilz.Constants.KeyTiming;
+import static com.practice.utilz.Constants.UserInput;
 
 public class Keyboardinputs implements KeyListener {
     
@@ -24,12 +23,12 @@ public class Keyboardinputs implements KeyListener {
     
     @Override
     public void keyReleased(KeyEvent e) {
-        gamePanel.getGame().getPlayer().inputProcessor(e, KeyTiming.RELEASED);
+        gamePanel.getGame().getPlayer().inputProcessor(e, UserInput.KEY_RELEASE);
     }
     
     @Override
     public void keyPressed(KeyEvent e) {
-        gamePanel.getGame().getPlayer().inputProcessor(e, KeyTiming.PRESSED);
+        gamePanel.getGame().getPlayer().inputProcessor(e, UserInput.KEY_PRESS);
               
     }
 }

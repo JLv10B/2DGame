@@ -2,7 +2,7 @@ package com.practice.utilz;
 
 public class Constants {
     
-    public enum KeyTiming {PRESSED, RELEASED};
+    public enum UserInput {KEY_PRESS, KEY_RELEASE, MOUSE_PRESS};
     
     public enum Action {UP, DOWN, LEFT, RIGHT, SKILL_1, SKILL_2, SKILL_3, CHANGE_KEYBINDS};
     public static class PlayerConstants {

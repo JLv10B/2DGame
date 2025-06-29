@@ -9,7 +9,7 @@ public class Slash extends Skill {
     public Slash() {}
 
     @Override
-    public String activate(Player player) {
+    public String activate(Entity player) {
         if (currentCooldown == 0) {
             if (player.moving() == true) {
                 skillAnimation = "Run Slashing";
@@ -25,7 +25,7 @@ public class Slash extends Skill {
     }
 
     //TODO: The animation method only tells the player object to produce an animation. Just used for testing.
-    public String animation(Player player) {
+    public String animation(Entity player) {
         if (currentCooldown == 0) {
             if (player.moving() == true) {
                 skillAnimation = "Run Slashing";

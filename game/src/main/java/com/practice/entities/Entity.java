@@ -1,8 +1,9 @@
 package com.practice.entities;
 
-import java.awt.event.KeyEvent;
-import java.util.HashMap;
-import static com.practice.utilz.Constants.Action;
+import com.practice.actions.Skill;
+import com.practice.actions.Slash;
+import com.practice.utilz.Constants.Action;
+
 
 public abstract class Entity {
     protected float x,y;
@@ -12,6 +13,10 @@ public abstract class Entity {
     protected float yDir = 0.0f;
     protected float speed = 1.0f;
     protected boolean left, right, up, down;
+    protected Skill[] playerSkillBar = new Skill[3];
+    protected String skillAction;
+
+
     
     public Entity(float x, float y) {
         this.x = x;
@@ -65,5 +70,13 @@ public abstract class Entity {
         down = false;
         xDir = 0;
         yDir = 0;
+    }
+
+    //TODO: Currently skillActivation only activates the first skill in playerSkillBar for testing.
+    public void skillActivation() {
+        playerSkillBar[0] = new Slash();
+        skillAction = playerSkillBar[0].animation(this);
+        skillLock = true;
+        // System.out.println("Slash used, playerAction: " + skillAction + " skillLock: " + skillLock);
     }
 }

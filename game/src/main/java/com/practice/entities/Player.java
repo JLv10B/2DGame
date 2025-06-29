@@ -1,17 +1,15 @@
 package com.practice.entities;
 
-import static com.practice.utilz.Constants.KeyTiming;
-import static com.practice.utilz.Constants.Action;
 import static com.practice.utilz.Constants.PlayerConstants.*;
 import com.practice.actions.*;
-import com.practice.utilz.Constants.KeyTiming;
+import com.practice.utilz.Constants.Action;
+import com.practice.utilz.Constants.UserInput;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.awt.Graphics;
@@ -23,10 +21,8 @@ import java.awt.event.KeyEvent;
 public class Player extends Entity {
     private String playerChar = "1-Player-Dark Oracle";
     private Map<String, List<BufferedImage>> animationDict;
-    public Skill[] playerSkillBar = new Skill[3];
     private int aniTick, aniIndex, aniSpeed = 15;
     private String playerAction = IDLE;
-    private String skillAction;
     protected HashMap<Integer, Action> keybinds = new HashMap<>();
 
     public Player(float x, float y) {
@@ -45,7 +41,6 @@ public class Player extends Entity {
         g.drawImage(animationDict.get(playerAction).get(aniIndex), (int)x, (int)y, 100,100,null);
     }
 
-    
     private void setAnimation() {
         String starting = playerAction;
 
@@ -58,7 +53,6 @@ public class Player extends Entity {
         }
    
         if (starting != playerAction) {
-            System.out.println("Action change");
             resetAnimationTick();
         }
    }
@@ -102,27 +96,19 @@ public class Player extends Entity {
         keybinds.remove(KeyEvent.VK_D, Action.RIGHT);
     }
 
-    public void inputProcessor(KeyEvent key, KeyTiming timing) {
+    public void inputProcessor(KeyEvent key, UserInput userInput) {
         try {
             Action input = keybinds.get(key.getKeyCode());
-            if (timing == KeyTiming.PRESSED){
+            if (userInput == UserInput.KEY_PRESS){
                 keybindOutput(input);     
-            } else if (timing == KeyTiming.RELEASED){
+            } else if (userInput == UserInput.KEY_RELEASE){
                 movementKeyRelease(input);
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            e.getMessage();
         }
     }
     
-    //TODO: Currently skillActivation only activates the first skill in playerSkillBar for testing.
-    public void skillActivation() {
-        playerSkillBar[0] = new Slash();
-        skillAction = playerSkillBar[0].animation(this);
-        skillLock = true;
-        // System.out.println("Slash used, playerAction: " + skillAction + " skillLock: " + skillLock);
-    }
-
     private void loadAnimations() {
         animationDict = new HashMap<>();
         List<BufferedImage> aniFrames;
