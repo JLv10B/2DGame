@@ -2,6 +2,7 @@ package com.practice.entities;
 
 import static com.practice.utilz.Constants.PlayerConstants.*;
 import com.practice.actions.*;
+import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.Constants.Action;
 import com.practice.utilz.Constants.UserInput;
 
@@ -21,14 +22,13 @@ import java.awt.event.MouseEvent;
 
 public class Player extends Entity {
     private String playerChar = "1-Player-Dark Oracle";
-    private Map<String, List<BufferedImage>> animationDict;
     private int aniTick, aniIndex, aniSpeed = 15;
     private String playerAction = IDLE;
     protected HashMap<Integer, Action> keybinds = new HashMap<>();
 
-    public Player(float x, float y) {
-        super(x, y);
-        loadAnimations();
+    public Player(float x, float y, ImageLibrary imageLibrary) {
+        super(x, y, imageLibrary);
+        // loadAnimations();
         defaultKeybinds();
     }
 
@@ -39,7 +39,7 @@ public class Player extends Entity {
     }
 
     public void render(Graphics g) {
-        g.drawImage(animationDict.get(playerAction).get(aniIndex), (int)x, (int)y, 100,100,null);
+        g.drawImage(imageLibrary.getLibrary().get(playerChar).get(playerAction).get(aniIndex), (int)x, (int)y, 100,100,null);
     }
 
     private void setAnimation() {
@@ -121,51 +121,5 @@ public class Player extends Entity {
             e.printStackTrace();
         }
     }
-
-    
-    private void loadAnimations() {
-        animationDict = new HashMap<>();
-        List<BufferedImage> aniFrames;
-        File[] spritesList;
-
-        File spritesDir = new File(String.format("game\\src\\main\\resources\\Sprites\\%s", playerChar));
-        if (!spritesDir.exists() && !spritesDir.isDirectory()) {
-        } else {
-            spritesList = spritesDir.listFiles(file -> file.isDirectory());
-            for (int i=0; i<spritesList.length; i++) {
-                String aniState = spritesList[i].getName();
-                aniFrames = new ArrayList<BufferedImage>();
-                File[] tmpFiles = spritesList[i].listFiles(file -> file.isFile());
-                // iterate through charater states (eg. idle) to get the BufferedImage of each animation frame
-                for (int j=0; j< tmpFiles.length; j++) { 
-                    String tempPath = String.format("/Sprites/%s/%s/%s", playerChar, aniState, tmpFiles[j].getName());
-                    BufferedImage frame = loadCharFrames(tempPath);
-                    aniFrames.add(frame);
-                }
-                animationDict.put(aniState, aniFrames);
-            }
-        }
-    }
-
-    private BufferedImage loadCharFrames(String path) {
-        InputStream is = getClass().getResourceAsStream(path);
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(is);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(animationDict);
-            }
-        }
-        
-        return img;
-    }
-
-
 
 }

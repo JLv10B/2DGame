@@ -3,6 +3,7 @@ package com.practice;
 import java.awt.Graphics;
 
 import com.practice.entities.*;
+import com.practice.utilz.ImageLibrary;
 
 public class Game implements Runnable{
 
@@ -13,8 +14,14 @@ public class Game implements Runnable{
     private final int USP_SET = 200;
 
     private Player player;
+    public ImageLibrary imageLibrary;
 
     public Game() {
+        try {
+            imageLibrary = new ImageLibrary();
+        } catch (Exception e) {
+            System.out.println("Image Library not created");
+        }
         initClasses();
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
@@ -23,7 +30,7 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-        player = new Player(200, 200);
+        player = new Player(200, 200, imageLibrary);
 
     }
 

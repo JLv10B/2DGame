@@ -2,11 +2,13 @@ package com.practice.entities;
 
 import com.practice.actions.Skill;
 import com.practice.actions.Slash;
+import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.Constants.Action;
 
 
 public abstract class Entity {
     protected float x,y;
+    protected ImageLibrary imageLibrary;
     protected boolean movementLock;
     protected boolean skillLock = false;
     protected float xDir = 0.0f;
@@ -18,9 +20,10 @@ public abstract class Entity {
 
 
     
-    public Entity(float x, float y) {
+    public Entity(float x, float y, ImageLibrary imageLibrary) {
         this.x = x;
         this.y = y;
+        this.imageLibrary = imageLibrary;
     }
 
     public void keybindOutput(Action action) {
@@ -85,11 +88,11 @@ public abstract class Entity {
 
     public void skillActivation(int index) {
         // TODO: Allow player to set up skill bar
-        playerSkillBar[1] = new Slash();
+        playerSkillBar[0] = new Slash();
+
         if (playerSkillBar[index] != null) {
             skillAction = playerSkillBar[index].animation(this);
             skillLock = true;
         }
-        // System.out.println("Slash used, playerAction: " + skillAction + " skillLock: " + skillLock);
     }
 }
