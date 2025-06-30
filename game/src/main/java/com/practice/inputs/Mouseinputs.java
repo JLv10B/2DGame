@@ -32,7 +32,7 @@ public class Mouseinputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        gamePanel.getGame().getPlayer().skillActivation();
+        gamePanel.getGame().getPlayer().mouseInputProcessor(e);
     }
 
     @Override

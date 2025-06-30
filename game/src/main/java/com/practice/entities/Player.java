@@ -16,6 +16,7 @@ import java.awt.Graphics;
 import javax.imageio.ImageIO;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 
 public class Player extends Entity {
@@ -82,6 +83,9 @@ public class Player extends Entity {
         keybinds.put(KeyEvent.VK_S, Action.DOWN);
         keybinds.put(KeyEvent.VK_A, Action.LEFT);
         keybinds.put(KeyEvent.VK_D, Action.RIGHT);
+        keybinds.put(MouseEvent.BUTTON1, Action.SKILL_1);
+        keybinds.put(MouseEvent.BUTTON3, Action.SKILL_2);
+        keybinds.put(KeyEvent.VK_V, Action.SKILL_3);
     }
     
     //TODO: Update changeKeybinds() to allow players to customize keybinds
@@ -96,7 +100,7 @@ public class Player extends Entity {
         keybinds.remove(KeyEvent.VK_D, Action.RIGHT);
     }
 
-    public void inputProcessor(KeyEvent key, UserInput userInput) {
+    public void keyboardInputProcessor(KeyEvent key, UserInput userInput) {
         try {
             Action input = keybinds.get(key.getKeyCode());
             if (userInput == UserInput.KEY_PRESS){
@@ -105,9 +109,19 @@ public class Player extends Entity {
                 movementKeyRelease(input);
             }
         } catch (Exception e) {
-            e.getMessage();
+            e.printStackTrace();
         }
     }
+    
+    public void mouseInputProcessor(MouseEvent key) {
+        try {
+            Action input = keybinds.get(key.getButton());
+            keybindOutput(input);     
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     
     private void loadAnimations() {
         animationDict = new HashMap<>();
@@ -148,6 +162,7 @@ public class Player extends Entity {
                 System.out.println(animationDict);
             }
         }
+        
         return img;
     }
 

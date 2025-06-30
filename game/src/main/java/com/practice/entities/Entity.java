@@ -24,15 +24,26 @@ public abstract class Entity {
     }
 
     public void keybindOutput(Action action) {
+        int skillBarIndex = 0;
+        
         if (action == Action.UP) {
             up = true;
         } else if (action == Action.DOWN) {
             down = true;
-        }else if (action == Action.LEFT) {
+        } else if (action == Action.LEFT) {
             left = true;
         } else if (action == Action.RIGHT) {
             right = true;
-        }  
+        } else if (action == Action.SKILL_1) {
+            skillBarIndex = 0;
+            skillActivation(skillBarIndex);
+        } else if (action == Action.SKILL_2) {
+            skillBarIndex = 1;
+            skillActivation(skillBarIndex);
+        } else if (action == Action.SKILL_3) {
+            skillBarIndex = 2;
+            skillActivation(skillBarIndex);
+        }
     }
 
     public void movementKeyRelease(Action action) {
@@ -72,11 +83,13 @@ public abstract class Entity {
         yDir = 0;
     }
 
-    //TODO: Currently skillActivation only activates the first skill in playerSkillBar for testing.
-    public void skillActivation() {
-        playerSkillBar[0] = new Slash();
-        skillAction = playerSkillBar[0].animation(this);
-        skillLock = true;
+    public void skillActivation(int index) {
+        // TODO: Allow player to set up skill bar
+        playerSkillBar[1] = new Slash();
+        if (playerSkillBar[index] != null) {
+            skillAction = playerSkillBar[index].animation(this);
+            skillLock = true;
+        }
         // System.out.println("Slash used, playerAction: " + skillAction + " skillLock: " + skillLock);
     }
 }
