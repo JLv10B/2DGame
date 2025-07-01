@@ -21,62 +21,14 @@ import java.awt.event.MouseEvent;
 
 
 public class Player extends Entity {
-    private String playerChar = "1-Player-Dark Oracle";
-    private int aniTick, aniIndex, aniSpeed = 15;
-    private String playerAction = IDLE;
     protected HashMap<Integer, Action> keybinds = new HashMap<>();
 
     public Player(float x, float y, ImageLibrary imageLibrary) {
         super(x, y, imageLibrary);
-        // loadAnimations();
+        this.charModel = "1-Player-Dark Oracle";
         defaultKeybinds();
     }
 
-    public void update() {
-        updatePos();
-        updateAnimationTick();
-        setAnimation();
-    }
-
-    public void render(Graphics g) {
-        g.drawImage(imageLibrary.getLibrary().get(playerChar).get(playerAction).get(aniIndex), (int)x, (int)y, 100,100,null);
-    }
-
-    private void setAnimation() {
-        String starting = playerAction;
-
-        if (skillLock) {
-            playerAction = skillAction;
-        } else if (moving()) {
-            playerAction = RUNNNING;
-        } else {
-            playerAction = IDLE;
-        }
-   
-        if (starting != playerAction) {
-            resetAnimationTick();
-        }
-   }
-
-    private void resetAnimationTick() {
-        aniTick = 0;
-        aniIndex = 0;
-    }
-
-    private void updateAnimationTick() {
-          aniTick ++;
-        if (aniTick >= aniSpeed) {
-            aniTick = 0;
-            aniIndex ++;
-            if (aniIndex >= GetSpriteAmount(playerAction)) { 
-                // System.out.println("aniIndex before reset: " + aniIndex + " for playerAction: " + playerAction);
-                aniIndex = 0;
-                skillLock = false;
-                // System.out.println("skillLock reset: " + skillLock);
-            }
-        }
-
-    }
 
     protected void defaultKeybinds() {
         keybinds.put(KeyEvent.VK_W, Action.UP);

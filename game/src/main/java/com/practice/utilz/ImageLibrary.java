@@ -12,11 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-
 import javax.imageio.ImageIO;
 
+import com.practice.entities.Entity;
+import com.practice.utilz.Constants.*;
+
 public class ImageLibrary {
-    public static Map <String, Map<String, List<BufferedImage>>> charAnimationLibrary = new HashMap<>();
+    public Map <String, Map<String, List<BufferedImage>>> charAnimationLibrary = new HashMap<>();
+    public Map <String, Map<String, Integer>> charSpriteCountLib = new HashMap<>();
+    
     //TODO: load NonCharSprites
 
     public ImageLibrary() throws IOException {
@@ -38,6 +42,9 @@ public class ImageLibrary {
                             Map<String, List<BufferedImage>> charaterAnimations = charAnimationLibrary.computeIfAbsent(spriteModel, k -> new HashMap<>());
                             List<BufferedImage> animationFrames = charaterAnimations.computeIfAbsent(animationState, k -> new ArrayList<>());
                             animationFrames.add(image);
+                            
+                            Map<String, Integer> charaterAnimationsSpriteCountLib = charSpriteCountLib.computeIfAbsent(spriteModel, k -> new HashMap<>());
+                            charaterAnimationsSpriteCountLib.put(animationState, animationFrames.size());
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -47,6 +54,10 @@ public class ImageLibrary {
                 }
             });
         }
+    }
+
+    public int getSpriteAmount(String charModel, String playerAction) {
+        return charSpriteCountLib.get(charModel).get(playerAction);
     }
 
     public Map <String, Map<String, List<BufferedImage>>> getLibrary() {

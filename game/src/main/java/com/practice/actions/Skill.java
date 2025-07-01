@@ -4,28 +4,28 @@ import com.practice.entities.Entity;
 import com.practice.entities.Player;
 
 public abstract class Skill {
-    public int currentCooldown = 0;
-    
-    //TODO: The animation method only tells the player object to produce an animation. Just used for testing.
-    public abstract String animation(Entity player);
+    public String skillAnimation;
+    public double cooldown;
+    public double currentCooldown = 0;
+    public long timeActivated;
 
-    public abstract String activate(Entity player);
-
-    public void update(double deltaTime) { // TODO: Implement cooldown timer
-        double deltaU = 0;
-        double timePerUpdate = 1000000000.0 / 120;
-        long previousTime = System.currentTimeMillis();
-        
-        while (currentCooldown > 0) {
-            long currentTime = System.currentTimeMillis();
-
-            deltaU += (currentTime - previousTime) / timePerUpdate;
-            previousTime = currentTime;
-            if (deltaU >= 1) {
-                currentCooldown--;
-                deltaU--;
-            }
+    public boolean activate(Entity player) {
+        if (currentCooldown == 0) {
+            skillAbility(player);
+            timeActivated = System.currentTimeMillis();
+            return true;
+        } else {
+            return false;
         }
     }
+
+    public void updateTimers(Entity player) {
+        long timeElapsed = System.currentTimeMillis() - timeActivated;
+        currentCooldown = (cooldown - timeElapsed <= 0 ? 0 : cooldown - timeElapsed);
+    }
+    
+    
+    protected abstract void skillAbility(Entity player);
+    protected abstract void skillEnd(Entity player);
 
 }

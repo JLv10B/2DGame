@@ -26,7 +26,8 @@ public class Game implements Runnable{
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
-        startGameLoop();
+        run();
+        // startGameLoop();
     }
 
     private void initClasses() {
@@ -70,13 +71,13 @@ public class Game implements Runnable{
             previousTime = currentTime;
             if (deltaU >= 1) {
                 update();
-                updates++;
                 deltaU--;
+                // updates++;
             }
             if (deltaF >= 1) {
                 gamePanel.repaint();
-                frames++;
                 deltaF--;
+                // frames++;
             }
 
             // Print FPS & UPS

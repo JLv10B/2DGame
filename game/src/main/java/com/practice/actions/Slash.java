@@ -1,43 +1,31 @@
 package com.practice.actions;
 
+import static com.practice.utilz.Constants.PlayerConstants.SLASHING;
+import static com.practice.utilz.Constants.PlayerConstants.RUN_SLASHING;
+
 import com.practice.entities.*;
 
 public class Slash extends Skill {
-    public String skillAnimation;
-    private int cooldown = 200;
 
-    public Slash() {}
+
+    public Slash() {
+        this.skillAnimation = SLASHING;
+        this.cooldown = 2000;
+    }
 
     @Override
-    public String activate(Entity player) {
-        if (currentCooldown == 0) {
-            if (player.moving() == true) {
-                skillAnimation = "Run Slashing";
-            } else {
-                skillAnimation = "Slashing";
-            }
-            currentCooldown = cooldown;
-            return skillAnimation;
+    //TODO: Currently only changes animation
+    protected void skillAbility(Entity player) {
+        if (player.moving() == true) {
+            skillAnimation = RUN_SLASHING;
         } else {
-            System.out.println("Slash on cooldown");
-            return "Run"; //TODO: should this still return run as a string?
+            skillAnimation = SLASHING;
         }
     }
 
-    //TODO: The animation method only tells the player object to produce an animation. Just used for testing.
-    public String animation(Entity player) {
-        if (currentCooldown == 0) {
-            if (player.moving() == true) {
-                skillAnimation = "Run Slashing";
-            } else {
-                skillAnimation = "Slashing";
-            }
-            currentCooldown = cooldown;
-            return skillAnimation;
-        } else {
-            System.out.println("Slash on cooldown");
-            return "Run"; //TODO: should this still return run as a string?
-        }
+    public void skillEnd(Entity player) {
+        
     }
+
     
 }
