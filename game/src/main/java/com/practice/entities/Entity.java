@@ -38,6 +38,7 @@ public abstract class Entity {
         this.x = x;
         this.y = y;
         this.imageLibrary = imageLibrary;
+        skillBarSetUp();
     }
 
     public void update() {
