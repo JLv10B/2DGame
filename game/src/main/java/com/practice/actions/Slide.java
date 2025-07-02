@@ -17,9 +17,9 @@ public class Slide extends Skill{
     public boolean activate(Entity player) {
         if (currentCooldown == 0) {
             timeActivated = System.currentTimeMillis();
-            timeComplete = timeActivated + buff.duration;
+            timeComplete = timeActivated + cooldown;
             player.updateSkillCooldown(this, timeComplete);
-            player.setActiveBuff(buff, timeComplete);
+            player.setActiveBuff(buff, timeActivated + buff.duration);
             return true;
         } else {
             return false;

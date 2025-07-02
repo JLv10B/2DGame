@@ -41,7 +41,6 @@ public abstract class Entity {
     }
 
     public void update() {
-        skillBarSetUp();
         buffCheck();
         updateTimers();
         updatePos();
@@ -163,19 +162,21 @@ public abstract class Entity {
     }
 
     protected void skillActivation(int index) {
-        if (playerSkillBar[index] != null && skillLock == false && skillCooldowns.get(playerSkillBar[index]) == 0) {
+        if (playerSkillBar[index] != null && skillLock == false && skillCooldowns.get(playerSkillBar[index]) == (long) 0) {
             skillLock = playerSkillBar[index].activate(this); // Checks if skill is on cooldown and changes the skillAnimation based off of player state.
             skillAction = playerSkillBar[index].skillAnimation;
+            skillCooldowns.put(playerSkillBar[index], playerSkillBar[index].timeComplete);
+            System.out.println(skillCooldowns);
         }
     }
 
     protected void updateTimers() {
         if (skillCooldowns.size() > 0) {
             for (Map.Entry<Skill,Long> entry : skillCooldowns.entrySet()) {
-                long currentcooldown = entry.getValue();
-                if (currentcooldown <= System.currentTimeMillis()) {
-                    currentcooldown = 0;
-                    entry.getKey().resetCooldown();
+                if (entry.getValue() <= System.currentTimeMillis()) {
+                    Skill skill = entry.getKey();
+                    skillCooldowns.put(skill, (long) 0);
+                    skill.resetCooldown();
                 }
             }
         }
