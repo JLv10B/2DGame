@@ -39,7 +39,7 @@ public class Player extends Entity {
     }
 
     public void render(Graphics g) {
-        g.drawImage(imageLibrary.getLibrary().get(playerChar).get(playerAction).get(aniIndex), (int)x, (int)y, 100,100,null);
+        g.drawImage(imageLibrary.getCharLibrary().get(playerChar).get(playerAction).get(aniIndex), (int)x, (int)y, 100,100,null);
     }
 
     private void setAnimation() {

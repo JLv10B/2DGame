@@ -49,7 +49,11 @@ public class ImageLibrary {
         }
     }
 
-    public Map <String, Map<String, List<BufferedImage>>> getLibrary() {
+    private void loadLevelAnimations() {
+        
+    }
+
+    public Map <String, Map<String, List<BufferedImage>>> getCharLibrary() {
         return charAnimationLibrary;
     }
 }
