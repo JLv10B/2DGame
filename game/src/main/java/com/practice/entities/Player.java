@@ -27,7 +27,6 @@ public class Player extends Entity {
         super(x, y, imageLibrary);
         this.charModel = "1-Player-Dark Oracle";
         defaultKeybinds();
-        skillBarSetUp();
     }
 
 
