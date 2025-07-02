@@ -4,8 +4,13 @@ import static com.practice.utilz.Constants.PlayerConstants.*;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.practice.actions.*;
+import com.practice.buffs.*;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.Constants.Action;
 
@@ -25,7 +30,8 @@ public abstract class Entity {
     protected boolean skillLock;
     protected String skillAction = IDLE;
     protected Skill[] playerSkillBar = new Skill[3];
-    protected ArrayList<Skill> activeSkills = new ArrayList<>();
+    protected HashMap<Buff, Long> buffBar = new HashMap<>();
+    protected HashMap<Skill, Long> skillCooldowns = new HashMap<>();
     
 
     public Entity(float x, float y, ImageLibrary imageLibrary) {
@@ -35,7 +41,9 @@ public abstract class Entity {
     }
 
     public void update() {
-        updateSkills();
+        skillBarSetUp();
+        buffCheck();
+        updateTimers();
         updatePos();
         updateAnimationTick();
         setAnimation();
@@ -145,32 +153,59 @@ public abstract class Entity {
 
     protected void skillBarSetUp() {
         // TODO: Allow player to set up skill bar. Might need menu screen first
-    }
-
-    protected void skillActivation(int index) {
         //TODO: remove default skillbar once skillBarSetUp is created
         playerSkillBar[0] = new Slash();
         playerSkillBar[1] = new Kick();
         playerSkillBar[2] = new Slide();
+        skillCooldowns.put(playerSkillBar[0], (long) 0);
+        skillCooldowns.put(playerSkillBar[1], (long) 0);
+        skillCooldowns.put(playerSkillBar[2], (long) 0);
+    }
 
-        if (playerSkillBar[index] != null) {
+    protected void skillActivation(int index) {
+        if (playerSkillBar[index] != null && skillLock == false && skillCooldowns.get(playerSkillBar[index]) == 0) {
             skillLock = playerSkillBar[index].activate(this); // Checks if skill is on cooldown and changes the skillAnimation based off of player state.
             skillAction = playerSkillBar[index].skillAnimation;
         }
     }
 
-    protected void updateSkills() {
-        for (Skill skill : activeSkills) {
-            skill.updateTimers(this);
+    protected void updateTimers() {
+        if (skillCooldowns.size() > 0) {
+            for (Map.Entry<Skill,Long> entry : skillCooldowns.entrySet()) {
+                long currentcooldown = entry.getValue();
+                if (currentcooldown <= System.currentTimeMillis()) {
+                    currentcooldown = 0;
+                    entry.getKey().resetCooldown();
+                }
+            }
         }
     }
 
-    public void setActiveSkill(Skill skill) {
-        activeSkills.add(skill);        
+    protected void buffCheck() {
+        // Zero out all modifiers by default
+        charSpeedDiff = 0;
+        
+        if (buffBar.size() > 0) {
+            for (Map.Entry<Buff,Long> entry : buffBar.entrySet()) {
+                if (entry.getValue() <= System.currentTimeMillis()) {
+                    buffBar.remove(entry.getKey());
+                } else {
+                    entry.getKey().activateBuff(this);
+                }
+            }
+        }
     }
 
-    public void removeActiveSkill(Skill skill) {
-        activeSkills.remove(skill);
+
+    public void updateSkillCooldown(Skill skill, long cooldown) {
+        if (skillCooldowns.containsKey(skill)) {
+            skillCooldowns.put(skill, cooldown);
+
+        }
+    }
+
+    public void setActiveBuff(Buff buff,long endTime) {
+        buffBar.put(buff, endTime);        
     }
 
     public void setMovementLock(boolean lock) {

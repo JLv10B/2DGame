@@ -3,10 +3,10 @@ package com.practice.actions;
 import static com.practice.utilz.Constants.PlayerConstants.SLIDING;
 
 import com.practice.entities.Entity;
+import com.practice.buffs.*;
 
 public class Slide extends Skill{
-    private long duration = 2000;
-    private long currentDuration = 0;
+    public Buff buff = new Dodge();
 
     public Slide() {
         this.skillAnimation = SLIDING;
@@ -14,25 +14,25 @@ public class Slide extends Skill{
     }
 
     @Override
-    public void updateTimers(Entity player) {
-        long timeElapsed = System.currentTimeMillis() - timeActivated;
-        currentCooldown = (cooldown - timeElapsed <= 0 ? 0 : cooldown - timeElapsed);
-        currentDuration = (duration - timeElapsed <= 0 ? 0 : duration - timeElapsed);
-        if (currentDuration <= 0) {
-            skillEnd(player);
+    public boolean activate(Entity player) {
+        if (currentCooldown == 0) {
+            timeActivated = System.currentTimeMillis();
+            timeComplete = timeActivated + buff.duration;
+            player.updateSkillCooldown(this, timeComplete);
+            player.setActiveBuff(buff, timeComplete);
+            return true;
+        } else {
+            return false;
         }
-       
-    }
+    } 
 
     @Override
     //TODO: Currently only changes animation
     protected void skillAbility(Entity player) {
-        player.setSpeed(1);
     }
 
     @Override
     protected void skillEnd(Entity player) {
-        player.setSpeed(0);
     }
     
 }

@@ -7,21 +7,33 @@ public abstract class Skill {
     public String skillAnimation;
     public double cooldown;
     public double currentCooldown = 0;
-    public long timeActivated;
+    public long timeActivated = 0;
+    public long timeComplete;
 
     public boolean activate(Entity player) {
         if (currentCooldown == 0) {
             skillAbility(player);
             timeActivated = System.currentTimeMillis();
+            currentCooldown = cooldown;
+            timeComplete = (long) (timeActivated + cooldown);
             return true;
         } else {
             return false;
         }
     }
 
-    public void updateTimers(Entity player) {
-        long timeElapsed = System.currentTimeMillis() - timeActivated;
-        currentCooldown = (cooldown - timeElapsed <= 0 ? 0 : cooldown - timeElapsed);
+    public void resetCooldown() {
+        currentCooldown = 0;
+    }
+
+    public void updateTimers() {
+        if (timeActivated != 0) {
+            long timeElapsed = System.currentTimeMillis() - timeActivated;
+            currentCooldown = (cooldown - timeElapsed <= 0 ? 0 : cooldown - timeElapsed);
+            if (currentCooldown == 0) {
+                timeActivated = 0;
+            }
+        }
     }
     
     
