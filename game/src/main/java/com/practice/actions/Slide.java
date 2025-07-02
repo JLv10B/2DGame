@@ -14,21 +14,9 @@ public class Slide extends Skill{
     }
 
     @Override
-    public boolean activate(Entity player) {
-        if (currentCooldown == 0) {
-            timeActivated = System.currentTimeMillis();
-            timeComplete = timeActivated + cooldown;
-            player.updateSkillCooldown(this, timeComplete);
-            player.setActiveBuff(buff, timeActivated + buff.duration);
-            return true;
-        } else {
-            return false;
-        }
-    } 
-
-    @Override
-    //TODO: Currently only changes animation
+    //TODO: Currently only adds speed buff
     protected void skillAbility(Entity player) {
+        player.setActiveBuff(buff, timeActivated + buff.duration);
     }
 
     @Override

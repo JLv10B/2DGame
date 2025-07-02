@@ -6,25 +6,19 @@ import com.practice.entities.Player;
 public abstract class Skill {
     public String skillAnimation;
     public long cooldown;
-    public double currentCooldown = 0;
+    // public double currentCooldown = 0;
     public long timeActivated = 0;
-    public long timeComplete;
+    public long cooldownComplete;
 
-    public boolean activate(Entity player) {
-        if (currentCooldown == 0) {
-            skillAbility(player);
-            timeActivated = System.currentTimeMillis();
-            currentCooldown = cooldown;
-            timeComplete = (long) (timeActivated + cooldown);
-            return true;
-        } else {
-            return false;
-        }
+    public void activate(Entity player) {
+        timeActivated = System.currentTimeMillis();
+        cooldownComplete = (long) (timeActivated + cooldown);
+        skillAbility(player);
     }
 
-    public void resetCooldown() {
-        currentCooldown = 0;
-    }
+    // public void resetCooldown() {
+    //     currentCooldown = 0;
+    // }
 
     // public void updateTimers() {
     //     if (timeActivated != 0) {

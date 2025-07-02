@@ -131,11 +131,9 @@ public abstract class Entity {
             aniIndex ++;
             int tmpInt = imageLibrary.getSpriteAmount(charModel, playerAction);
             if (aniIndex >= tmpInt) { 
-                // System.out.println("aniIndex before reset: " + aniIndex + " for playerAction: " + playerAction);
                 aniIndex = 0;
                 skillLock = false;
                 setMovementLock(false);
-                // setSpeed(0);
             }
         }
 
@@ -161,12 +159,13 @@ public abstract class Entity {
         skillCooldowns.put(playerSkillBar[2], (long) 0);
     }
 
+    // Checks if skill is on cooldown and changes the skillAnimation based off of player state.
     protected void skillActivation(int index) {
         if (playerSkillBar[index] != null && skillLock == false && skillCooldowns.get(playerSkillBar[index]) == (long) 0) {
-            skillLock = playerSkillBar[index].activate(this); // Checks if skill is on cooldown and changes the skillAnimation based off of player state.
+            playerSkillBar[index].activate(this); 
+            skillLock = true;
             skillAction = playerSkillBar[index].skillAnimation;
-            skillCooldowns.put(playerSkillBar[index], playerSkillBar[index].timeComplete);
-            System.out.println(skillCooldowns);
+            skillCooldowns.put(playerSkillBar[index], playerSkillBar[index].cooldownComplete);
         }
     }
 
@@ -176,7 +175,6 @@ public abstract class Entity {
                 if (entry.getValue() <= System.currentTimeMillis()) {
                     Skill skill = entry.getKey();
                     skillCooldowns.put(skill, (long) 0);
-                    skill.resetCooldown();
                 }
             }
         }
@@ -198,15 +196,8 @@ public abstract class Entity {
     }
 
 
-    public void updateSkillCooldown(Skill skill, long cooldown) {
-        if (skillCooldowns.containsKey(skill)) {
-            skillCooldowns.put(skill, cooldown);
-
-        }
-    }
-
     public void setActiveBuff(Buff buff,long endTime) {
-        buffBar.put(buff, endTime);        
+        buffBar.put(buff, endTime);
     }
 
     public void setMovementLock(boolean lock) {
