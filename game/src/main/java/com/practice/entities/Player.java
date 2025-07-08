@@ -29,7 +29,7 @@ public class Player extends Entity {
         super(x, y, width, height, levelData, imageLibrary);
         this.charModel = "1-Player-Dark Oracle";
         defaultKeybinds();
-        initHitbox(x, y, 150, 150);
+        initHitbox(x, y, width, height);
     }
 
 

@@ -10,7 +10,7 @@ public class Slide extends Skill{
 
     public Slide() {
         this.skillAnimation = SLIDING;
-        this.cooldown = 2000;
+        this.cooldown = 1000;
     }
 
     @Override

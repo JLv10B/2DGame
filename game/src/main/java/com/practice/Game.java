@@ -55,7 +55,7 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-        player = new Player(200, 200, 150, 150, lvl, imageLibrary);
+        player = new Player(200, 200, (int)(128*SCALE), (int)(128*SCALE), lvl, imageLibrary);
     }
 
     private void initButtons() {
