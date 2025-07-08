@@ -42,7 +42,7 @@ public class Game implements Runnable{
         //TODO: edit lvl and TileHandler as needed, currently used for testing;
         lvl = LevelBuilder.getLevelData();
         tileHandler = new TileHandler(imageLibrary);
-        levelEditorBar = new LevelEditorBar(0, 800, 1280, 100);
+        levelEditorBar = new LevelEditorBar(0, GAME_HEIGHT-100, GAME_WIDTH, 100);
 
         initClasses();
         initButtons();
