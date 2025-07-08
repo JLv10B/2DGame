@@ -10,7 +10,7 @@ public class Slash extends Skill {
 
     public Slash() {
         this.skillAnimation = SLASHING;
-        this.cooldown = 2000;
+        this.cooldown = 1000;
     }
 
     @Override

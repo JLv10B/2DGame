@@ -3,6 +3,7 @@ package com.practice.entities;
 import static com.practice.utilz.Constants.PlayerConstants.*;
 import com.practice.actions.*;
 import com.practice.utilz.ImageLibrary;
+import com.practice.utilz.LevelBuilder;
 import com.practice.utilz.Constants.Action;
 import com.practice.utilz.Constants.UserInput;
 
@@ -23,10 +24,12 @@ import java.awt.event.MouseEvent;
 public class Player extends Entity {
     protected HashMap<Integer, Action> keybinds = new HashMap<>();
 
-    public Player(float x, float y, ImageLibrary imageLibrary) {
-        super(x, y, imageLibrary);
+
+    public Player(float x, float y, int width, int height, int[][] levelData, ImageLibrary imageLibrary) {
+        super(x, y, width, height, levelData, imageLibrary);
         this.charModel = "1-Player-Dark Oracle";
         defaultKeybinds();
+        initHitbox(x, y, 150, 150);
     }
 
 

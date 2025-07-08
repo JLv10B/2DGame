@@ -8,7 +8,7 @@ public class Kick extends Skill{
 
     public Kick() {
         this.skillAnimation = KICKING;
-        this.cooldown = 5000;
+        this.cooldown = 1000;
     }
 
     @Override

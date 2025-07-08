@@ -2,7 +2,10 @@ package com.practice.entities;
 
 import static com.practice.utilz.Constants.PlayerConstants.*;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,16 +15,19 @@ import java.util.Map;
 import com.practice.actions.*;
 import com.practice.buffs.*;
 import com.practice.utilz.ImageLibrary;
+import com.practice.utilz.LevelBuilder;
 import com.practice.utilz.Constants.Action;
+import static com.practice.utilz.HelperMethods.CanMoveHere;
 
 
 public abstract class Entity {
     protected String charModel = "1-Player-Dark Oracle";
     protected ImageLibrary imageLibrary;
     protected float x,y;
+    protected int width, height;
     protected float xDir = 0.0f;
     protected float yDir = 0.0f;
-    protected float charDefaultSpeed = 1.0f;
+    protected float charDefaultSpeed = 1.5f;
     protected float charSpeedDiff = 0.0f;
     protected boolean left, right, up, down;
     protected int aniTick, aniIndex, aniSpeed = 15;
@@ -32,11 +38,19 @@ public abstract class Entity {
     protected Skill[] playerSkillBar = new Skill[3];
     protected HashMap<Buff, Long> buffBar = new HashMap<>();
     protected HashMap<Skill, Long> skillCooldowns = new HashMap<>();
+    protected Rectangle2D.Float hitbox;
+    protected int[][] levelData;
+    // private float xDrawOffset = 244;
+    // private float yDrawOffset = 210;
+
     
 
-    public Entity(float x, float y, ImageLibrary imageLibrary) {
+    public Entity(float x, float y, int width, int height, int[][] levelData, ImageLibrary imageLibrary) {
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
+        this.levelData = levelData;
         this.imageLibrary = imageLibrary;
         skillBarSetUp();
     }
@@ -44,14 +58,35 @@ public abstract class Entity {
     public void update() {
         buffCheck();
         updateTimers();
+        updateHitbox();
         updatePos();
         updateAnimationTick();
         setAnimation();
+        
+    }
+    
+    protected void initHitbox(float x, float y, float width, float height) {
+        hitbox = new Rectangle2D.Float(x, y, width, height);
+    }
 
+    protected void drawHitbox(Graphics g) {
+        // for debugging the hitbox
+        g.setColor(Color.magenta);
+        g.drawRect((int)hitbox.x, (int)hitbox.y, (int)hitbox.width, (int)hitbox.height);
+    }
+
+    protected void updateHitbox() {
+        hitbox.x = (int) x;
+        hitbox.y = (int) y;
+    }
+
+    public Rectangle2D.Float getHitbox() {
+        return hitbox;
     }
 
     public void render(Graphics g) {
-        g.drawImage(imageLibrary.getLibrary().get(charModel).get(playerAction).get(aniIndex), (int)x, (int)y, 150,150,null);
+        g.drawImage(imageLibrary.getCharLibrary().get(charModel).get(playerAction).get(aniIndex), (int)x, (int)y, width, height,null);
+        drawHitbox(g); // TODO: remove drawHitbox after testing is complete
     }
 
     public void keybindOutput(Action action) {
@@ -95,8 +130,10 @@ public abstract class Entity {
         if (moving()){
             float xVel = (xDir/(Math.abs(xDir) + Math.abs(yDir))) * (charDefaultSpeed + charSpeedDiff);
             float yVel = (yDir/(Math.abs(xDir) + Math.abs(yDir))) * (charDefaultSpeed + charSpeedDiff);
-            x += xVel;
-            y += yVel;
+            if (CanMoveHere(x+xVel, y+yVel, width, height, levelData)) {
+                x += xVel;
+                y += yVel;
+            }
         }
     }
 
