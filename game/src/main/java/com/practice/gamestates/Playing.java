@@ -12,14 +12,14 @@ import com.practice.ui.MyButton;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.LevelBuilder;
 
+import static com.practice.Game.DEFAULT_TILE_SIZE;
+
 public class Playing extends State implements Statemethods{
     private Player player;
 
     //TODO: edit lvl & TileHandler as needed, currently used for testing:
     public int[][] lvl;
-    // private TileHandler tileHandler;
-    // private LevelEditorBar levelEditorBar;
-    // private MyButton buttonPlay, buttonEditor, buttonQuit;
+    private TileHandler tileHandler;
 
     public Playing(Game game) {
         super(game);
@@ -41,6 +41,15 @@ public class Playing extends State implements Statemethods{
     @Override
     public void draw(Graphics g) {
         player.render(g);
+    }
+
+    public void drawLevel(Graphics g) {
+        for (int y=0; y<lvl.length; y++) {
+            for (int x=0; x<lvl[0].length; x++) {
+                int id = lvl[y][x];
+                g.drawImage(game.tileHandler.getGroundTileSprite(id), x*DEFAULT_TILE_SIZE, y*DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, null);
+            }
+        }
     }
     
     @Override

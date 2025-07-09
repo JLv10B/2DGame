@@ -36,7 +36,7 @@ public class Game implements Runnable{
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
     
-    private TileHandler tileHandler;
+    public TileHandler tileHandler;
     private LevelEditorBar levelEditorBar;
     private MyButton buttonPlay, buttonEditor, buttonQuit;
 
@@ -62,7 +62,6 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-    //     player = new Player(200, 200, (int)(128*SCALE), (int)(128*SCALE), lvl, imageLibrary);
         menu = new Menu(this);
         playing = new Playing(this);
     }
@@ -106,23 +105,16 @@ public class Game implements Runnable{
         }
     }
 
-    public void renderBackground(Graphics g) {
-        // render the level & objects
+    public void renderLevel(Graphics g) {
+        // render the background & objects
         switch (Gamestate.state) {
             case MENU:
-                
                 break;
             case PLAYING:
-                for (int y=0; y<playing.lvl.length; y++) {
-                    for (int x=0; x<playing.lvl[0].length; x++) {
-                        int id = playing.lvl[y][x];
-                        g.drawImage(tileHandler.getGroundTileSprite(id), x*DEFAULT_TILE_SIZE, y*DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, null);
-                    }
-                }
+                playing.drawLevel(g);
                 break;
             default:
                 break;
-            
         }    
     }
     
