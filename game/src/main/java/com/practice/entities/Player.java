@@ -34,6 +34,7 @@ public class Player extends Entity {
 
 
     protected void defaultKeybinds() {
+        keybinds.put(KeyEvent.VK_BACK_SPACE, Action.MENU);
         keybinds.put(KeyEvent.VK_W, Action.UP);
         keybinds.put(KeyEvent.VK_S, Action.DOWN);
         keybinds.put(KeyEvent.VK_A, Action.LEFT);

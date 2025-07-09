@@ -14,10 +14,13 @@ import java.util.Map;
 
 import com.practice.actions.*;
 import com.practice.buffs.*;
+import com.practice.gamestates.Gamestate;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.LevelBuilder;
 import com.practice.utilz.Constants.Action;
 import static com.practice.utilz.HelperMethods.CanMoveHere;
+import com.practice.gamestates.*;
+import static com.practice.gamestates.Gamestate.MENU;
 
 
 public abstract class Entity {
@@ -109,6 +112,9 @@ public abstract class Entity {
         } else if (action == Action.SKILL_3) {
             skillBarIndex = 2;
             skillActivation(skillBarIndex);
+        } else if (action == Action.MENU) {
+            resetDirBooleans();
+            Gamestate.state = MENU;
         }
     }
 
