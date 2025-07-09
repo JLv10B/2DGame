@@ -4,6 +4,8 @@ import java.awt.Graphics;
 
 import com.practice.entities.*;
 import com.practice.gamestates.Gamestate;
+import com.practice.gamestates.Menu;
+import com.practice.gamestates.Playing;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.LevelBuilder;
 import com.practice.handlers.TileHandler;
@@ -17,11 +19,15 @@ public class Game implements Runnable{
     private Thread gameThread;
     private final int FPS_SET = 120;
     private final int USP_SET = 200;
-    private Player player;
-    public ImageLibrary imageLibrary;
+    // private Player player;
+    public static ImageLibrary imageLibrary;
+
+    //TODO: Gamestate managing
+    private Playing playing;
+    private Menu menu;
 
     //TODO: edit lvl & TileHandler as needed, currently used for testing:
-    private int[][] lvl;
+    // private int[][] lvl;
     public final static int DEFAULT_TILE_SIZE = 32;
     public final static float SCALE = 1.0f;
     public final static int TILES_IN_WIDTH = 40;
@@ -41,7 +47,7 @@ public class Game implements Runnable{
             System.out.println("Image Library not created");
         }
         //TODO: edit lvl and TileHandler as needed, currently used for testing;
-        lvl = LevelBuilder.getLevelData();
+        // lvl = LevelBuilder.getLevelData();
         tileHandler = new TileHandler(imageLibrary);
         levelEditorBar = new LevelEditorBar(0, GAME_HEIGHT-100, GAME_WIDTH, 100);
 
@@ -56,7 +62,9 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-        player = new Player(200, 200, (int)(128*SCALE), (int)(128*SCALE), lvl, imageLibrary);
+    //     player = new Player(200, 200, (int)(128*SCALE), (int)(128*SCALE), lvl, imageLibrary);
+        menu = new Menu(this);
+        playing = new Playing(this);
     }
 
     private void initButtons() {
@@ -73,10 +81,10 @@ public class Game implements Runnable{
     public void update() {
         switch (Gamestate.state) {
             case MENU:
-
+                menu.update();
                 break;
             case PLAYING:
-                player.update();
+                playing.update();
                 break;
             default:
                 break;
@@ -87,10 +95,10 @@ public class Game implements Runnable{
     public void renderEntities(Graphics g) {
         switch (Gamestate.state) {
             case MENU:
-
+                menu.draw(g);
                 break;
             case PLAYING:
-                player.render(g);
+                playing.draw(g);
                 break;
             default:
                 break;
@@ -98,16 +106,16 @@ public class Game implements Runnable{
         }
     }
 
-    public void renderLevel(Graphics g) {
+    public void renderBackground(Graphics g) {
         // render the level & objects
         switch (Gamestate.state) {
             case MENU:
-            
+                
                 break;
             case PLAYING:
-                for (int y=0; y<lvl.length; y++) {
-                    for (int x=0; x<lvl[0].length; x++) {
-                        int id = lvl[y][x];
+                for (int y=0; y<playing.lvl.length; y++) {
+                    for (int x=0; x<playing.lvl[0].length; x++) {
+                        int id = playing.lvl[y][x];
                         g.drawImage(tileHandler.getGroundTileSprite(id), x*DEFAULT_TILE_SIZE, y*DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, null);
                     }
                 }
@@ -124,6 +132,7 @@ public class Game implements Runnable{
         buttonEditor.draw(g);
         buttonQuit.draw(g);
     }
+
     @Override
     public void run() {
 
@@ -166,13 +175,23 @@ public class Game implements Runnable{
         }
     }
 
-    // Stops player movement set when deselecting game window
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public Playing getPlaying() {
+        return playing;
+    }
+
+    // // Stops player movement set when deselecting game window
     public void windowFocusLost() {
-        player.resetDirBooleans();
+        if (Gamestate.state == Gamestate.PLAYING) {
+            playing.getPlayer().resetDirBooleans();
+        }
     }
     
-    public Player getPlayer() {
-        return player;
-    }
+    // public Player getPlayer() {
+    //     return player;
+    // }
     
 }
