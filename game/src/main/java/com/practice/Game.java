@@ -3,6 +3,7 @@ package com.practice;
 import java.awt.Graphics;
 
 import com.practice.entities.*;
+import com.practice.gamestates.Gamestate;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.LevelBuilder;
 import com.practice.handlers.TileHandler;
@@ -70,20 +71,50 @@ public class Game implements Runnable{
     }
 
     public void update() {
-        player.update();
+        switch (Gamestate.state) {
+            case MENU:
+
+                break;
+            case PLAYING:
+                player.update();
+                break;
+            default:
+                break;
+            
+        }
     }
 
     public void renderEntities(Graphics g) {
-        player.render(g);
+        switch (Gamestate.state) {
+            case MENU:
+
+                break;
+            case PLAYING:
+                player.render(g);
+                break;
+            default:
+                break;
+            
+        }
     }
 
     public void renderLevel(Graphics g) {
         // render the level & objects
-        for (int y=0; y<lvl.length; y++) {
-            for (int x=0; x<lvl[0].length; x++) {
-                int id = lvl[y][x];
-                g.drawImage(tileHandler.getGroundTileSprite(id), x*DEFAULT_TILE_SIZE, y*DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, null);
-            }
+        switch (Gamestate.state) {
+            case MENU:
+            
+                break;
+            case PLAYING:
+                for (int y=0; y<lvl.length; y++) {
+                    for (int x=0; x<lvl[0].length; x++) {
+                        int id = lvl[y][x];
+                        g.drawImage(tileHandler.getGroundTileSprite(id), x*DEFAULT_TILE_SIZE, y*DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, null);
+                    }
+                }
+                break;
+            default:
+                break;
+            
         }    
     }
     
