@@ -62,7 +62,7 @@ public class ImageLibrary {
     }
 
     private void loadTileImages() {
-        Path rootPath = Paths.get("game\\src\\main\\resources\\NonCharSprites\\8-Tile-Sets");
+        Path rootPath = Paths.get("game\\src\\main\\resources\\NonCharSprites\\Tile-Sets");
 
         try (Stream<Path> walk = Files.walk(rootPath)) {
             walk.filter(Files::isRegularFile).filter(Files::isReadable).forEach(filePath -> {
