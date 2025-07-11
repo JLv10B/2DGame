@@ -24,8 +24,16 @@ public class Mouseinputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        // gamePanel.setRectPos(e.getX(), e.getY());
-        // throw new UnsupportedOperationException("Unimplemented method 'mouseMoved'");
+        switch (Gamestate.state) {
+            case MENU:
+                gamePanel.getGame().getMenu().mouseMoved(e);
+                break;
+            case PLAYING:
+                gamePanel.getGame().getPlaying().getPlayer().mouseInputProcessor(e);
+                break;
+            default:
+                break;
+        }  
     }
 
     @Override
@@ -34,9 +42,9 @@ public class Mouseinputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
         switch (Gamestate.state) {
             case MENU:
+                gamePanel.getGame().getMenu().mousePressed(e);
                 break;
             case PLAYING:
                 gamePanel.getGame().getPlaying().getPlayer().mouseInputProcessor(e);
@@ -48,8 +56,16 @@ public class Mouseinputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'mouseReleased'");
+        switch (Gamestate.state) {
+            case MENU:
+                gamePanel.getGame().getMenu().mouseReleased(e);
+                break;
+            case PLAYING:
+                // gamePanel.getGame().getPlaying().getPlayer().mouseInputProcessor(e);
+                break;
+            default:
+                break;
+        }   
     }
 
     @Override

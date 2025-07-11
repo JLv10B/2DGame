@@ -3,6 +3,7 @@ package com.practice.utilz;
 import static com.practice.Game.GAME_WIDTH;
 import static com.practice.Game.GAME_HEIGHT;
 import static com.practice.Game.DEFAULT_TILE_SIZE;
+import static com.practice.Game.TILES_SIZE;
 
 public class HelperMethods {
 
@@ -28,8 +29,8 @@ public class HelperMethods {
             return true;
         }
 
-        int xIndex = (int)x/DEFAULT_TILE_SIZE;
-        int yIndex = (int)y/DEFAULT_TILE_SIZE;
+        int xIndex = (int)x/TILES_SIZE;
+        int yIndex = (int)y/TILES_SIZE;
 
         int value = levelData[yIndex][xIndex];
 

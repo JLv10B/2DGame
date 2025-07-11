@@ -29,12 +29,12 @@ public class Player extends Entity {
         super(x, y, width, height, levelData, imageLibrary);
         this.charModel = "1-Player-Dark Oracle";
         defaultKeybinds();
-        initHitbox(x, y, width, height);
+        initHitbox(x, y, (int) (width), (int) (height));
     }
 
 
     protected void defaultKeybinds() {
-        keybinds.put(KeyEvent.VK_BACK_SPACE, Action.MENU);
+        keybinds.put(KeyEvent.VK_ESCAPE, Action.MENU);
         keybinds.put(KeyEvent.VK_W, Action.UP);
         keybinds.put(KeyEvent.VK_S, Action.DOWN);
         keybinds.put(KeyEvent.VK_A, Action.LEFT);

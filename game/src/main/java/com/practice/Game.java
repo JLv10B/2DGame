@@ -36,7 +36,6 @@ public class Game implements Runnable{
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
     
     public TileHandler tileHandler;
-    private LevelEditorBar levelEditorBar;
 
     public Game() {
         try {
@@ -44,10 +43,7 @@ public class Game implements Runnable{
         } catch (Exception e) {
             System.out.println("Image Library not created");
         }
-        //TODO: edit lvl and TileHandler as needed, currently used for testing;
-        // lvl = LevelBuilder.getLevelData();
         tileHandler = new TileHandler(imageLibrary);
-        levelEditorBar = new LevelEditorBar(0, GAME_HEIGHT-100, GAME_WIDTH, 100);
 
         initClasses();
         gamePanel = new GamePanel(this);
@@ -104,7 +100,10 @@ public class Game implements Runnable{
             case PLAYING:
                 playing.drawLevel(g);
                 break;
+            case OPTIONS:
+            case QUIT:
             default:
+                System.exit(0);
                 break;
         }    
     }

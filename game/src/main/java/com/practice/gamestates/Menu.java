@@ -1,13 +1,17 @@
 package com.practice.gamestates;
 
+import static com.practice.utilz.Constants.UI.Buttons.MENU_BACKGROUND;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import com.practice.Game;
 import com.practice.ui.MenuButton;
 import com.practice.utilz.ImageLibrary;
+import com.practice.utilz.Constants.*;
 
 public class Menu extends State implements Statemethods {
 
@@ -15,6 +19,7 @@ public class Menu extends State implements Statemethods {
     private static int PLAY_BUTTON = 0;
     private static int OPTIONS_BUTTON = 1;
     private static int QUIT_BUTTON = 2;
+    private int menuX, menuY, menuWidth, menuHeight;
 
 
 
@@ -38,6 +43,12 @@ public class Menu extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
+        BufferedImage backgroundImg = imageLibrary.getUILibrary().get("Menu").get(MENU_BACKGROUND);
+        menuWidth = (int) (backgroundImg.getWidth() * Game.SCALE);
+        menuHeight = (int) (backgroundImg.getHeight() * Game.SCALE);
+        menuX = Game.GAME_WIDTH/2 - menuWidth/2;
+        menuY = (int) (45* Game.SCALE);
+        g.drawImage(backgroundImg, menuX, menuY, menuWidth, menuHeight, null);
         for (MenuButton mb : buttons) {
             mb.draw(g);
         }
@@ -72,18 +83,13 @@ public class Menu extends State implements Statemethods {
         resetButtons();
     }
 
-    private void resetButtons() {
-        for (MenuButton mb : buttons) {
-            mb.resetBools();
-        }
-    }
-
+    
     @Override
     public void mouseMoved(MouseEvent e) {
         for (MenuButton mb : buttons) {
             mb.setMouseOver(false);
         }
-
+        
         for (MenuButton mb : buttons) {
             if(isOverButton(e, mb)) {
                 mb.setMouseOver(true);
@@ -91,17 +97,23 @@ public class Menu extends State implements Statemethods {
             }
         }
     }
-
+    
     @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-            Gamestate.state = Gamestate.PLAYING;
-        }
+        // TODO: modify keyEvent.VK_Enter, was strictly used for testing
+        // if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+        //     Gamestate.state = Gamestate.PLAYING;
+        // }
     }
-
+    
     @Override
     public void keyReleased(KeyEvent e) {
-
+        
     }
-
+    
+    private void resetButtons() {
+        for (MenuButton mb : buttons) {
+            mb.resetBools();
+        }
+    }
 }
