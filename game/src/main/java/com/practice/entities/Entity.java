@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.practice.Game;
 import com.practice.actions.*;
 import com.practice.buffs.*;
 import com.practice.gamestates.Gamestate;
@@ -30,7 +31,7 @@ public abstract class Entity {
     protected int width, height;
     protected float xDir = 0.0f;
     protected float yDir = 0.0f;
-    protected float charDefaultSpeed = 1.5f;
+    protected float charDefaultSpeed = 1.5f * Game.SCALE;
     protected float charSpeedDiff = 0.0f;
     protected boolean left, right, up, down;
     protected int aniTick, aniIndex, aniSpeed = 15;
