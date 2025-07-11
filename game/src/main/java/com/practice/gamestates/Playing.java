@@ -21,8 +21,8 @@ public class Playing extends State implements Statemethods{
     public int[][] lvl;
     private TileHandler tileHandler;
 
-    public Playing(Game game) {
-        super(game);
+    public Playing(Game game, ImageLibrary imageLibrary) {
+        super(game, imageLibrary);
         lvl = LevelBuilder.getLevelData();
         initClasses();
       

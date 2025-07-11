@@ -10,7 +10,6 @@ import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.LevelBuilder;
 import com.practice.handlers.TileHandler;
 import com.practice.ui.LevelEditorBar;
-import com.practice.ui.MyButton;
 
 public class Game implements Runnable{
 
@@ -38,7 +37,6 @@ public class Game implements Runnable{
     
     public TileHandler tileHandler;
     private LevelEditorBar levelEditorBar;
-    private MyButton buttonPlay, buttonEditor, buttonQuit;
 
     public Game() {
         try {
@@ -52,7 +50,6 @@ public class Game implements Runnable{
         levelEditorBar = new LevelEditorBar(0, GAME_HEIGHT-100, GAME_WIDTH, 100);
 
         initClasses();
-        initButtons();
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
@@ -62,14 +59,8 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-        menu = new Menu(this);
-        playing = new Playing(this);
-    }
-
-    private void initButtons() {
-        buttonPlay = new MyButton("Play", 100, 700, 100, 20);
-        buttonEditor = new MyButton("Level Editor", 300, 700, 100, 20);
-        buttonQuit = new MyButton("Quit", 500, 700, 100, 20);
+        menu = new Menu(this, imageLibrary);
+        playing = new Playing(this, imageLibrary);
     }
 
     private void startGameLoop() {
@@ -119,10 +110,7 @@ public class Game implements Runnable{
     }
     
     public void renderUI(Graphics g) {
-        levelEditorBar.draw(g);
-        buttonPlay.draw(g);
-        buttonEditor.draw(g);
-        buttonQuit.draw(g);
+
     }
 
     @Override

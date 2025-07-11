@@ -1,7 +1,7 @@
 package com.practice.gamestates;
 
 public enum Gamestate {
-    PLAYING, MENU;
+    PLAYING, MENU, OPTIONS, QUIT;
 
     public static Gamestate state = MENU;
 }

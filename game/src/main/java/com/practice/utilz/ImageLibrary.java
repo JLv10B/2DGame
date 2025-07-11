@@ -22,16 +22,20 @@ public class ImageLibrary {
     public Map<String, Map<String, List<BufferedImage>>> charAnimationLibrary = new HashMap<>();
     public Map<String, Map<String, Integer>> charSpriteCountLib = new HashMap<>();
     public Map<String, List<BufferedImage>> tileSpriteLibrary = new HashMap<>();
-    
-    //TODO: load NonCharSprites
+    public Map<String, List<BufferedImage>> uiSpriteLibrary = new HashMap<>();
+
+    public static final String CHAR_ANIMATIONS = "game\\src\\main\\resources\\Sprites";
+    public static final String TILE_IMAGES = "game\\src\\main\\resources\\NonCharSprites\\Tile-Sets";
+    public static final String MENU_IMAGES = "game\\src\\main\\resources\\NonCharSprites\\UI";
 
     public ImageLibrary() throws IOException {
         loadCharAnimationLibrary();
         loadTileImages();
+        loadUIImages();
     }
 
     private void loadCharAnimationLibrary() throws IOException {
-        Path rootPath = Paths.get("game\\src\\main\\resources\\Sprites");
+        Path rootPath = Paths.get(CHAR_ANIMATIONS);
         
         try (Stream<Path> walk = Files.walk(rootPath)) {
             walk.filter(Files::isRegularFile).filter(Files::isReadable).forEach(filePath -> {
@@ -62,7 +66,7 @@ public class ImageLibrary {
     }
 
     private void loadTileImages() {
-        Path rootPath = Paths.get("game\\src\\main\\resources\\NonCharSprites\\Tile-Sets");
+        Path rootPath = Paths.get(TILE_IMAGES);
 
         try (Stream<Path> walk = Files.walk(rootPath)) {
             walk.filter(Files::isRegularFile).filter(Files::isReadable).forEach(filePath -> {
@@ -82,7 +86,29 @@ public class ImageLibrary {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    private void loadUIImages() {
+        Path rootPath = Paths.get(MENU_IMAGES);
+
+        try (Stream<Path> walk = Files.walk(rootPath)) {
+            walk.filter(Files::isRegularFile).filter(Files::isReadable).forEach(filePath -> {
+                Path relativePath = rootPath.relativize(filePath);
+                if (relativePath.getNameCount() >= 2) {
+                    String tileType = relativePath.getName(relativePath.getNameCount()-2).toString();
+                    try { BufferedImage image = ImageIO.read(filePath.toFile());
+                        if (image != null) {
+                            List<BufferedImage> tileList = uiSpriteLibrary.computeIfAbsent(tileType, k -> new ArrayList<>());
+                            tileList.add(image);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public int getSpriteAmount(String charModel, String playerAction) {
@@ -95,5 +121,9 @@ public class ImageLibrary {
 
     public Map<String, List<BufferedImage>> getTileLibrary() {
         return tileSpriteLibrary;
+    }
+
+    public Map<String, List<BufferedImage>> getUILibrary() {
+        return uiSpriteLibrary;
     }
 }
