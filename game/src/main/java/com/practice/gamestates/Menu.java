@@ -26,14 +26,14 @@ public class Menu extends State implements Statemethods {
     private void loadButtons() {
         switch (Gamestate.state) {
             case MENU:
-                buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), PLAY, Gamestate.PLAYING, imageLibrary);
-                buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int) (220*Game.SCALE), OPTIONS, Gamestate.OPTIONS, imageLibrary);
-                buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), QUIT, Gamestate.QUIT, imageLibrary);
+                buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), B_PLAY_SPRITE, Gamestate.PLAYING, imageLibrary);
+                buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int) (220*Game.SCALE), B_OPTIONS_SPRITE, Gamestate.OPTIONS, imageLibrary);
+                buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), B_QUIT_SPRITE, Gamestate.QUIT, imageLibrary);
                 break;
             case OPTIONS:
-                buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), LEVEL_EDITOR, Gamestate.OPTIONS, imageLibrary);
-                buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int) (220*Game.SCALE), KEYBINDS, Gamestate.OPTIONS, imageLibrary);
-                buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), MENU_SCREEN, Gamestate.MENU, imageLibrary);
+                buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), B_LEVEL_EDITOR_SPRITE, Gamestate.OPTIONS, imageLibrary);
+                buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int) (220*Game.SCALE), B_KEYBINDS_SPRITE, Gamestate.OPTIONS, imageLibrary);
+                buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), B_MENU_SCREEN_SPRITE, Gamestate.MENU, imageLibrary);
                 break;
             default:
                 break;
@@ -81,7 +81,9 @@ public class Menu extends State implements Statemethods {
             if(isOverButton(e, mb)) {
                 if(mb.isMousePressed()) {
                     mb.applyGamestate();
-                    loadButtons();
+                    if(Gamestate.state == Gamestate.OPTIONS || Gamestate.state == Gamestate.MENU) {
+                        loadButtons();
+                    }
                 break;
                 }
             }
