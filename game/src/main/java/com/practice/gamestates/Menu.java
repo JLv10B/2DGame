@@ -31,7 +31,7 @@ public class Menu extends State implements Statemethods {
                 buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), B_QUIT_SPRITE, Gamestate.QUIT, imageLibrary);
                 break;
             case OPTIONS:
-                buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), B_LEVEL_EDITOR_SPRITE, Gamestate.OPTIONS, imageLibrary);
+                buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), B_LEVEL_EDITOR_SPRITE, Gamestate.LEVELEDITOR, imageLibrary);
                 buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int) (220*Game.SCALE), B_KEYBINDS_SPRITE, Gamestate.OPTIONS, imageLibrary);
                 buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), B_MENU_SCREEN_SPRITE, Gamestate.MENU, imageLibrary);
                 break;

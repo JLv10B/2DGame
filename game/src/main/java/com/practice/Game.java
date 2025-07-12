@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import com.practice.entities.*;
 import com.practice.gamestates.Gamestate;
+import com.practice.gamestates.LevelEditor;
 import com.practice.gamestates.Menu;
 import com.practice.gamestates.Playing;
 import com.practice.utilz.ImageLibrary;
@@ -23,6 +24,7 @@ public class Game implements Runnable{
     //Gamestate managing
     private Playing playing;
     private Menu menu;
+    private LevelEditor levelEditor;
 
     //TODO: edit lvl & TileHandler as needed, currently used for testing:
     // private int[][] lvl;
@@ -55,6 +57,7 @@ public class Game implements Runnable{
 
     private void initClasses() {
         menu = new Menu(this, imageLibrary);
+        levelEditor = new LevelEditor(this, imageLibrary);
         playing = new Playing(this, imageLibrary);
     }
 
@@ -72,6 +75,8 @@ public class Game implements Runnable{
             case PLAYING:
                 playing.update();
                 break;
+            case LEVELEDITOR:
+                levelEditor.update();
             default:
                 break;
             
@@ -101,6 +106,9 @@ public class Game implements Runnable{
                 break;
             case PLAYING:
                 playing.drawLevel(g);
+                break;
+            case LEVELEDITOR:
+                levelEditor.draw(g);
                 break;
             case QUIT:
             default:
@@ -157,6 +165,10 @@ public class Game implements Runnable{
 
     public Menu getMenu() {
         return menu;
+    }
+
+    public LevelEditor getLevelEditor() {
+        return levelEditor;
     }
     
     public Playing getPlaying() {
