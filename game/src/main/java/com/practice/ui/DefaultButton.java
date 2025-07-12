@@ -10,7 +10,7 @@ import com.practice.utilz.ImageLibrary;
 
 import static com.practice.utilz.Constants.UI.Buttons.*;
 
-public class MenuButton {
+public abstract class DefaultButton {
     protected int xPos, yPos, spirteIndex, index;
     protected int xOffsetCenter = B_WIDTH /2;
     protected Gamestate state;
@@ -18,16 +18,15 @@ public class MenuButton {
     protected ImageLibrary imageLibrary;
     protected boolean mouseOver, mousePressed;
     protected Rectangle buttonBounds;
-    protected int UI_SPRITE = MENU_BUTTONS;
+    protected int UI_SPRITE;
 
     
-    public MenuButton(int xPos, int yPos, int spirteIndex, Gamestate state, ImageLibrary imageLibrary) {
+    public DefaultButton(int xPos, int yPos, int spirteIndex, Gamestate state, ImageLibrary imageLibrary) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.spirteIndex = spirteIndex;
         this.state = state;
         this.imageLibrary = imageLibrary;
-        this.UI_SPRITE = MENU_BUTTONS;
         loadImgs();
         initBounds();
     }
@@ -38,9 +37,9 @@ public class MenuButton {
     
     protected void loadImgs() {
         imgs = new BufferedImage[3];
-        BufferedImage temp = imageLibrary.getUILibrary().get("Menu").get(UI_SPRITE);
+        BufferedImage temp = imageLibrary.getUILibrary().get("Menu").get(spirteIndex);
         for (int i=0; i<imgs.length; i++) {
-            imgs[i] = temp.getSubimage(i*B_WIDTH_DEFAULT, spirteIndex * B_HEIGHT_DEFAULT, B_WIDTH_DEFAULT , B_HEIGHT_DEFAULT);
+            imgs[i] = temp.getSubimage(i*B_WIDTH_DEFAULT, B_HEIGHT_DEFAULT, B_WIDTH_DEFAULT , B_HEIGHT_DEFAULT);
         }
     }
     

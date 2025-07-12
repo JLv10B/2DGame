@@ -8,12 +8,11 @@ public class Constants {
         public static class Buttons {
             public static final int MENU_BUTTONS = 0;
             public static final int MENU_BACKGROUND = 1;
+            public static final int OPTION_BUTTONS = 2;
             public static final int B_WIDTH_DEFAULT = 140;
-            public static final int B_HEIGHT_DEFAULT = 56;
+            public static final int B_HEIGHT_DEFAULT = 55;
             public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * Game.SCALE);
             public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * Game.SCALE);
-            
-
         }
     }
     

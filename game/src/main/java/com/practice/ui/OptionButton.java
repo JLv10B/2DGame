@@ -10,7 +10,7 @@ import com.practice.utilz.ImageLibrary;
 
 import static com.practice.utilz.Constants.UI.Buttons.*;
 
-public class MenuButton {
+public class OptionButton {
     protected int xPos, yPos, spirteIndex, index;
     protected int xOffsetCenter = B_WIDTH /2;
     protected Gamestate state;
@@ -18,16 +18,16 @@ public class MenuButton {
     protected ImageLibrary imageLibrary;
     protected boolean mouseOver, mousePressed;
     protected Rectangle buttonBounds;
-    protected int UI_SPRITE = MENU_BUTTONS;
+    protected int UI_SPRITE = OPTION_BUTTONS;
 
     
-    public MenuButton(int xPos, int yPos, int spirteIndex, Gamestate state, ImageLibrary imageLibrary) {
+    public OptionButton(int xPos, int yPos, int spirteIndex, Gamestate state, ImageLibrary imageLibrary) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.spirteIndex = spirteIndex;
         this.state = state;
         this.imageLibrary = imageLibrary;
-        this.UI_SPRITE = MENU_BUTTONS;
+        this.UI_SPRITE = OPTION_BUTTONS;
         loadImgs();
         initBounds();
     }

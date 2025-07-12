@@ -10,33 +10,33 @@ import java.awt.image.BufferedImage;
 
 import com.practice.Game;
 import com.practice.ui.MenuButton;
+import com.practice.ui.OptionButton;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.Constants.*;
 
-public class Menu extends State implements Statemethods {
+public class Options extends State implements Statemethods {
 
-    private MenuButton[] buttons = new MenuButton[3];
-    private static int PLAY_BUTTON = 0;
-    private static int OPTIONS_BUTTON = 1;
-    private static int QUIT_BUTTON = 2;
+    private OptionButton[] buttons = new OptionButton[3];
+    private static int LEVEL_EDITOR = 0;
+    private static int KEYBINDS = 1;
+    private static int MENU_SCREEN = 2;
     private int menuX, menuY, menuWidth, menuHeight;
 
 
-
-    public Menu(Game game, ImageLibrary imageLibrary) {
+    public Options(Game game, ImageLibrary imageLibrary) {
         super(game, imageLibrary);
         loadButtons();
     }
 
     private void loadButtons() {
-        buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), PLAY_BUTTON, Gamestate.PLAYING, imageLibrary);
-        buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int) (220*Game.SCALE), OPTIONS_BUTTON, Gamestate.OPTIONS, imageLibrary);
-        buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), QUIT_BUTTON, Gamestate.QUIT, imageLibrary);
+        buttons[0] = new OptionButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), LEVEL_EDITOR, Gamestate.OPTIONS, imageLibrary);
+        buttons[1] = new OptionButton(Game.GAME_WIDTH/2, (int) (220*Game.SCALE), KEYBINDS, Gamestate.OPTIONS, imageLibrary);
+        buttons[2] = new OptionButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), MENU_SCREEN, Gamestate.MENU, imageLibrary);
     }
 
     @Override
     public void update() {
-        for (MenuButton mb : buttons) {
+        for (OptionButton mb : buttons) {
             mb.update();
         }
     }
@@ -49,7 +49,7 @@ public class Menu extends State implements Statemethods {
         menuX = Game.GAME_WIDTH/2 - menuWidth/2;
         menuY = (int) (45* Game.SCALE);
         g.drawImage(backgroundImg, menuX, menuY, menuWidth, menuHeight, null);
-        for (MenuButton mb : buttons) {
+        for (OptionButton mb : buttons) {
             mb.draw(g);
         }
     }
@@ -61,8 +61,8 @@ public class Menu extends State implements Statemethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        for (MenuButton mb : buttons) {
-            if(isOverButton(e, mb)) {
+        for (OptionButton mb : buttons) {
+            if(isOverButtonOption(e, mb)) {
                 mb.setMousePressed(true);
                 break;
             }
@@ -71,8 +71,8 @@ public class Menu extends State implements Statemethods {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        for (MenuButton mb : buttons) {
-            if(isOverButton(e, mb)) {
+        for (OptionButton mb : buttons) {
+            if(isOverButtonOption(e, mb)) {
                 if(mb.isMousePressed()) {
                     mb.applyGamestate();
                 break;
@@ -85,12 +85,12 @@ public class Menu extends State implements Statemethods {
     
     @Override
     public void mouseMoved(MouseEvent e) {
-        for (MenuButton mb : buttons) {
+        for (OptionButton mb : buttons) {
             mb.setMouseOver(false);
         }
         
-        for (MenuButton mb : buttons) {
-            if(isOverButton(e, mb)) {
+        for (OptionButton mb : buttons) {
+            if(isOverButtonOption(e, mb)) {
                 mb.setMouseOver(true);
                 break;
             }
@@ -111,7 +111,7 @@ public class Menu extends State implements Statemethods {
     }
     
     private void resetButtons() {
-        for (MenuButton mb : buttons) {
+        for (OptionButton mb : buttons) {
             mb.resetBools();
         }
     }

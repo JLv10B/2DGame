@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import com.practice.entities.*;
 import com.practice.gamestates.Gamestate;
 import com.practice.gamestates.Menu;
+import com.practice.gamestates.Options;
 import com.practice.gamestates.Playing;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.LevelBuilder;
@@ -18,12 +19,12 @@ public class Game implements Runnable{
     private Thread gameThread;
     private final int FPS_SET = 120;
     private final int USP_SET = 200;
-    // private Player player;
     public static ImageLibrary imageLibrary;
 
     //TODO: Gamestate managing
     private Playing playing;
     private Menu menu;
+    private Options options;
 
     //TODO: edit lvl & TileHandler as needed, currently used for testing:
     // private int[][] lvl;
@@ -56,6 +57,7 @@ public class Game implements Runnable{
 
     private void initClasses() {
         menu = new Menu(this, imageLibrary);
+        options = new Options(this, imageLibrary);
         playing = new Playing(this, imageLibrary);
     }
 
@@ -71,6 +73,9 @@ public class Game implements Runnable{
                 break;
             case PLAYING:
                 playing.update();
+                break;
+            case OPTIONS:
+                options.update();
                 break;
             default:
                 break;
@@ -96,11 +101,14 @@ public class Game implements Runnable{
         // render the background & objects
         switch (Gamestate.state) {
             case MENU:
+                menu.draw(g);
                 break;
             case PLAYING:
                 playing.drawLevel(g);
                 break;
             case OPTIONS:
+                options.draw(g);
+                break;
             case QUIT:
             default:
                 System.exit(0);
@@ -108,9 +116,9 @@ public class Game implements Runnable{
         }    
     }
     
-    public void renderUI(Graphics g) {
+    // public void renderUI(Graphics g) {
 
-    }
+    // }
 
     @Override
     public void run() {
@@ -157,6 +165,10 @@ public class Game implements Runnable{
     public Menu getMenu() {
         return menu;
     }
+    
+    public Options getOptions() {
+        return options;
+    }
 
     public Playing getPlaying() {
         return playing;
@@ -168,9 +180,5 @@ public class Game implements Runnable{
             playing.getPlayer().resetDirBooleans();
         }
     }
-    
-    // public Player getPlayer() {
-    //     return player;
-    // }
     
 }
