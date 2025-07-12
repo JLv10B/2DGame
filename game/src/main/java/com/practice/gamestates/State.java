@@ -4,7 +4,6 @@ import java.awt.event.MouseEvent;
 
 import com.practice.Game;
 import com.practice.ui.MenuButton;
-import com.practice.ui.OptionButton;
 import com.practice.utilz.ImageLibrary;
 
 public class State {
@@ -17,11 +16,6 @@ public class State {
     }
 
     public boolean isOverButton(MouseEvent e, MenuButton mb) {
-        return mb.getButtonBounds().contains(e.getX(), e.getY());
-    }
-
-    //TODO: Needs fix, should not be 2 isOverButton functions
-    public boolean isOverButtonOption(MouseEvent e, OptionButton mb) {
         return mb.getButtonBounds().contains(e.getX(), e.getY());
     }
 
