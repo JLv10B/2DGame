@@ -6,7 +6,6 @@ import java.awt.event.MouseMotionListener;
 
 import com.practice.GamePanel;
 import com.practice.gamestates.Gamestate;
-import com.practice.utilz.Constants.UserInput;
 
 public class Mouseinputs implements MouseListener, MouseMotionListener {
 

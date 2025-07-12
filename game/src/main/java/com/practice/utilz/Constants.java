@@ -6,9 +6,13 @@ public class Constants {
     
     public static class UI {
         public static class Buttons {
-            public static final int MENU_BUTTONS = 0;
-            public static final int MENU_BACKGROUND = 1;
-            public static final int OPTION_BUTTONS = 2;
+            public static final int MENU_BACKGROUND = 0;
+            public static final int PLAY = 1;
+            public static final int OPTIONS = 2;
+            public static final int QUIT = 3;
+            public static final int LEVEL_EDITOR = 4;
+            public static final int KEYBINDS = 5;
+            public static final int MENU_SCREEN = 6;
             public static final int B_WIDTH_DEFAULT = 140;
             public static final int B_HEIGHT_DEFAULT = 55;
             public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * Game.SCALE);

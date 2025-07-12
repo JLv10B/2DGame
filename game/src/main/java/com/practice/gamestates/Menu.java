@@ -1,8 +1,6 @@
 package com.practice.gamestates;
 
-import static com.practice.utilz.Constants.UI.Buttons.MENU_BACKGROUND;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -11,14 +9,11 @@ import java.awt.image.BufferedImage;
 import com.practice.Game;
 import com.practice.ui.MenuButton;
 import com.practice.utilz.ImageLibrary;
-import com.practice.utilz.Constants.*;
+import static com.practice.utilz.Constants.UI.Buttons.*;
 
 public class Menu extends State implements Statemethods {
 
     private MenuButton[] buttons = new MenuButton[3];
-    private static int PLAY_BUTTON = 0;
-    private static int OPTIONS_BUTTON = 1;
-    private static int QUIT_BUTTON = 2;
     private int menuX, menuY, menuWidth, menuHeight;
 
 
@@ -29,9 +24,20 @@ public class Menu extends State implements Statemethods {
     }
 
     private void loadButtons() {
-        buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), PLAY_BUTTON, Gamestate.PLAYING, imageLibrary);
-        buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int) (220*Game.SCALE), OPTIONS_BUTTON, Gamestate.OPTIONS, imageLibrary);
-        buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), QUIT_BUTTON, Gamestate.QUIT, imageLibrary);
+        // switch (Gamestate.state) {
+            // case MENU:
+                buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), PLAY, Gamestate.PLAYING, imageLibrary);
+                buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int) (220*Game.SCALE), OPTIONS, Gamestate.OPTIONS, imageLibrary);
+                buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), QUIT, Gamestate.QUIT, imageLibrary);
+                // break;
+            // case OPTIONS:
+            //     buttons[0] = new OptionButton(Game.GAME_WIDTH/2, (int) (150*Game.SCALE), LEVEL_EDITOR, Gamestate.OPTIONS, imageLibrary);
+            //     buttons[1] = new OptionButton(Game.GAME_WIDTH/2, (int) (220*Game.SCALE), KEYBINDS, Gamestate.OPTIONS, imageLibrary);
+            //     buttons[2] = new OptionButton(Game.GAME_WIDTH/2, (int) (290*Game.SCALE), MENU_SCREEN, Gamestate.MENU, imageLibrary);
+            //     break;
+            // default:
+            //     break;
+        // }
     }
 
     @Override
@@ -99,10 +105,7 @@ public class Menu extends State implements Statemethods {
     
     @Override
     public void keyPressed(KeyEvent e) {
-        // TODO: modify keyEvent.VK_Enter, was strictly used for testing
-        // if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-        //     Gamestate.state = Gamestate.PLAYING;
-        // }
+
     }
     
     @Override

@@ -35,13 +35,7 @@ public abstract class DefaultButton {
         buttonBounds = new Rectangle(xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT);
     }
     
-    protected void loadImgs() {
-        imgs = new BufferedImage[3];
-        BufferedImage temp = imageLibrary.getUILibrary().get("Menu").get(spirteIndex);
-        for (int i=0; i<imgs.length; i++) {
-            imgs[i] = temp.getSubimage(i*B_WIDTH_DEFAULT, B_HEIGHT_DEFAULT, B_WIDTH_DEFAULT , B_HEIGHT_DEFAULT);
-        }
-    }
+    protected void loadImgs() {}
     
     public void draw(Graphics g) {
         g.drawImage(imgs[index], xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT, null);

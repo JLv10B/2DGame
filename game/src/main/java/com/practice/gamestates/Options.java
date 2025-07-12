@@ -1,7 +1,5 @@
 package com.practice.gamestates;
 
-import static com.practice.utilz.Constants.UI.Buttons.MENU_BACKGROUND;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -13,13 +11,11 @@ import com.practice.ui.MenuButton;
 import com.practice.ui.OptionButton;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.Constants.*;
+import static com.practice.utilz.Constants.UI.Buttons.*;
 
 public class Options extends State implements Statemethods {
 
     private OptionButton[] buttons = new OptionButton[3];
-    private static int LEVEL_EDITOR = 0;
-    private static int KEYBINDS = 1;
-    private static int MENU_SCREEN = 2;
     private int menuX, menuY, menuWidth, menuHeight;
 
 
