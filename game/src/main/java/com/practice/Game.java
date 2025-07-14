@@ -57,7 +57,7 @@ public class Game implements Runnable{
 
     private void initClasses() {
         menu = new Menu(this, imageLibrary);
-        levelEditor = new LevelEditor(this, imageLibrary);
+        levelEditor = new LevelEditor(this, imageLibrary, tileHandler);
         playing = new Playing(this, imageLibrary);
     }
 
