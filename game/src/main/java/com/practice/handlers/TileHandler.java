@@ -26,8 +26,11 @@ public class TileHandler {
         return tiles;
     }
 
+    public Tile getTile(int id) {
+        return tiles.get(id);
+    }
+
     public BufferedImage getGroundTileSprite(int id) {
-        // return imageLibrary.getTileLibrary().get("Ground Tiles").get(id);
         return tiles.get(id).getSprite();
     }
 
