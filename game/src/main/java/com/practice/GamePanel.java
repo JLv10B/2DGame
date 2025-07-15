@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 
 import com.practice.inputs.Keyboardinputs;
 import com.practice.inputs.Mouseinputs;
-import static com.practice.utilz.Constants.PlayerConstants.*;
 import static com.practice.Game.GAME_HEIGHT;
 import static com.practice.Game.GAME_WIDTH;
 

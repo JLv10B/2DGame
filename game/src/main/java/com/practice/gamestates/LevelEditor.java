@@ -2,12 +2,8 @@ package com.practice.gamestates;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.PointerInfo;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +17,7 @@ import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.LevelBuilder;
 
 import static com.practice.Game.TILES_SIZE;
-import static com.practice.utilz.Constants.*;
 import static com.practice.utilz.Constants.UI.Buttons.B_LOAD_LE_SPRITE;
-import static com.practice.utilz.Constants.UI.Buttons.B_MENU_SCREEN_SPRITE;
 import static com.practice.utilz.Constants.UI.Buttons.B_OPTIONS_SPRITE;
 import static com.practice.utilz.Constants.UI.Buttons.B_SAVE_LE_SPRITE;
 import static com.practice.utilz.Constants.UI.Buttons.B_WIDTH;
@@ -35,14 +29,12 @@ public class LevelEditor extends State implements Statemethods {
     private MenuButton[] buttons = new MenuButton[3];
     private List<TileButton> tileButtons = new ArrayList<>();
     private LevelEditorBar levelEditorBar;
-    private TileHandler tileHandler;
     private Tile selectedTile;
     private int mouseX, mouseY;
 
 
     public LevelEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
         super(game, imageLibrary);
-        this.tileHandler = tileHandler;
         levelEditorBar = new LevelEditorBar(0, Game.GAME_HEIGHT-LEVEL_EDITOR_BAR_HEIGHT, Game.GAME_WIDTH, LEVEL_EDITOR_BAR_HEIGHT);
         currentLevel = LevelBuilder.loadBlankLevel();
         loadButtons();
@@ -53,8 +45,9 @@ public class LevelEditor extends State implements Statemethods {
         buttons[0] = new MenuButton( 100 + B_WIDTH, Game.GAME_HEIGHT-50, B_OPTIONS_SPRITE, Gamestate.OPTIONS, imageLibrary);
         buttons[1] = new MenuButton( 3 * 50 + 2*B_WIDTH, Game.GAME_HEIGHT-50, B_LOAD_LE_SPRITE, Gamestate.OPTIONS, imageLibrary);
         buttons[2] = new MenuButton( 4 * 50 + 3*B_WIDTH, Game.GAME_HEIGHT-50, B_SAVE_LE_SPRITE, Gamestate.OPTIONS, imageLibrary);
-        for (int i=0; i<imageLibrary.tileSpriteLibrary.get("Ground Tiles").size(); i++) {
-            tileButtons.add(new TileButton(((i+1)*50 + i*TileButton.TILE_BUTTON_SIZE), Game.GAME_HEIGHT-125, i, imageLibrary));
+        ArrayList<Tile> tileList = game.tileHandler.getTileList();
+        for (int i=0; i<tileList.size(); i++) {
+            tileButtons.add(new TileButton(((i+1)*50 + i*TileButton.TILE_BUTTON_SIZE), Game.GAME_HEIGHT-125, tileList.get(i)));
         }
     }
 

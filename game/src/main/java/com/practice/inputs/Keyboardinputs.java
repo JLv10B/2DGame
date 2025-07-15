@@ -5,7 +5,6 @@ import java.awt.event.KeyListener;
 
 import com.practice.GamePanel;
 import com.practice.gamestates.Gamestate;
-import com.practice.utilz.Constants.UserInput;
 
 import static com.practice.utilz.Constants.UserInput;
 

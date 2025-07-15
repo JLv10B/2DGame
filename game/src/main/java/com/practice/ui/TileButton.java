@@ -2,28 +2,22 @@ package com.practice.ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
 import com.practice.Game;
 import com.practice.objects.Tile;
-import com.practice.utilz.ImageLibrary;
 
 public class TileButton extends DefaultButton{
-    private int tileIndex;
-    private ImageLibrary imageLibrary;
     private Tile tile;
     
     public static final int TILE_BUTTON_SIZE = Game.TILES_SIZE;
     
     
-    public TileButton(int xPos, int yPos, int tileIndex, ImageLibrary imageLibrary) {
+    public TileButton(int xPos, int yPos, Tile tile) {
         super(xPos, yPos);
-        this.tileIndex = tileIndex;
-        this.imageLibrary = imageLibrary;
+        this.tile = tile;
         this.xOffsetCenter = TILE_BUTTON_SIZE /2;
         this.button_width = TILE_BUTTON_SIZE;
         this.button_height = TILE_BUTTON_SIZE;
-        loadImgs();
         initBounds();
     }
     
@@ -31,8 +25,6 @@ public class TileButton extends DefaultButton{
     }
     
     protected void loadImgs() {
-        tile = new Tile(imageLibrary.getTileLibrary().get("Ground Tiles").get(tileIndex), tileIndex);
-
     }
     
     public void draw(Graphics g) {

@@ -2,15 +2,12 @@ package com.practice;
 
 import java.awt.Graphics;
 
-import com.practice.entities.*;
 import com.practice.gamestates.Gamestate;
 import com.practice.gamestates.LevelEditor;
 import com.practice.gamestates.Menu;
 import com.practice.gamestates.Playing;
 import com.practice.utilz.ImageLibrary;
-import com.practice.utilz.LevelBuilder;
 import com.practice.handlers.TileHandler;
-import com.practice.ui.LevelEditorBar;
 
 public class Game implements Runnable{
 
@@ -20,14 +17,13 @@ public class Game implements Runnable{
     private final int FPS_SET = 120;
     private final int USP_SET = 200;
     public static ImageLibrary imageLibrary;
+    public TileHandler tileHandler;
 
     //Gamestate managing
     private Playing playing;
     private Menu menu;
     private LevelEditor levelEditor;
 
-    //TODO: edit lvl & TileHandler as needed, currently used for testing:
-    // private int[][] lvl;
     public final static int DEFAULT_TILE_SIZE = 32;
     public final static float SCALE = 1.0f;
     public final static int TILES_IN_WIDTH = 40;
@@ -36,7 +32,6 @@ public class Game implements Runnable{
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
     
-    public TileHandler tileHandler;
 
     public Game() {
         try {

@@ -6,7 +6,7 @@ public abstract class Buff {
     public long duration = 0;
     public Entity player;
 
-    public void Buff() {
+    public Buff() {
 
     }
 

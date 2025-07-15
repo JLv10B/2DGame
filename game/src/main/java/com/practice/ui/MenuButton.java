@@ -1,7 +1,6 @@
 package com.practice.ui;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.practice.gamestates.Gamestate;
@@ -20,6 +19,7 @@ public class MenuButton extends DefaultButton {
         this.state = state;
         this.imageLibrary = imageLibrary;
         loadImgs();
+        initBounds();
     }
 
     public void update() {

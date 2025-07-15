@@ -6,13 +6,9 @@ import java.awt.event.MouseEvent;
 
 import com.practice.Game;
 import com.practice.entities.Player;
-import com.practice.handlers.TileHandler;
-import com.practice.ui.LevelEditorBar;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.LevelBuilder;
 
-import static com.practice.Game.DEFAULT_TILE_SIZE;
-import static com.practice.Game.SCALE;
 import static com.practice.Game.TILES_SIZE;
 
 public class Playing extends State implements Statemethods{
@@ -20,7 +16,6 @@ public class Playing extends State implements Statemethods{
 
     //TODO: edit lvl & TileHandler as needed, currently used for testing:
     public int[][] lvl;
-    private TileHandler tileHandler;
 
     public Playing(Game game, ImageLibrary imageLibrary) {
         super(game, imageLibrary);

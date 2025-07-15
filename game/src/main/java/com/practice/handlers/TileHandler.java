@@ -7,8 +7,6 @@ import com.practice.objects.Tile;
 import com.practice.utilz.ImageLibrary;
 
 public class TileHandler {
-    public Tile GRASS, SAND, DIRT;
-    public BufferedImage atlas;
     public ArrayList<Tile> tiles = new ArrayList<>();
     private ImageLibrary imageLibrary;
 
@@ -19,14 +17,18 @@ public class TileHandler {
     }
 
     private void loadAtlas() {
+        for (int i=0; i<imageLibrary.tileSpriteLibrary.get("Ground Tiles").size(); i++) {
+            tiles.add(new Tile(imageLibrary.getTileLibrary().get("Ground Tiles").get(i), i));
+        }
     }
 
-    private void createTiles() {
-        
+    public ArrayList<Tile> getTileList() {
+        return tiles;
     }
 
     public BufferedImage getGroundTileSprite(int id) {
-        return imageLibrary.getTileLibrary().get("Ground Tiles").get(id);
+        // return imageLibrary.getTileLibrary().get("Ground Tiles").get(id);
+        return tiles.get(id).getSprite();
     }
 
 }

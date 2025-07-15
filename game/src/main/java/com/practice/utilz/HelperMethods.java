@@ -2,7 +2,6 @@ package com.practice.utilz;
 
 import static com.practice.Game.GAME_WIDTH;
 import static com.practice.Game.GAME_HEIGHT;
-import static com.practice.Game.DEFAULT_TILE_SIZE;
 import static com.practice.Game.TILES_SIZE;
 
 public class HelperMethods {

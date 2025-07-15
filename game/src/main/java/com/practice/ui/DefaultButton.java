@@ -2,11 +2,6 @@ package com.practice.ui;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-
-import com.practice.Game;
-import com.practice.gamestates.Gamestate;
-import com.practice.utilz.ImageLibrary;
 
 import static com.practice.utilz.Constants.UI.Buttons.*;
 
@@ -21,8 +16,6 @@ public abstract class DefaultButton {
         this.yPos = yPos;
         this.button_width = B_WIDTH;
         this.button_height = B_HEIGHT;
-        // loadImgs();
-        initBounds();
     }
     
     abstract void loadImgs();

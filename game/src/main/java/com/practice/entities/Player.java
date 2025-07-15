@@ -1,21 +1,10 @@
 package com.practice.entities;
 
-import static com.practice.utilz.Constants.PlayerConstants.*;
-import com.practice.actions.*;
 import com.practice.utilz.ImageLibrary;
-import com.practice.utilz.LevelBuilder;
 import com.practice.utilz.Constants.Action;
 import com.practice.utilz.Constants.UserInput;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.awt.Graphics;
-import javax.imageio.ImageIO;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
