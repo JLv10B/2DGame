@@ -39,4 +39,14 @@ public class LevelBuilder {
         }
         return lvl;
     }
+
+    public static int[][] loadBlankLevel() {
+        int[][] blankLevel = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
+        for (int i=0; i<TILES_IN_HEIGHT; i++) {
+            for (int j=0; j<TILES_IN_WIDTH; j++) {
+                blankLevel[i][j] = 1;
+            }
+        }
+        return blankLevel;
+    }
 }

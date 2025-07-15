@@ -13,6 +13,8 @@ public class Constants {
             public static final int B_LEVEL_EDITOR_SPRITE = 4;
             public static final int B_KEYBINDS_SPRITE = 5;
             public static final int B_MENU_SCREEN_SPRITE = 6;
+            public static final int B_LOAD_LE_SPRITE = 7;
+            public static final int B_SAVE_LE_SPRITE = 8;
             public static final int B_WIDTH_DEFAULT = 140;
             public static final int B_HEIGHT_DEFAULT = 55;
             public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * Game.SCALE);
