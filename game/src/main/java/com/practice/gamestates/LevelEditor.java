@@ -43,6 +43,7 @@ public class LevelEditor extends State implements Statemethods {
     public LevelEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
         super(game, imageLibrary);
         this.tileHandler = tileHandler;
+        levelEditorBar = new LevelEditorBar(0, Game.GAME_HEIGHT-LEVEL_EDITOR_BAR_HEIGHT, Game.GAME_WIDTH, LEVEL_EDITOR_BAR_HEIGHT);
         currentLevel = LevelBuilder.loadBlankLevel();
         loadButtons();
 
@@ -62,9 +63,6 @@ public class LevelEditor extends State implements Statemethods {
         for (MenuButton mb : buttons) {
             mb.update();
         }
-        for (TileButton tb: tileButtons) {
-            tb.update();
-        }
     }
 
     @Override
@@ -76,7 +74,6 @@ public class LevelEditor extends State implements Statemethods {
             }
         }
         
-        levelEditorBar = new LevelEditorBar(0, Game.GAME_HEIGHT-LEVEL_EDITOR_BAR_HEIGHT, Game.GAME_WIDTH, LEVEL_EDITOR_BAR_HEIGHT);
         levelEditorBar.draw(g);
 
         for (MenuButton mb: buttons)
@@ -119,14 +116,14 @@ public class LevelEditor extends State implements Statemethods {
         } else {
 
             for (MenuButton mb : buttons) {
-                if(isOverMenuButton(e, mb)) {
+                if(isOverButton(e, mb)) {
                     mb.setMousePressed(true);
                     break;
                 }
             }
     
             for (TileButton tb: tileButtons) {
-                if(isOverTileButton(e, tb)) {
+                if(isOverButton(e, tb)) {
                     tb.setMousePressed(true);
                     break;
                 }
@@ -141,7 +138,7 @@ public class LevelEditor extends State implements Statemethods {
         } else {
 
             for (MenuButton mb : buttons) {
-                if(isOverMenuButton(e, mb)) {
+                if(isOverButton(e, mb)) {
                     if(mb.isMousePressed()) {
                         mb.applyGamestate();
                     break;
@@ -150,7 +147,7 @@ public class LevelEditor extends State implements Statemethods {
             }
     
             for (TileButton tb: tileButtons) {
-                if(isOverTileButton(e, tb)) {
+                if(isOverButton(e, tb)) {
                     if(tb.isMousePressed()) {
                         this.selectedTile = tb.getTile();
                     break;
@@ -160,7 +157,7 @@ public class LevelEditor extends State implements Statemethods {
             resetButtons();
     
             for (TileButton tb : tileButtons) {
-                if(isOverTileButton(e, tb)) {
+                if(isOverButton(e, tb)) {
                     tb.setMouseOver(true);
                     break;
                 }
@@ -187,14 +184,14 @@ public class LevelEditor extends State implements Statemethods {
             }
             
             for (MenuButton mb : buttons) {
-                if(isOverMenuButton(e, mb)) {
+                if(isOverButton(e, mb)) {
                     mb.setMouseOver(true);
                     break;
                 }
             }
     
             for (TileButton tb : tileButtons) {
-                if(isOverTileButton(e, tb)) {
+                if(isOverButton(e, tb)) {
                     tb.setMouseOver(true);
                     break;
                 }

@@ -8,31 +8,26 @@ import com.practice.Game;
 import com.practice.objects.Tile;
 import com.practice.utilz.ImageLibrary;
 
-public class TileButton {
-    private int xPos, yPos, tileIndex;
-    private int xOffsetCenter = TILE_BUTTON_SIZE /2;
+public class TileButton extends DefaultButton{
+    private int tileIndex;
     private ImageLibrary imageLibrary;
-    private boolean mouseOver, mousePressed;
-    private Rectangle buttonBounds;
     private Tile tile;
-
+    
     public static final int TILE_BUTTON_SIZE = Game.TILES_SIZE;
-
+    
     
     public TileButton(int xPos, int yPos, int tileIndex, ImageLibrary imageLibrary) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+        super(xPos, yPos);
         this.tileIndex = tileIndex;
         this.imageLibrary = imageLibrary;
+        this.xOffsetCenter = TILE_BUTTON_SIZE /2;
+        this.button_width = TILE_BUTTON_SIZE;
+        this.button_height = TILE_BUTTON_SIZE;
         loadImgs();
         initBounds();
     }
     
     public void update() {
-    }
-
-    protected void initBounds() {
-        buttonBounds = new Rectangle(xPos - xOffsetCenter, yPos, TILE_BUTTON_SIZE, TILE_BUTTON_SIZE);
     }
     
     protected void loadImgs() {
@@ -61,28 +56,4 @@ public class TileButton {
         return tile;
     }
     
-    public void resetBools() {
-        mouseOver = false;
-        mousePressed = false;
-    }
-    
-    public void setMouseOver(boolean mouseOver) {
-        this.mouseOver = mouseOver;
-    }
-    
-    public void setMousePressed(boolean mousePressed) {
-        this.mousePressed = mousePressed;
-    }
-    
-    public boolean isMouseOver() {
-        return mouseOver;
-    }
-    
-    public boolean isMousePressed() {
-        return mousePressed;
-    }
-    
-    public Rectangle getButtonBounds() {
-        return buttonBounds;
-    }
 }

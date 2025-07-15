@@ -19,9 +19,6 @@ public class TileHandler {
     }
 
     private void loadAtlas() {
-    //    GRASS = new Tile(imageLibrary.getTileLibrary().get("Ground Tiles").get(3));
-    //    DIRT = new Tile(imageLibrary.getTileLibrary().get("Ground Tiles").get(0));
-    //    SAND = new Tile(imageLibrary.getTileLibrary().get("Ground Tiles").get(4));
     }
 
     private void createTiles() {
