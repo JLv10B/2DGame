@@ -1,6 +1,10 @@
 package com.practice.gamestates;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -25,6 +29,8 @@ public class LevelEditor extends State implements Statemethods {
     private List<TileButton> tileButtons = new ArrayList<>();
     private LevelEditorBar levelEditorBar;
     private TileHandler tileHandler;
+    private Tile selectedTile;
+    private int mouseX, mouseY;
     
     public LevelEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
         super(game, imageLibrary);
@@ -61,6 +67,18 @@ public class LevelEditor extends State implements Statemethods {
         for (TileButton tb: tileButtons) {
             tb.draw(g);
         }
+        if (selectedTile != null) {
+            g.drawImage(selectedTile.getSprite(), Game.GAME_WIDTH-100, Game.GAME_HEIGHT-125, TileButton.TILE_BUTTON_SIZE, TileButton.TILE_BUTTON_SIZE, null);
+            g.setColor(Color.black);
+            g.drawRect( Game.GAME_WIDTH-100, Game.GAME_HEIGHT-125, TileButton.TILE_BUTTON_SIZE, TileButton.TILE_BUTTON_SIZE);
+        }
+        drawSelectedTileCursor(g);
+    }
+
+    private void drawSelectedTileCursor(Graphics g) {
+        if (selectedTile != null) {
+            g.drawImage(selectedTile.getSprite(), mouseX, mouseY, TileButton.TILE_BUTTON_SIZE, TileButton.TILE_BUTTON_SIZE, null);
+        }
     }
 
     @Override
@@ -71,8 +89,15 @@ public class LevelEditor extends State implements Statemethods {
     @Override
     public void mousePressed(MouseEvent e) {
         for (MenuButton mb : buttons) {
-            if(isOverButton(e, mb)) {
+            if(isOverMenuButton(e, mb)) {
                 mb.setMousePressed(true);
+                break;
+            }
+        }
+
+        for (TileButton tb: tileButtons) {
+            if(isOverTileButton(e, tb)) {
+                tb.setMousePressed(true);
                 break;
             }
         }
@@ -81,29 +106,59 @@ public class LevelEditor extends State implements Statemethods {
     @Override
     public void mouseReleased(MouseEvent e) {
         for (MenuButton mb : buttons) {
-            if(isOverButton(e, mb)) {
+            if(isOverMenuButton(e, mb)) {
                 if(mb.isMousePressed()) {
                     mb.applyGamestate();
                 break;
                 }
             }
         }
+
+        for (TileButton tb: tileButtons) {
+            if(isOverTileButton(e, tb)) {
+                if(tb.isMousePressed()) {
+                    this.selectedTile = tb.getTile();
+                break;
+                }
+            }
+        }
         resetButtons();
+
+        for (TileButton tb : tileButtons) {
+            if(isOverTileButton(e, tb)) {
+                tb.setMouseOver(true);
+                break;
+            }
+        }
     }
 
     
     @Override
     public void mouseMoved(MouseEvent e) {
+        mouseX = e.getX();
+        mouseY = e.getY();
         for (MenuButton mb : buttons) {
             mb.setMouseOver(false);
         }
+
+        for (TileButton tb: tileButtons) {
+            tb.setMouseOver(false);
+        }
         
         for (MenuButton mb : buttons) {
-            if(isOverButton(e, mb)) {
+            if(isOverMenuButton(e, mb)) {
                 mb.setMouseOver(true);
                 break;
             }
         }
+
+        for (TileButton tb : tileButtons) {
+            if(isOverTileButton(e, tb)) {
+                tb.setMouseOver(true);
+                break;
+            }
+        }
+
     }
     
     @Override
@@ -119,6 +174,10 @@ public class LevelEditor extends State implements Statemethods {
     private void resetButtons() {
         for (MenuButton mb : buttons) {
             mb.resetBools();
+        }
+
+        for (TileButton tb : tileButtons) {
+            tb.resetBools();
         }
     }
 }

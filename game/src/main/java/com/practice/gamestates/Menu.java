@@ -68,7 +68,7 @@ public class Menu extends State implements Statemethods {
     @Override
     public void mousePressed(MouseEvent e) {
         for (MenuButton mb : buttons) {
-            if(isOverButton(e, mb)) {
+            if(isOverMenuButton(e, mb)) {
                 mb.setMousePressed(true);
                 break;
             }
@@ -78,7 +78,7 @@ public class Menu extends State implements Statemethods {
     @Override
     public void mouseReleased(MouseEvent e) {
         for (MenuButton mb : buttons) {
-            if(isOverButton(e, mb)) {
+            if(isOverMenuButton(e, mb)) {
                 if(mb.isMousePressed()) {
                     mb.applyGamestate();
                     if(Gamestate.state == Gamestate.OPTIONS || Gamestate.state == Gamestate.MENU) {
@@ -99,7 +99,7 @@ public class Menu extends State implements Statemethods {
         }
         
         for (MenuButton mb : buttons) {
-            if(isOverButton(e, mb)) {
+            if(isOverMenuButton(e, mb)) {
                 mb.setMouseOver(true);
                 break;
             }
