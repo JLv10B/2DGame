@@ -21,7 +21,7 @@ import static com.practice.utilz.Constants.UI.Buttons.B_WIDTH;
 
 public class LevelEditor extends State implements Statemethods {
 
-    private MenuButton[] buttons = new MenuButton[4];
+    private MenuButton[] buttons = new MenuButton[3];
     private List<TileButton> tileButtons = new ArrayList<>();
     private LevelEditorBar levelEditorBar;
     private TileHandler tileHandler;
@@ -33,10 +33,9 @@ public class LevelEditor extends State implements Statemethods {
     }
 
     private void loadButtons() {
-        buttons[0] = new MenuButton(100, Game.GAME_HEIGHT-50, B_MENU_SCREEN_SPRITE, Gamestate.MENU, imageLibrary);
-        buttons[1] = new MenuButton( 100 + B_WIDTH, Game.GAME_HEIGHT-50, B_OPTIONS_SPRITE, Gamestate.OPTIONS, imageLibrary);
-        buttons[2] = new MenuButton( 3 * 50 + 2*B_WIDTH, Game.GAME_HEIGHT-50, B_OPTIONS_SPRITE, Gamestate.OPTIONS, imageLibrary);
-        buttons[3] = new MenuButton( 4 * 50 + 3*B_WIDTH, Game.GAME_HEIGHT-50, B_OPTIONS_SPRITE, Gamestate.OPTIONS, imageLibrary);
+        buttons[0] = new MenuButton( 100 + B_WIDTH, Game.GAME_HEIGHT-50, B_OPTIONS_SPRITE, Gamestate.OPTIONS, imageLibrary);
+        buttons[1] = new MenuButton( 3 * 50 + 2*B_WIDTH, Game.GAME_HEIGHT-50, B_OPTIONS_SPRITE, Gamestate.OPTIONS, imageLibrary);
+        buttons[2] = new MenuButton( 4 * 50 + 3*B_WIDTH, Game.GAME_HEIGHT-50, B_OPTIONS_SPRITE, Gamestate.OPTIONS, imageLibrary);
         for (int i=0; i<imageLibrary.tileSpriteLibrary.get("Ground Tiles").size(); i++) {
             tileButtons.add(new TileButton(((i+1)*50 + i*TileButton.TILE_BUTTON_SIZE), Game.GAME_HEIGHT-125, i, imageLibrary));
         }
