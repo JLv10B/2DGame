@@ -17,8 +17,20 @@ public class Mouseinputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'mouseDragged'");
+        switch (Gamestate.state) {
+            // case MENU:
+            // case OPTIONS:
+            //     gamePanel.getGame().getMenu().mouseDragged(e);
+            //     break;
+            case LEVELEDITOR:
+                gamePanel.getGame().getLevelEditor().mouseDragged(e);
+                break;
+            // case PLAYING:
+            //     gamePanel.getGame().getPlaying().getPlayer().mouseInputProcessor(e);
+            //     break;
+            default:
+                break;
+        }    
     }
 
     @Override

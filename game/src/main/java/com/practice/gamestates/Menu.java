@@ -108,6 +108,11 @@ public class Menu extends State implements Statemethods {
     }
     
     @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
 
     }

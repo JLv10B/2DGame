@@ -63,6 +63,10 @@ public class Playing extends State implements Statemethods{
     @Override
     public void mouseMoved(MouseEvent e) {
     }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+    }
     
     @Override
     public void keyPressed(KeyEvent e) {

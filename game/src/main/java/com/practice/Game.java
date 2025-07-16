@@ -45,8 +45,8 @@ public class Game implements Runnable{
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
-        run();
-        // startGameLoop();
+        // run();
+        startGameLoop();
 
     }
 
@@ -124,9 +124,9 @@ public class Game implements Runnable{
 
         long previousTime = System.nanoTime();
 
-        int frames = 0;
-        int updates = 0;
-        long lastCheck = System.currentTimeMillis();
+        // int frames = 0;
+        // int updates = 0;
+        // long lastCheck = System.currentTimeMillis();
 
         double deltaU = 0;
         double deltaF = 0;

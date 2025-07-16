@@ -31,6 +31,7 @@ public class LevelEditor extends State implements Statemethods {
     private LevelEditorBar levelEditorBar;
     private Tile selectedTile;
     private int mouseX, mouseY;
+    private int lastTileX, lastTileY, lastTileId;
 
 
     public LevelEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
@@ -80,7 +81,7 @@ public class LevelEditor extends State implements Statemethods {
             g.setColor(Color.black);
             g.drawRect( Game.GAME_WIDTH-100, Game.GAME_HEIGHT-125, TileButton.TILE_BUTTON_SIZE, TileButton.TILE_BUTTON_SIZE);
         }
-        if (isMouseInMap(mouseY))
+        if (isMouseInMap(mouseX, mouseY))
             drawSelectedTileCursor(g);
         
     }
@@ -95,6 +96,27 @@ public class LevelEditor extends State implements Statemethods {
 
     }
 
+    private void changeTile(int x, int y) {
+        if (selectedTile != null) {
+            int xCoord = mouseX/TileButton.TILE_BUTTON_SIZE;
+            int yCoord = mouseY/TileButton.TILE_BUTTON_SIZE;
+            
+            if (xCoord >= Game.TILES_IN_WIDTH)
+                xCoord = Game.TILES_IN_WIDTH -1;
+            if (yCoord >= Game.TILES_IN_HEIGHT)
+                yCoord = Game.TILES_IN_HEIGHT -1;
+
+            if (lastTileX == xCoord && lastTileY == yCoord && lastTileId == selectedTile.getTileIndex())
+                return;
+
+            lastTileX = xCoord;
+            lastTileY = yCoord;
+            lastTileId = selectedTile.getTileIndex();
+            
+            currentLevel[yCoord][xCoord] = selectedTile.getTileIndex();
+        }
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -102,9 +124,9 @@ public class LevelEditor extends State implements Statemethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (isMouseInMap(mouseY)) {
+        if (isMouseInMap(mouseX, mouseY)) {
             if (selectedTile != null) {
-                currentLevel[mouseY/TileButton.TILE_BUTTON_SIZE][mouseX/TileButton.TILE_BUTTON_SIZE] = selectedTile.getTileIndex();
+                changeTile(mouseX, mouseY);;
             }
         } else {
 
@@ -126,7 +148,7 @@ public class LevelEditor extends State implements Statemethods {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (isMouseInMap(mouseY)){
+        if (isMouseInMap(mouseX, mouseY)){
 
         } else {
 
@@ -164,7 +186,7 @@ public class LevelEditor extends State implements Statemethods {
         mouseX = e.getX();
         mouseY = e.getY();
 
-        if (isMouseInMap(mouseY)) {
+        if (isMouseInMap(mouseX, mouseY)) {
 
         } else {
 
@@ -194,6 +216,15 @@ public class LevelEditor extends State implements Statemethods {
     }
     
     @Override
+    public void mouseDragged(MouseEvent e) {
+        mouseX = e.getX();
+        mouseY = e.getY();
+        if (isMouseInMap(mouseX, mouseY) && selectedTile != null) {
+            changeTile(mouseX, mouseY);
+        }
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
 
     }
@@ -215,7 +246,8 @@ public class LevelEditor extends State implements Statemethods {
         }
     }
 
-    private boolean isMouseInMap(int mouseY) {
-        return mouseY < Game.GAME_HEIGHT-LEVEL_EDITOR_BAR_HEIGHT && mouseY >= 0;
+    private boolean isMouseInMap(int mouseX, int mouseY) {
+        return mouseY < Game.GAME_HEIGHT-LEVEL_EDITOR_BAR_HEIGHT && mouseY >= 0 && mouseX >= 0 && mouseX <= Game.GAME_WIDTH;
     }
+
 }
