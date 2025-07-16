@@ -14,8 +14,8 @@ public class Player extends Entity {
     protected HashMap<Integer, Action> keybinds = new HashMap<>();
 
 
-    public Player(float x, float y, int width, int height, int[][] levelData, ImageLibrary imageLibrary) {
-        super(x, y, width, height, levelData, imageLibrary);
+    public Player(float x, float y, int width, int height, int[][] mapData, ImageLibrary imageLibrary) {
+        super(x, y, width, height, mapData, imageLibrary);
         this.charModel = "1-Player-Dark Oracle";
         defaultKeybinds();
         initHitbox(x, y, (int) (width), (int) (height));

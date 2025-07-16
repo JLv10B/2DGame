@@ -10,11 +10,12 @@ import java.util.List;
 import com.practice.Game;
 import com.practice.handlers.TileHandler;
 import com.practice.objects.Tile;
-import com.practice.ui.LevelEditorBar;
+import com.practice.ui.MapEditorBar;
 import com.practice.ui.MenuButton;
 import com.practice.ui.TileButton;
 import com.practice.utilz.ImageLibrary;
-import com.practice.utilz.LevelBuilder;
+import com.practice.utilz.MapBuilder;
+import com.practice.utilz.LoadSave;
 
 import static com.practice.Game.TILES_SIZE;
 import static com.practice.utilz.Constants.UI.Buttons.B_LOAD_LE_SPRITE;
@@ -22,23 +23,26 @@ import static com.practice.utilz.Constants.UI.Buttons.B_OPTIONS_SPRITE;
 import static com.practice.utilz.Constants.UI.Buttons.B_SAVE_LE_SPRITE;
 import static com.practice.utilz.Constants.UI.Buttons.B_WIDTH;
 
-public class LevelEditor extends State implements Statemethods {
+public class MapEditor extends State implements Statemethods {
 
-    private static final int LEVEL_EDITOR_BAR_HEIGHT = TileButton.TILE_BUTTON_SIZE * 5;
-    private int[][] currentLevel;
+    private static final int MAP_EDITOR_BAR_HEIGHT = TileButton.TILE_BUTTON_SIZE * 5;
+    private int[][] currentMap;
     private MenuButton[] buttons = new MenuButton[3];
     private List<TileButton> tileButtons = new ArrayList<>();
-    private LevelEditorBar levelEditorBar;
+    private MapEditorBar mapEditorBar;
     private Tile selectedTile;
     private int mouseX, mouseY;
     private int lastTileX, lastTileY, lastTileId;
 
 
-    public LevelEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
+    public MapEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
         super(game, imageLibrary);
-        levelEditorBar = new LevelEditorBar(0, Game.GAME_HEIGHT-LEVEL_EDITOR_BAR_HEIGHT, Game.GAME_WIDTH, LEVEL_EDITOR_BAR_HEIGHT);
-        currentLevel = LevelBuilder.loadBlankLevel();
+        mapEditorBar = new MapEditorBar(0, Game.GAME_HEIGHT-MAP_EDITOR_BAR_HEIGHT, Game.GAME_WIDTH, MAP_EDITOR_BAR_HEIGHT);
+        currentMap = MapBuilder.loadBlankMap();
         loadButtons();
+        // LoadSave.CreateFile();
+        // LoadSave.WriteToFile();
+        // LoadSave.ReadFromFile();
 
     }
 
@@ -61,14 +65,14 @@ public class LevelEditor extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
-        for (int y=0; y<currentLevel.length; y++) {
-            for (int x=0; x<currentLevel[0].length; x++) {
-                int id = currentLevel[y][x];
+        for (int y=0; y<currentMap.length; y++) {
+            for (int x=0; x<currentMap[0].length; x++) {
+                int id = currentMap[y][x];
                 g.drawImage(game.tileHandler.getGroundTileSprite(id), x*TILES_SIZE, y*TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
             }
         }
         
-        levelEditorBar.draw(g);
+        mapEditorBar.draw(g);
 
         for (MenuButton mb: buttons)
             mb.draw(g);
@@ -113,7 +117,7 @@ public class LevelEditor extends State implements Statemethods {
             lastTileY = yCoord;
             lastTileId = selectedTile.getTileIndex();
             
-            currentLevel[yCoord][xCoord] = selectedTile.getTileIndex();
+            currentMap[yCoord][xCoord] = selectedTile.getTileIndex();
         }
     }
 
@@ -247,7 +251,7 @@ public class LevelEditor extends State implements Statemethods {
     }
 
     private boolean isMouseInMap(int mouseX, int mouseY) {
-        return mouseY < Game.GAME_HEIGHT-LEVEL_EDITOR_BAR_HEIGHT && mouseY >= 0 && mouseX >= 0 && mouseX <= Game.GAME_WIDTH;
+        return mouseY < Game.GAME_HEIGHT-MAP_EDITOR_BAR_HEIGHT && mouseY >= 0 && mouseX >= 0 && mouseX <= Game.GAME_WIDTH;
     }
 
 }

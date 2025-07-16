@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import com.practice.Game;
 import com.practice.entities.Player;
 import com.practice.utilz.ImageLibrary;
-import com.practice.utilz.LevelBuilder;
+import com.practice.utilz.MapBuilder;
 
 import static com.practice.Game.TILES_SIZE;
 
@@ -19,7 +19,7 @@ public class Playing extends State implements Statemethods{
 
     public Playing(Game game, ImageLibrary imageLibrary) {
         super(game, imageLibrary);
-        lvl = LevelBuilder.getLevelData();
+        lvl = MapBuilder.getMapData();
         initClasses();
       
     }
@@ -39,7 +39,7 @@ public class Playing extends State implements Statemethods{
         player.render(g);
     }
 
-    public void drawLevel(Graphics g) {
+    public void drawMap(Graphics g) {
         for (int y=0; y<lvl.length; y++) {
             for (int x=0; x<lvl[0].length; x++) {
                 int id = lvl[y][x];

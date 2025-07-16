@@ -37,18 +37,18 @@ public abstract class Entity {
     protected HashMap<Buff, Long> buffBar = new HashMap<>();
     protected HashMap<Skill, Long> skillCooldowns = new HashMap<>();
     protected Rectangle2D.Float hitbox;
-    protected int[][] levelData;
+    protected int[][] mapData;
     // private float xDrawOffset = 244;
     // private float yDrawOffset = 210;
 
     
 
-    public Entity(float x, float y, int width, int height, int[][] levelData, ImageLibrary imageLibrary) {
+    public Entity(float x, float y, int width, int height, int[][] mapData, ImageLibrary imageLibrary) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.levelData = levelData;
+        this.mapData = mapData;
         this.imageLibrary = imageLibrary;
         skillBarSetUp();
     }
@@ -131,7 +131,7 @@ public abstract class Entity {
         if (moving()){
             float xVel = (xDir/(Math.abs(xDir) + Math.abs(yDir))) * (charDefaultSpeed + charSpeedDiff);
             float yVel = (yDir/(Math.abs(xDir) + Math.abs(yDir))) * (charDefaultSpeed + charSpeedDiff);
-            if (CanMoveHere(x+xVel, y+yVel, width, height, levelData)) {
+            if (CanMoveHere(x+xVel, y+yVel, width, height, mapData)) {
                 x += xVel;
                 y += yVel;
             }

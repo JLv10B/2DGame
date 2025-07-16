@@ -36,7 +36,7 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        game.renderLevel(g);
+        game.renderMap(g);
         game.renderEntities(g);
     }
 

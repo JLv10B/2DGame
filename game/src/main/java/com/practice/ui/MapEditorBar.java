@@ -3,10 +3,10 @@ package com.practice.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class LevelEditorBar {
+public class MapEditorBar {
     private int x, y, width, height;
     
-    public LevelEditorBar(int x, int y, int width, int height) {
+    public MapEditorBar(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;

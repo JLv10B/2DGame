@@ -3,7 +3,7 @@ package com.practice;
 import java.awt.Graphics;
 
 import com.practice.gamestates.Gamestate;
-import com.practice.gamestates.LevelEditor;
+import com.practice.gamestates.MapEditor;
 import com.practice.gamestates.Menu;
 import com.practice.gamestates.Playing;
 import com.practice.utilz.ImageLibrary;
@@ -22,7 +22,7 @@ public class Game implements Runnable{
     //Gamestate managing
     private Playing playing;
     private Menu menu;
-    private LevelEditor levelEditor;
+    private MapEditor mapEditor;
 
     public final static int DEFAULT_TILE_SIZE = 32;
     public final static float SCALE = 1.0f;
@@ -52,7 +52,7 @@ public class Game implements Runnable{
 
     private void initClasses() {
         menu = new Menu(this, imageLibrary);
-        levelEditor = new LevelEditor(this, imageLibrary, tileHandler);
+        mapEditor = new MapEditor(this, imageLibrary, tileHandler);
         playing = new Playing(this, imageLibrary);
     }
 
@@ -70,8 +70,8 @@ public class Game implements Runnable{
             case PLAYING:
                 playing.update();
                 break;
-            case LEVELEDITOR:
-                levelEditor.update();
+            case MAPEDITOR:
+                mapEditor.update();
             default:
                 break;
             
@@ -92,7 +92,7 @@ public class Game implements Runnable{
         }
     }
 
-    public void renderLevel(Graphics g) {
+    public void renderMap(Graphics g) {
         // render the background & objects
         switch (Gamestate.state) {
             case MENU:
@@ -100,10 +100,10 @@ public class Game implements Runnable{
                 menu.draw(g);
                 break;
             case PLAYING:
-                playing.drawLevel(g);
+                playing.drawMap(g);
                 break;
-            case LEVELEDITOR:
-                levelEditor.draw(g);
+            case MAPEDITOR:
+                mapEditor.draw(g);
                 break;
             case QUIT:
             default:
@@ -162,8 +162,8 @@ public class Game implements Runnable{
         return menu;
     }
 
-    public LevelEditor getLevelEditor() {
-        return levelEditor;
+    public MapEditor getMapEditor() {
+        return mapEditor;
     }
     
     public Playing getPlaying() {

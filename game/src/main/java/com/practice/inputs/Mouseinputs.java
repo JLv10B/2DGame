@@ -22,8 +22,8 @@ public class Mouseinputs implements MouseListener, MouseMotionListener {
             // case OPTIONS:
             //     gamePanel.getGame().getMenu().mouseDragged(e);
             //     break;
-            case LEVELEDITOR:
-                gamePanel.getGame().getLevelEditor().mouseDragged(e);
+            case MAPEDITOR:
+                gamePanel.getGame().getMapEditor().mouseDragged(e);
                 break;
             // case PLAYING:
             //     gamePanel.getGame().getPlaying().getPlayer().mouseInputProcessor(e);
@@ -40,8 +40,8 @@ public class Mouseinputs implements MouseListener, MouseMotionListener {
             case OPTIONS:
                 gamePanel.getGame().getMenu().mouseMoved(e);
                 break;
-            case LEVELEDITOR:
-                gamePanel.getGame().getLevelEditor().mouseMoved(e);
+            case MAPEDITOR:
+                gamePanel.getGame().getMapEditor().mouseMoved(e);
                 break;
             case PLAYING:
                 gamePanel.getGame().getPlaying().getPlayer().mouseInputProcessor(e);
@@ -62,8 +62,8 @@ public class Mouseinputs implements MouseListener, MouseMotionListener {
             case OPTIONS:
                 gamePanel.getGame().getMenu().mousePressed(e);
                 break;
-            case LEVELEDITOR:
-                gamePanel.getGame().getLevelEditor().mousePressed(e);
+            case MAPEDITOR:
+                gamePanel.getGame().getMapEditor().mousePressed(e);
                 break;
             case PLAYING:
                 gamePanel.getGame().getPlaying().getPlayer().mouseInputProcessor(e);
@@ -80,8 +80,8 @@ public class Mouseinputs implements MouseListener, MouseMotionListener {
             case OPTIONS:
                 gamePanel.getGame().getMenu().mouseReleased(e);
                 break;
-            case LEVELEDITOR:
-                gamePanel.getGame().getLevelEditor().mouseReleased(e);
+            case MAPEDITOR:
+                gamePanel.getGame().getMapEditor().mouseReleased(e);
                 break;
             case PLAYING:
                 // gamePanel.getGame().getPlaying().getPlayer().mouseInputProcessor(e);

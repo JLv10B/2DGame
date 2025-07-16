@@ -10,7 +10,7 @@ public class Constants {
             public static final int B_PLAY_SPRITE = 1;
             public static final int B_OPTIONS_SPRITE = 2;
             public static final int B_QUIT_SPRITE = 3;
-            public static final int B_LEVEL_EDITOR_SPRITE = 4;
+            public static final int B_MAP_EDITOR_SPRITE = 4;
             public static final int B_KEYBINDS_SPRITE = 5;
             public static final int B_MENU_SCREEN_SPRITE = 6;
             public static final int B_LOAD_LE_SPRITE = 7;
