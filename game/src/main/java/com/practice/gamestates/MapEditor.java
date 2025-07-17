@@ -40,9 +40,7 @@ public class MapEditor extends State implements Statemethods {
         mapEditorBar = new MapEditorBar(0, Game.GAME_HEIGHT-MAP_EDITOR_BAR_HEIGHT, Game.GAME_WIDTH, MAP_EDITOR_BAR_HEIGHT);
         currentMap = MapBuilder.loadBlankMap();
         loadButtons();
-        // LoadSave.CreateFile();
-        // LoadSave.WriteToFile();
-        // LoadSave.ReadFromFile();
+        // LoadSave.CreateNewMap("NewMap");
 
     }
 

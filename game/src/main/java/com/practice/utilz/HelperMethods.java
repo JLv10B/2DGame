@@ -4,6 +4,8 @@ import static com.practice.Game.GAME_WIDTH;
 import static com.practice.Game.GAME_HEIGHT;
 import static com.practice.Game.TILES_SIZE;
 
+import java.util.ArrayList;
+
 public class HelperMethods {
 
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] mapData) {
@@ -39,5 +41,17 @@ public class HelperMethods {
         } else {
             return false;
         }
+    }
+
+    public static int[][] ArrayListTo2Dint(ArrayList<Integer> list, int ySize, int xSize) {
+        int[][] newArr = new int[ySize][xSize];
+
+        for (int i=0; i<newArr.length; i++) {
+            for (int j=0; j<newArr[0].length; j++) {
+                int index = i*ySize + j;
+                newArr[i][j] = list.get(index);
+            }
+        }
+        return newArr;
     }
 }
