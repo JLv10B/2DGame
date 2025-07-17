@@ -6,25 +6,28 @@ import java.awt.event.MouseEvent;
 
 import com.practice.Game;
 import com.practice.entities.Player;
+import com.practice.objects.Map;
 import com.practice.utilz.ImageLibrary;
-import com.practice.utilz.MapBuilder;
 
 import static com.practice.Game.TILES_SIZE;
 
 public class Playing extends State implements Statemethods{
     private Player player;
+    private Map map;
 
     //TODO: edit lvl & TileHandler as needed, currently used for testing:
     public int[][] lvl;
 
     public Playing(Game game, ImageLibrary imageLibrary) {
         super(game, imageLibrary);
-        lvl = MapBuilder.getMapData();
         initClasses();
-      
+        
     }
-
+    
     private void initClasses() {
+        //TODO: load correct map for the player's save point
+        map = new Map();
+        lvl = map.getMapData();
         player = new Player(200, 200, (int)(128*Game.SCALE), (int)(128*Game.SCALE), lvl, Game.imageLibrary);
     }
 

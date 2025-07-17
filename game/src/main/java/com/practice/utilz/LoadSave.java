@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.Game;
+import com.practice.objects.Map;
 
 public class LoadSave {
     public static void CreateFile() {
@@ -18,11 +20,11 @@ public class LoadSave {
         }
     }
 
-    public static void CreateNewMap (String name, int[]idArr) {
-        File newMapFile = new File("game\\src\\main\\resources\\Maps\\" + name + ".txt");
+    public static void CreateNewMap (Map map) {
+        File newMapFile = new File("game\\src\\main\\resources\\Maps\\" + map.getMapName() + ".json");
 
         if (newMapFile.exists()) {
-            System.out.println("File: " + name + " already exists");
+            System.out.println("File: " + map.getMapName() + " already exists");
             return;
         } else {
             try {
@@ -30,45 +32,45 @@ public class LoadSave {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            WriteToFile(newMapFile, idArr);
         }
+        WriteToFile(newMapFile, map);
     }
     
-    public static void WriteToFile(File f, int[] idArr) {
+    public static void WriteToFile(File f, Map map) {
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            PrintWriter writer = new PrintWriter(f);
-            writer.println("hello from the other side");
-            writer.close();
+            mapper.writeValue(f, map);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static ArrayList<Integer> ReadFromFile(File file) {
-        ArrayList<Integer> list = new ArrayList<>();
+    // public static ArrayList<Integer> ReadFromFile(File file) {
+    //     ArrayList<Integer> list = new ArrayList<>();
 
-        try {
-            Scanner sc = new Scanner(file);
+    //     try {
+    //         Scanner sc = new Scanner(file);
 
-            while (sc.hasNextLine()) {
-                System.out.println(sc.nextLine());
-                list.add(Integer.parseInt(sc.nextLine()));
-            }
+    //         while (sc.hasNextLine()) {
+    //             System.out.println(sc.nextLine());
+    //             list.add(Integer.parseInt(sc.nextLine()));
+    //         }
             
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    //     return list;
+    // }
+
+    public static Map GetMapData(String name) {
+        try {
+            File mapFile = new File("game\\src\\main\\resources\\Maps\\" + name + ".json");
+            ObjectMapper mapper = new ObjectMapper();
+            Map map = mapper.readValue(mapFile, Map.class);
+            return map;
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    public static int[][] GetLevelData(String name) {
-        File mapFile = new File("game\\src\\main\\resources\\Maps\\" + name + ".txt");
-
-        if (mapFile.exists()) {
-            ArrayList<Integer> list = ReadFromFile(mapFile);
-            return HelperMethods.ArrayListTo2Dint(list, Game.TILES_IN_HEIGHT, Game.TILES_IN_WIDTH);
-        } else {
             System.out.println("File: " + name + " cannot be found");
+            e.printStackTrace();
             return null;
         }
     }
