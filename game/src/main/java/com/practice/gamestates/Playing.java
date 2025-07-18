@@ -6,8 +6,9 @@ import java.awt.event.MouseEvent;
 
 import com.practice.Game;
 import com.practice.entities.Player;
+import com.practice.handlers.TileHandler;
+import com.practice.objects.GameMap;
 import com.practice.utilz.ImageLibrary;
-import com.practice.utilz.MapBuilder;
 
 import static com.practice.Game.TILES_SIZE;
 
@@ -15,17 +16,20 @@ public class Playing extends State implements Statemethods{
     private Player player;
 
     //TODO: edit lvl & TileHandler as needed, currently used for testing:
-    public int[][] lvl;
+    private GameMap currentMap;
+    private TileHandler tileHandler;
 
-    public Playing(Game game, ImageLibrary imageLibrary) {
+    public Playing(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
         super(game, imageLibrary);
-        lvl = MapBuilder.getMapData();
+        this.tileHandler = tileHandler;
         initClasses();
-      
+        
     }
-
+    
     private void initClasses() {
-        player = new Player(200, 200, (int)(128*Game.SCALE), (int)(128*Game.SCALE), lvl, Game.imageLibrary);
+        //TODO: load correct map for the player's save point
+        currentMap = new GameMap(tileHandler);
+        player = new Player(200, 200, (int)(128*Game.SCALE), (int)(128*Game.SCALE), currentMap, Game.imageLibrary);
     }
 
     
@@ -40,9 +44,9 @@ public class Playing extends State implements Statemethods{
     }
 
     public void drawMap(Graphics g) {
-        for (int y=0; y<lvl.length; y++) {
-            for (int x=0; x<lvl[0].length; x++) {
-                int id = lvl[y][x];
+        for (int y=0; y<currentMap.getMapData().length; y++) {
+            for (int x=0; x<currentMap.getMapData()[0].length; x++) {
+                int id = currentMap.getMapData()[y][x];
                 g.drawImage(game.tileHandler.getGroundTileSprite(id), x*TILES_SIZE, y*TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
             }
         }

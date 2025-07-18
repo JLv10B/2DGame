@@ -9,12 +9,12 @@ import java.util.List;
 
 import com.practice.Game;
 import com.practice.handlers.TileHandler;
+import com.practice.objects.GameMap;
 import com.practice.objects.Tile;
 import com.practice.ui.MapEditorBar;
 import com.practice.ui.MenuButton;
 import com.practice.ui.TileButton;
 import com.practice.utilz.ImageLibrary;
-import com.practice.utilz.MapBuilder;
 import com.practice.utilz.LoadSave;
 
 import static com.practice.Game.TILES_SIZE;
@@ -26,7 +26,8 @@ import static com.practice.utilz.Constants.UI.Buttons.B_WIDTH;
 public class MapEditor extends State implements Statemethods {
 
     private static final int MAP_EDITOR_BAR_HEIGHT = TileButton.TILE_BUTTON_SIZE * 5;
-    private int[][] currentMap;
+    private GameMap currentMap;
+    private int[][] currentMapEdits;
     private MenuButton[] buttons = new MenuButton[3];
     private List<TileButton> tileButtons = new ArrayList<>();
     private MapEditorBar mapEditorBar;
@@ -38,14 +39,17 @@ public class MapEditor extends State implements Statemethods {
     public MapEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
         super(game, imageLibrary);
         mapEditorBar = new MapEditorBar(0, Game.GAME_HEIGHT-MAP_EDITOR_BAR_HEIGHT, Game.GAME_WIDTH, MAP_EDITOR_BAR_HEIGHT);
-        currentMap = MapBuilder.loadBlankMap();
+        currentMap = new GameMap(tileHandler);
+        currentMapEdits = currentMap.getMapData();
         loadButtons();
-        // LoadSave.CreateFile();
-        // LoadSave.WriteToFile();
-        // LoadSave.ReadFromFile();
+        // LoadSave.CreateNewMap("NewMap");
+        
 
     }
 
+    //TODO: Implement load
+    //TODO: Implement save -> needs to get a map name
+    //TODO: Add reset button
     private void loadButtons() {
         buttons[0] = new MenuButton( 100 + B_WIDTH, Game.GAME_HEIGHT-50, B_OPTIONS_SPRITE, Gamestate.OPTIONS, imageLibrary);
         buttons[1] = new MenuButton( 3 * 50 + 2*B_WIDTH, Game.GAME_HEIGHT-50, B_LOAD_LE_SPRITE, Gamestate.OPTIONS, imageLibrary);
@@ -65,9 +69,9 @@ public class MapEditor extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
-        for (int y=0; y<currentMap.length; y++) {
-            for (int x=0; x<currentMap[0].length; x++) {
-                int id = currentMap[y][x];
+        for (int y=0; y<currentMapEdits.length; y++) {
+            for (int x=0; x<currentMapEdits[0].length; x++) {
+                int id = currentMapEdits[y][x];
                 g.drawImage(game.tileHandler.getGroundTileSprite(id), x*TILES_SIZE, y*TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
             }
         }
@@ -117,8 +121,12 @@ public class MapEditor extends State implements Statemethods {
             lastTileY = yCoord;
             lastTileId = selectedTile.getTileIndex();
             
-            currentMap[yCoord][xCoord] = selectedTile.getTileIndex();
+            currentMapEdits[yCoord][xCoord] = selectedTile.getTileIndex();
         }
+    }
+
+    private void resetChanges() {
+        currentMapEdits = currentMap.getMapData();
     }
 
     @Override
@@ -132,8 +140,8 @@ public class MapEditor extends State implements Statemethods {
             if (selectedTile != null) {
                 changeTile(mouseX, mouseY);;
             }
-        } else {
-
+        } 
+        else {
             for (MenuButton mb : buttons) {
                 if(isOverButton(e, mb)) {
                     mb.setMousePressed(true);
@@ -154,8 +162,8 @@ public class MapEditor extends State implements Statemethods {
     public void mouseReleased(MouseEvent e) {
         if (isMouseInMap(mouseX, mouseY)){
 
-        } else {
-
+        } 
+        else {
             for (MenuButton mb : buttons) {
                 if(isOverButton(e, mb)) {
                     if(mb.isMousePressed()) {

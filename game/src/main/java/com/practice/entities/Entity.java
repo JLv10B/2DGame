@@ -14,6 +14,7 @@ import com.practice.buffs.*;
 import com.practice.gamestates.Gamestate;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.Constants.Action;
+import com.practice.objects.GameMap;
 import static com.practice.utilz.HelperMethods.CanMoveHere;
 import static com.practice.gamestates.Gamestate.MENU;
 
@@ -37,13 +38,13 @@ public abstract class Entity {
     protected HashMap<Buff, Long> buffBar = new HashMap<>();
     protected HashMap<Skill, Long> skillCooldowns = new HashMap<>();
     protected Rectangle2D.Float hitbox;
-    protected int[][] mapData;
+    protected GameMap mapData;
     // private float xDrawOffset = 244;
     // private float yDrawOffset = 210;
 
     
 
-    public Entity(float x, float y, int width, int height, int[][] mapData, ImageLibrary imageLibrary) {
+    public Entity(float x, float y, int width, int height,  GameMap mapData, ImageLibrary imageLibrary) {
         this.x = x;
         this.y = y;
         this.width = width;

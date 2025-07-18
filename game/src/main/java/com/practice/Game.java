@@ -2,6 +2,7 @@ package com.practice;
 
 import java.awt.Graphics;
 
+
 import com.practice.gamestates.Gamestate;
 import com.practice.gamestates.MapEditor;
 import com.practice.gamestates.Menu;
@@ -12,7 +13,7 @@ import com.practice.handlers.TileHandler;
 public class Game implements Runnable{
 
     private GameWindow gameWindow;
-    private GamePanel gamePanel;
+    public GamePanel gamePanel;
     private Thread gameThread;
     private final int FPS_SET = 120;
     private final int USP_SET = 200;
@@ -53,7 +54,7 @@ public class Game implements Runnable{
     private void initClasses() {
         menu = new Menu(this, imageLibrary);
         mapEditor = new MapEditor(this, imageLibrary, tileHandler);
-        playing = new Playing(this, imageLibrary);
+        playing = new Playing(this, imageLibrary, tileHandler);
     }
 
     private void startGameLoop() {
