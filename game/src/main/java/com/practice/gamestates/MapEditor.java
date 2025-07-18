@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.practice.Game;
 import com.practice.handlers.TileHandler;
-import com.practice.objects.Map;
+import com.practice.objects.GameMap;
 import com.practice.objects.Tile;
 import com.practice.ui.MapEditorBar;
 import com.practice.ui.MenuButton;
@@ -26,7 +26,7 @@ import static com.practice.utilz.Constants.UI.Buttons.B_WIDTH;
 public class MapEditor extends State implements Statemethods {
 
     private static final int MAP_EDITOR_BAR_HEIGHT = TileButton.TILE_BUTTON_SIZE * 5;
-    private Map currentMap;
+    private GameMap currentMap;
     private int[][] currentMapEdits;
     private MenuButton[] buttons = new MenuButton[3];
     private List<TileButton> tileButtons = new ArrayList<>();
@@ -39,7 +39,7 @@ public class MapEditor extends State implements Statemethods {
     public MapEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
         super(game, imageLibrary);
         mapEditorBar = new MapEditorBar(0, Game.GAME_HEIGHT-MAP_EDITOR_BAR_HEIGHT, Game.GAME_WIDTH, MAP_EDITOR_BAR_HEIGHT);
-        currentMap = new Map();
+        currentMap = new GameMap(tileHandler);
         currentMapEdits = currentMap.getMapData();
         loadButtons();
         // LoadSave.CreateNewMap("NewMap");

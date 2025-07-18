@@ -6,9 +6,12 @@ import static com.practice.Game.TILES_SIZE;
 
 import java.util.ArrayList;
 
+import com.practice.objects.GameMap;
+import com.practice.objects.Tile;
+
 public class HelperMethods {
 
-    public static boolean CanMoveHere(float x, float y, float width, float height, int[][] mapData) {
+    public static boolean CanMoveHere(float x, float y, float width, float height, GameMap mapData) {
         // Checks if user can move to (x,y) position, should be checked prior to player being moved
         if (!isSolid(x, y, mapData)) {
             if (!isSolid(x+width, y+height, mapData)) {
@@ -22,7 +25,7 @@ public class HelperMethods {
         return false;
     }
 
-    private static boolean isSolid(float x, float y, int[][] mapData) {
+    private static boolean isSolid(float x, float y, GameMap mapData) {
         if (x<0 || x >= GAME_WIDTH) {
             return true;
         }
@@ -33,13 +36,12 @@ public class HelperMethods {
         int xIndex = (int)x/TILES_SIZE;
         int yIndex = (int)y/TILES_SIZE;
 
-        int value = mapData[yIndex][xIndex];
+        Tile tile = mapData.getTile(xIndex, yIndex);
 
-        // TODO edit what is a valid sprite once tile sprites are set
-        if (value >=6 || value < 0) {
-            return true;
-        } else {
+        if (tile.isWalkable()) {
             return false;
+        } else {
+            return true;
         }
     }
 

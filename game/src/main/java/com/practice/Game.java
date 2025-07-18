@@ -54,7 +54,7 @@ public class Game implements Runnable{
     private void initClasses() {
         menu = new Menu(this, imageLibrary);
         mapEditor = new MapEditor(this, imageLibrary, tileHandler);
-        playing = new Playing(this, imageLibrary);
+        playing = new Playing(this, imageLibrary, tileHandler);
     }
 
     private void startGameLoop() {

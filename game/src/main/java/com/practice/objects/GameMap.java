@@ -1,16 +1,21 @@
 package com.practice.objects;
 
 import static com.practice.Game.TILES_IN_WIDTH;
+
+import com.practice.handlers.TileHandler;
+
 import static com.practice.Game.TILES_IN_HEIGHT;
 
-public class Map {
+public class GameMap {
     private int[][] mapTileData;
     private String mapName;
+    private TileHandler tileHandler;
 
 
-    public Map() {
+    public GameMap(TileHandler tileHandler) {
         this.mapName = "New Map";
         this.mapTileData = loadBlankMap();
+        this.tileHandler = tileHandler;
     }
 
     private static int[][] loadBlankMap() {
@@ -33,6 +38,10 @@ public class Map {
 
     public int[][] getMapData() {
         return mapTileData;
+    }
+
+    public Tile getTile(int x, int y) {
+        return tileHandler.getTile(mapTileData[y][x]);
     }
 
     public String getMapName() {

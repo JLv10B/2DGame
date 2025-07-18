@@ -21,4 +21,8 @@ public class Tile {
     public int getTileIndex() {
         return tileIndex;
     }
+
+    public boolean isWalkable() {
+        return isWalkable;
+    }
 }

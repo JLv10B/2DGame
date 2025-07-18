@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.Game;
-import com.practice.objects.Map;
+import com.practice.objects.GameMap;
 
 public class LoadSave {
     public static void CreateFile() {
@@ -20,7 +20,7 @@ public class LoadSave {
         }
     }
 
-    public static void CreateNewMap (Map map) {
+    public static void CreateNewMap (GameMap map) {
         File newMapFile = new File("game\\src\\main\\resources\\Maps\\" + map.getMapName() + ".json");
 
         if (newMapFile.exists()) {
@@ -36,7 +36,7 @@ public class LoadSave {
         WriteToFile(newMapFile, map);
     }
     
-    public static void WriteToFile(File f, Map map) {
+    public static void WriteToFile(File f, GameMap map) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             mapper.writeValue(f, map);
@@ -62,11 +62,11 @@ public class LoadSave {
     //     return list;
     // }
 
-    public static Map GetMapData(String name) {
+    public static GameMap GetMapData(String name) {
         try {
             File mapFile = new File("game\\src\\main\\resources\\Maps\\" + name + ".json");
             ObjectMapper mapper = new ObjectMapper();
-            Map map = mapper.readValue(mapFile, Map.class);
+            GameMap map = mapper.readValue(mapFile, GameMap.class);
             return map;
         } catch (Exception e) {
             System.out.println("File: " + name + " cannot be found");
