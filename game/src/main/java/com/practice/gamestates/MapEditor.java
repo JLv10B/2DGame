@@ -42,9 +42,8 @@ public class MapEditor extends State implements Statemethods {
         currentMap = new GameMap(tileHandler);
         currentMapEdits = currentMap.getMapData();
         loadButtons();
-        // LoadSave.CreateNewMap("NewMap");
-        
-
+        //TODO: CreateNewMap placeholder, remove when complete
+        LoadSave.CreateNewMap(currentMap);
     }
 
     //TODO: Implement load

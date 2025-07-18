@@ -20,6 +20,7 @@ public class TileHandler {
         for (int i=0; i<imageLibrary.tileSpriteLibrary.get("Ground Tiles").size(); i++) {
             tiles.add(new Tile(imageLibrary.getTileLibrary().get("Ground Tiles").get(i), i));
         }
+        tiles.get(3).setWalkable(false);
     }
 
     public ArrayList<Tile> getTileList() {

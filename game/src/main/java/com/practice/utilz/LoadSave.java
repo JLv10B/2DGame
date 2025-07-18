@@ -10,16 +10,7 @@ import com.practice.Game;
 import com.practice.objects.GameMap;
 
 public class LoadSave {
-    public static void CreateFile() {
-        File txtFile = new File("game\\src\\main\\resources\\Maps\\testTextFile.txt");
-        
-        try {
-            txtFile.createNewFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     public static void CreateNewMap (GameMap map) {
         File newMapFile = new File("game\\src\\main\\resources\\Maps\\" + map.getMapName() + ".json");
 
