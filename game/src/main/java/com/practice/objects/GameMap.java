@@ -12,10 +12,10 @@ public class GameMap {
     private TileHandler tileHandler;
 
 
-    public GameMap(TileHandler tileHandler) {
-        this.mapName = "New Map";
-        this.mapTileData = loadBlankMap();
+    public GameMap(String mapName, TileHandler tileHandler) {
+        this.mapName = mapName;
         this.tileHandler = tileHandler;
+        loadBlankMap();
     }
 
     // private static int[][] loadBlankMap() {
@@ -28,7 +28,7 @@ public class GameMap {
     //     return blankMap;
     // }
 
-    private static int[][] loadBlankMap() {
+    private void loadBlankMap() {
         int[][] blankMap = {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -61,8 +61,9 @@ public class GameMap {
         };
         
         System.out.println("Loading default test map");
-
-        return blankMap;
+        this.mapName = "New Map";
+        
+        this.mapTileData = blankMap;
     }
 
 

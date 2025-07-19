@@ -1,6 +1,8 @@
 package com.practice.utilz;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -56,8 +58,11 @@ public class LoadSave {
     public static GameMap GetMapData(String name) {
         try {
             File mapFile = new File("game\\src\\main\\resources\\Maps\\" + name + ".json");
+            System.out.println(mapFile);
+            System.out.println(mapFile.getClass());
             ObjectMapper mapper = new ObjectMapper();
             GameMap map = mapper.readValue(mapFile, GameMap.class);
+            System.out.println("map: " + map);
             return map;
         } catch (Exception e) {
             System.out.println("File: " + name + " cannot be found");
@@ -65,5 +70,18 @@ public class LoadSave {
             return null;
         }
     }
+    // public static GameMap GetMapData(String name) {
+    //     String resourcePath = "game\\src\\main\\resources\\Maps\\" + name + ".json";
+    //     try {
+    //         File mapFile = new File("game\\src\\main\\resources\\Maps\\" + name + ".json");
+    //         ObjectMapper mapper = new ObjectMapper();
+    //         GameMap map = mapper.readValue(mapFile, GameMap.class);
+    //         return map;
+    //     } catch (Exception e) {
+    //         System.out.println("File: " + name + " cannot be found");
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
 
 }
