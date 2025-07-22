@@ -18,7 +18,7 @@ public class Game implements Runnable{
     private final int FPS_SET = 120;
     private final int USP_SET = 200;
     public static ImageLibrary imageLibrary;
-    public TileHandler tileHandler;
+    public static TileHandler tileHandler;
 
     //Gamestate managing
     private Playing playing;

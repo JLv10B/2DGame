@@ -21,6 +21,7 @@ import static com.practice.Game.TILES_SIZE;
 import static com.practice.utilz.Constants.UI.Buttons.B_LOAD_LE_SPRITE;
 import static com.practice.utilz.Constants.UI.Buttons.B_OPTIONS_SPRITE;
 import static com.practice.utilz.Constants.UI.Buttons.B_SAVE_LE_SPRITE;
+import static com.practice.utilz.Constants.UI.Buttons.B_RESET_LE_SPRITE;
 import static com.practice.utilz.Constants.UI.Buttons.B_WIDTH;
 
 public class MapEditor extends State implements Statemethods {
@@ -28,7 +29,7 @@ public class MapEditor extends State implements Statemethods {
     private static final int MAP_EDITOR_BAR_HEIGHT = TileButton.TILE_BUTTON_SIZE * 5;
     private GameMap currentMap;
     private int[][] currentMapEdits;
-    private MenuButton[] buttons = new MenuButton[3];
+    private MenuButton[] buttons = new MenuButton[4];
     private List<TileButton> tileButtons = new ArrayList<>();
     private MapEditorBar mapEditorBar;
     private Tile selectedTile;
@@ -39,8 +40,7 @@ public class MapEditor extends State implements Statemethods {
     public MapEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
         super(game, imageLibrary);
         mapEditorBar = new MapEditorBar(0, Game.GAME_HEIGHT-MAP_EDITOR_BAR_HEIGHT, Game.GAME_WIDTH, MAP_EDITOR_BAR_HEIGHT);
-        currentMap = new GameMap();
-        currentMap.setTileHandler(tileHandler);
+        currentMap = new GameMap(null, null);
         currentMapEdits = currentMap.getMapData();
         loadButtons();
         //TODO: CreateNewMap placeholder, remove when complete
@@ -54,7 +54,8 @@ public class MapEditor extends State implements Statemethods {
         buttons[0] = new MenuButton( 100 + B_WIDTH, Game.GAME_HEIGHT-50, B_OPTIONS_SPRITE, Gamestate.OPTIONS, imageLibrary);
         buttons[1] = new MenuButton( 3 * 50 + 2*B_WIDTH, Game.GAME_HEIGHT-50, B_LOAD_LE_SPRITE, Gamestate.MAPEDITOR, imageLibrary);
         buttons[2] = new MenuButton( 4 * 50 + 3*B_WIDTH, Game.GAME_HEIGHT-50, B_SAVE_LE_SPRITE, Gamestate.MAPEDITOR, imageLibrary);
-        ArrayList<Tile> tileList = game.tileHandler.getTileList();
+        buttons[3] = new MenuButton( 5 * 50 + 4*B_WIDTH, Game.GAME_HEIGHT-50, B_RESET_LE_SPRITE, Gamestate.MAPEDITOR, imageLibrary);
+        ArrayList<Tile> tileList = Game.tileHandler.getTileList();
         for (int i=0; i<tileList.size(); i++) {
             tileButtons.add(new TileButton(((i+1)*50 + i*TileButton.TILE_BUTTON_SIZE), Game.GAME_HEIGHT-125, tileList.get(i)));
         }
@@ -72,7 +73,7 @@ public class MapEditor extends State implements Statemethods {
         for (int y=0; y<currentMapEdits.length; y++) {
             for (int x=0; x<currentMapEdits[0].length; x++) {
                 int id = currentMapEdits[y][x];
-                g.drawImage(game.tileHandler.getGroundTileSprite(id), x*TILES_SIZE, y*TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
+                g.drawImage(Game.tileHandler.getGroundTileSprite(id), x*TILES_SIZE, y*TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
             }
         }
         
@@ -126,6 +127,7 @@ public class MapEditor extends State implements Statemethods {
     }
 
     private void resetChanges() {
+        currentMap = LoadSave.GetMapData(currentMap.getMapName());
         currentMapEdits = currentMap.getMapData();
     }
 
@@ -138,10 +140,13 @@ public class MapEditor extends State implements Statemethods {
         }
     }
 
-    private void saveMap(String string) {
-        currentMap.setMapName(string);
+    private void saveMap(String name) {
         currentMap.setMapData(currentMapEdits);
-        LoadSave.CreateNewMap(currentMap);
+        try {
+            currentMap = LoadSave.SaveMapFile(name, currentMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -187,7 +192,10 @@ public class MapEditor extends State implements Statemethods {
                             loadMap("New Map");
                         }
                         else if(mb.getFuction() == B_SAVE_LE_SPRITE) { //TODO: arg should be new gamemap name
-                            saveMap("New Map");
+                            saveMap("New Map edits");
+                        }
+                        else if(mb.getFuction() == B_RESET_LE_SPRITE) {
+                            resetChanges();
                         }
                     break;
                     }
