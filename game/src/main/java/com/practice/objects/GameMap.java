@@ -12,9 +12,7 @@ public class GameMap {
     private TileHandler tileHandler;
 
 
-    public GameMap(String mapName, TileHandler tileHandler) {
-        this.mapName = mapName;
-        this.tileHandler = tileHandler;
+    public GameMap() {
         loadBlankMap();
     }
 
@@ -62,17 +60,20 @@ public class GameMap {
         
         System.out.println("Loading default test map");
         this.mapName = "New Map";
-        
         this.mapTileData = blankMap;
     }
 
 
-    public void saveMapEdits(int[][] mapEdits) {
+    public void setMapData(int[][] mapEdits) {
         this.mapTileData = mapEdits;
     }
 
-    public void setName(String name) {
+    public void setMapName(String name) {
         this.mapName = name;
+    }
+
+    public void setTileHandler(TileHandler tileHandler) {
+        this.tileHandler = tileHandler;
     }
 
     public int[][] getMapData() {
@@ -86,4 +87,9 @@ public class GameMap {
     public String getMapName() {
         return mapName;
     }
+
+    public TileHandler gTileHandler() {
+        return tileHandler;
+    }
+
 }

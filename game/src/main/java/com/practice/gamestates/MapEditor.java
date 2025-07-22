@@ -39,7 +39,8 @@ public class MapEditor extends State implements Statemethods {
     public MapEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
         super(game, imageLibrary);
         mapEditorBar = new MapEditorBar(0, Game.GAME_HEIGHT-MAP_EDITOR_BAR_HEIGHT, Game.GAME_WIDTH, MAP_EDITOR_BAR_HEIGHT);
-        currentMap = new GameMap("Testing", tileHandler);
+        currentMap = new GameMap();
+        currentMap.setTileHandler(tileHandler);
         currentMapEdits = currentMap.getMapData();
         loadButtons();
         //TODO: CreateNewMap placeholder, remove when complete
@@ -129,13 +130,17 @@ public class MapEditor extends State implements Statemethods {
     }
 
     private void loadMap(String string) {
-        currentMap = LoadSave.GetMapData(string);
-        currentMapEdits = currentMap.getMapData();
+        try {
+            currentMap = LoadSave.GetMapData(string);
+            currentMapEdits = currentMap.getMapData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveMap(String string) {
-        currentMap.setName(string);
-        currentMap.saveMapEdits(currentMapEdits);
+        currentMap.setMapName(string);
+        currentMap.setMapData(currentMapEdits);
         LoadSave.CreateNewMap(currentMap);
     }
 
@@ -179,10 +184,10 @@ public class MapEditor extends State implements Statemethods {
                     if(mb.isMousePressed()) {
                         mb.applyGamestate();
                         if(mb.getFuction() == B_LOAD_LE_SPRITE) { //TODO: arg should be desired gamemap's name
-                            loadMap("Testing");
+                            loadMap("New Map");
                         }
                         else if(mb.getFuction() == B_SAVE_LE_SPRITE) { //TODO: arg should be new gamemap name
-                            saveMap("Testing");
+                            saveMap("New Map");
                         }
                     break;
                     }
