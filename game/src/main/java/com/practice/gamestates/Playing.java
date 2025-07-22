@@ -28,7 +28,7 @@ public class Playing extends State implements Statemethods{
     
     private void initClasses() {
         //TODO: load correct map for the player's save point
-        currentMap = new GameMap(tileHandler);
+        currentMap = new GameMap(null, null);
         player = new Player(200, 200, (int)(128*Game.SCALE), (int)(128*Game.SCALE), currentMap, Game.imageLibrary);
     }
 

@@ -1,8 +1,5 @@
 package com.practice.ui;
 
-import java.awt.event.ActionListener;
-import java.awt.event.FocusListener;
-
 import javax.swing.JTextField;
 
 public class InputTextField extends JTextField{

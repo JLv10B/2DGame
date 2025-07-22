@@ -3,9 +3,12 @@ package com.practice.utilz;
 import static com.practice.Game.GAME_WIDTH;
 import static com.practice.Game.GAME_HEIGHT;
 import static com.practice.Game.TILES_SIZE;
+import static com.practice.Game.imageLibrary;
+import static com.practice.Game.tileHandler;
 
 import java.util.ArrayList;
 
+import com.practice.handlers.TileHandler;
 import com.practice.objects.GameMap;
 import com.practice.objects.Tile;
 
@@ -36,7 +39,7 @@ public class HelperMethods {
         int xIndex = (int)x/TILES_SIZE;
         int yIndex = (int)y/TILES_SIZE;
 
-        Tile tile = mapData.getTile(xIndex, yIndex);
+        Tile tile = tileHandler.getTile(mapData.getTileId(xIndex, yIndex));
 
         if (tile.isWalkable()) {
             return false;

@@ -1,25 +1,23 @@
 package com.practice.utilz;
 
+import static com.practice.Game.TILES_IN_HEIGHT;
+import static com.practice.Game.TILES_IN_WIDTH;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.Game;
+import com.practice.handlers.TileHandler;
 import com.practice.objects.GameMap;
+import com.practice.objects.Tile;
 
 public class LoadSave {
-    public static void CreateFile() {
-        File txtFile = new File("game\\src\\main\\resources\\Maps\\testTextFile.txt");
-        
-        try {
-            txtFile.createNewFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     public static void CreateNewMap (GameMap map) {
         File newMapFile = new File("game\\src\\main\\resources\\Maps\\" + map.getMapName() + ".json");
 
@@ -33,6 +31,7 @@ public class LoadSave {
                 e.printStackTrace();
             }
         }
+        
         WriteToFile(newMapFile, map);
     }
     
@@ -40,29 +39,29 @@ public class LoadSave {
         ObjectMapper mapper = new ObjectMapper();
         try {
             mapper.writeValue(f, map);
+            System.out.println("File written");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // public static ArrayList<Integer> ReadFromFile(File file) {
-    //     ArrayList<Integer> list = new ArrayList<>();
+    public static GameMap SaveMapFile(String newName, GameMap map) {
+        File oldFile = new File("game\\src\\main\\resources\\Maps\\" + map.getMapName() + ".json");
+        File newFile = new File("game\\src\\main\\resources\\Maps\\" + newName + ".json");
 
-    //     try {
-    //         Scanner sc = new Scanner(file);
+        try {
+            oldFile.renameTo(newFile);
+            map.setMapName(newName);
+            WriteToFile(newFile, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
+        
+    }
 
-    //         while (sc.hasNextLine()) {
-    //             System.out.println(sc.nextLine());
-    //             list.add(Integer.parseInt(sc.nextLine()));
-    //         }
-            
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    //     return list;
-    // }
 
-    public static GameMap GetMapData(String name) {
+    public static GameMap GetMapData(String name) { 
         try {
             File mapFile = new File("game\\src\\main\\resources\\Maps\\" + name + ".json");
             ObjectMapper mapper = new ObjectMapper();
@@ -71,7 +70,7 @@ public class LoadSave {
         } catch (Exception e) {
             System.out.println("File: " + name + " cannot be found");
             e.printStackTrace();
-            return null;
+            return new GameMap(name, null); //TODO: this should not be returning a new GameMap
         }
     }
 

@@ -14,6 +14,10 @@ public class Tile {
         this.isWalkable = true;
     }
 
+    public void setWalkable(boolean bool) {
+        this.isWalkable = bool;
+    }
+
     public BufferedImage getSprite(){
         return sprite;
     }

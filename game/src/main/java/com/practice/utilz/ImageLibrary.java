@@ -19,9 +19,9 @@ public class ImageLibrary {
     public Map<String, List<BufferedImage>> tileSpriteLibrary = new HashMap<>();
     public Map<String, List<BufferedImage>> uiSpriteLibrary = new HashMap<>();
 
-    public static final String CHAR_ANIMATIONS = "game\\src\\main\\resources\\Sprites";
-    public static final String TILE_IMAGES = "game\\src\\main\\resources\\NonCharSprites\\Tile-Sets";
-    public static final String MENU_IMAGES = "game\\src\\main\\resources\\NonCharSprites\\UI";
+    public static final String CHAR_ANIMATIONS = "game/src/main/resources/Sprites";
+    public static final String TILE_IMAGES = "game/src/main/resources/NonCharSprites/Tile-Sets";
+    public static final String MENU_IMAGES = "game/src/main/resources/NonCharSprites/UI";
 
     public ImageLibrary() throws IOException {
         loadCharAnimationLibrary();
