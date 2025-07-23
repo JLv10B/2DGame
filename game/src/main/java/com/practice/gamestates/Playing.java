@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 
 import com.practice.Game;
 import com.practice.entities.Player;
-import com.practice.handlers.TileHandler;
 import com.practice.objects.GameMap;
 import com.practice.utilz.ImageLibrary;
 
@@ -14,14 +13,10 @@ import static com.practice.Game.TILES_SIZE;
 
 public class Playing extends State implements Statemethods{
     private Player player;
+    public static GameMap currentMap;
 
-    //TODO: edit lvl & TileHandler as needed, currently used for testing:
-    private GameMap currentMap;
-    private TileHandler tileHandler;
-
-    public Playing(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
+    public Playing(Game game, ImageLibrary imageLibrary) {
         super(game, imageLibrary);
-        this.tileHandler = tileHandler;
         initClasses();
         
     }
@@ -29,10 +24,14 @@ public class Playing extends State implements Statemethods{
     private void initClasses() {
         //TODO: load correct map for the player's save point
         currentMap = new GameMap(null, null);
-        player = new Player(200, 200, (int)(128*Game.SCALE), (int)(128*Game.SCALE), currentMap, Game.imageLibrary);
+        player = new Player(200, 200, (int)(128*Game.SCALE), (int)(128*Game.SCALE), Game.imageLibrary);
     }
 
     
+    public static void loadMap(GameMap gameMap) {
+        currentMap = gameMap;
+    }
+
     @Override
     public void update() {
         player.update();
@@ -47,7 +46,7 @@ public class Playing extends State implements Statemethods{
         for (int y=0; y<currentMap.getMapData().length; y++) {
             for (int x=0; x<currentMap.getMapData()[0].length; x++) {
                 int id = currentMap.getMapData()[y][x];
-                g.drawImage(game.tileHandler.getGroundTileSprite(id), x*TILES_SIZE, y*TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
+                g.drawImage(Game.tileHandler.getGroundTileSprite(id), x*TILES_SIZE, y*TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
             }
         }
     }

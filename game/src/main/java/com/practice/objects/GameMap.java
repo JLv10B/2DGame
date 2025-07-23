@@ -4,7 +4,6 @@ import static com.practice.Game.TILES_IN_WIDTH;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.practice.handlers.TileHandler;
 
 import static com.practice.Game.TILES_IN_HEIGHT;
 

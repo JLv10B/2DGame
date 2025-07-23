@@ -7,15 +7,18 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import com.practice.Game;
+import com.practice.ui.MapLoadTextBox;
 import com.practice.ui.MenuButton;
 import com.practice.utilz.ImageLibrary;
 import static com.practice.utilz.Constants.UI.Buttons.*;
+import static com.practice.Game.gamePanel;
 
 public class Menu extends State implements Statemethods {
 
     private MenuButton[] buttons = new MenuButton[3];
     private int menuX, menuY, menuWidth, menuHeight;
     private BufferedImage backgroundImg;
+    private MapLoadTextBox mapLoadTextBox;
 
 
 
@@ -27,6 +30,7 @@ public class Menu extends State implements Statemethods {
         menuX = Game.GAME_WIDTH/2 - menuWidth/2;
         menuY = (int) (45* Game.SCALE);
         loadButtons();
+        loadTextBoxs();
     }
 
     private void loadButtons() {
@@ -44,6 +48,12 @@ public class Menu extends State implements Statemethods {
             default:
                 break;
         }
+    }
+
+    private void loadTextBoxs() {
+        mapLoadTextBox = new MapLoadTextBox();
+        gamePanel.add(mapLoadTextBox.textField);
+        mapLoadTextBox.setTextBoxVisible(false);
     }
 
     @Override
@@ -84,6 +94,11 @@ public class Menu extends State implements Statemethods {
                     mb.applyGamestate();
                     if(Gamestate.state == Gamestate.OPTIONS || Gamestate.state == Gamestate.MENU) {
                         loadButtons();
+                    }
+                    if(Gamestate.state == Gamestate.PLAYING) {
+                            mapLoadTextBox.textField.requestFocusInWindow();
+                            mapLoadTextBox.setTextBoxVisible(true);
+                            gamePanel.revalidate();
                     }
                 break;
                 }

@@ -1,20 +1,9 @@
 package com.practice.utilz;
 
-import static com.practice.Game.TILES_IN_HEIGHT;
-import static com.practice.Game.TILES_IN_WIDTH;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.practice.Game;
-import com.practice.handlers.TileHandler;
 import com.practice.objects.GameMap;
-import com.practice.objects.Tile;
 
 public class LoadSave {
     
@@ -39,13 +28,12 @@ public class LoadSave {
         ObjectMapper mapper = new ObjectMapper();
         try {
             mapper.writeValue(f, map);
-            System.out.println("File written");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static GameMap SaveMapFile(String newName, GameMap map) {
+    public static void SaveMapFile(String newName, GameMap map) {
         File oldFile = new File("game\\src\\main\\resources\\Maps\\" + map.getMapName() + ".json");
         File newFile = new File("game\\src\\main\\resources\\Maps\\" + newName + ".json");
 
@@ -56,7 +44,6 @@ public class LoadSave {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return map;
         
     }
 

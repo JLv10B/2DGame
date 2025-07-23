@@ -12,30 +12,30 @@ import com.practice.handlers.TileHandler;
 import com.practice.objects.GameMap;
 import com.practice.objects.Tile;
 import com.practice.ui.MapEditorBar;
+import com.practice.ui.MapLoadTextBox;
+import com.practice.ui.MapSaveTextBox;
 import com.practice.ui.MenuButton;
 import com.practice.ui.TileButton;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.LoadSave;
 
+import static com.practice.Game.gamePanel;
 import static com.practice.Game.TILES_SIZE;
-import static com.practice.utilz.Constants.UI.Buttons.B_LOAD_LE_SPRITE;
-import static com.practice.utilz.Constants.UI.Buttons.B_OPTIONS_SPRITE;
-import static com.practice.utilz.Constants.UI.Buttons.B_SAVE_LE_SPRITE;
-import static com.practice.utilz.Constants.UI.Buttons.B_RESET_LE_SPRITE;
-import static com.practice.utilz.Constants.UI.Buttons.B_WIDTH;
+import static com.practice.utilz.Constants.UI.Buttons.*;
 
 public class MapEditor extends State implements Statemethods {
 
     private static final int MAP_EDITOR_BAR_HEIGHT = TileButton.TILE_BUTTON_SIZE * 5;
-    private GameMap currentMap;
-    private int[][] currentMapEdits;
+    private static GameMap currentMap;
+    private static int[][] currentMapEdits;
     private MenuButton[] buttons = new MenuButton[4];
     private List<TileButton> tileButtons = new ArrayList<>();
     private MapEditorBar mapEditorBar;
     private Tile selectedTile;
     private int mouseX, mouseY;
     private int lastTileX, lastTileY, lastTileId;
-
+    private MapSaveTextBox mapSaveTextBox;
+    private MapLoadTextBox mapLoadTextBox;
 
     public MapEditor(Game game, ImageLibrary imageLibrary, TileHandler tileHandler) {
         super(game, imageLibrary);
@@ -45,6 +45,8 @@ public class MapEditor extends State implements Statemethods {
         loadButtons();
         //TODO: CreateNewMap placeholder, remove when complete
         LoadSave.CreateNewMap(currentMap);
+        loadTextBoxs();
+
     }
 
     //TODO: Implement load
@@ -59,6 +61,15 @@ public class MapEditor extends State implements Statemethods {
         for (int i=0; i<tileList.size(); i++) {
             tileButtons.add(new TileButton(((i+1)*50 + i*TileButton.TILE_BUTTON_SIZE), Game.GAME_HEIGHT-125, tileList.get(i)));
         }
+    }
+
+    private void loadTextBoxs() {
+        mapSaveTextBox = new MapSaveTextBox();
+        mapLoadTextBox = new MapLoadTextBox();
+        gamePanel.add(mapSaveTextBox.textField);
+        gamePanel.add(mapLoadTextBox.textField);
+        mapSaveTextBox.setTextBoxVisible(false);
+        mapLoadTextBox.setTextBoxVisible(false);
     }
 
     @Override
@@ -126,27 +137,25 @@ public class MapEditor extends State implements Statemethods {
         }
     }
 
+    
+    public static void loadMap(GameMap gameMap) {
+        currentMap = gameMap;
+        currentMapEdits = currentMap.getMapData();
+    }
+    
+    private void saveMap() {
+        currentMap.setMapData(currentMapEdits);
+        mapSaveTextBox.textField.setText(currentMap.getMapName());
+        mapSaveTextBox.setGameMap(currentMap);
+        mapSaveTextBox.setTextBoxVisible(true);
+        gamePanel.revalidate();
+        mapSaveTextBox.textField.requestFocusInWindow();
+        
+    }
+    
     private void resetChanges() {
         currentMap = LoadSave.GetMapData(currentMap.getMapName());
         currentMapEdits = currentMap.getMapData();
-    }
-
-    private void loadMap(String string) {
-        try {
-            currentMap = LoadSave.GetMapData(string);
-            currentMapEdits = currentMap.getMapData();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveMap(String name) {
-        currentMap.setMapData(currentMapEdits);
-        try {
-            currentMap = LoadSave.SaveMapFile(name, currentMap);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -189,10 +198,13 @@ public class MapEditor extends State implements Statemethods {
                     if(mb.isMousePressed()) {
                         mb.applyGamestate();
                         if(mb.getFuction() == B_LOAD_LE_SPRITE) { //TODO: arg should be desired gamemap's name
-                            loadMap("New Map");
+                            mapLoadTextBox.textField.setText(currentMap.getMapName());
+                            mapLoadTextBox.setTextBoxVisible(true);
+                            gamePanel.revalidate();
+                            mapLoadTextBox.textField.requestFocusInWindow();
                         }
-                        else if(mb.getFuction() == B_SAVE_LE_SPRITE) { //TODO: arg should be new gamemap name
-                            saveMap("New Map edits");
+                        else if(mb.getFuction() == B_SAVE_LE_SPRITE) {
+                            saveMap();
                         }
                         else if(mb.getFuction() == B_RESET_LE_SPRITE) {
                             resetChanges();

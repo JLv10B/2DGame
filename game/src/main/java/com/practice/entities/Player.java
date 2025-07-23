@@ -1,6 +1,5 @@
 package com.practice.entities;
 
-import com.practice.objects.GameMap;
 import com.practice.utilz.ImageLibrary;
 import com.practice.utilz.Constants.Action;
 import com.practice.utilz.Constants.UserInput;
@@ -15,13 +14,12 @@ public class Player extends Entity {
     protected HashMap<Integer, Action> keybinds = new HashMap<>();
 
 
-    public Player(float x, float y, int width, int height, GameMap mapData, ImageLibrary imageLibrary) {
-        super(x, y, width, height, mapData, imageLibrary);
+    public Player(float x, float y, int width, int height, ImageLibrary imageLibrary) {
+        super(x, y, width, height, imageLibrary);
         this.charModel = "1-Player-Dark Oracle";
         defaultKeybinds();
         initHitbox(x, y, (int) (width), (int) (height));
     }
-
 
     protected void defaultKeybinds() {
         keybinds.put(KeyEvent.VK_ESCAPE, Action.MENU);

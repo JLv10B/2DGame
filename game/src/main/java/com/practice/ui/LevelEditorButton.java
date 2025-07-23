@@ -3,7 +3,6 @@ package com.practice.ui;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import com.practice.gamestates.Gamestate;
 import com.practice.utilz.ImageLibrary;
 import static com.practice.utilz.Constants.UI.Buttons.*;
 
